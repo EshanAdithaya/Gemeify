@@ -353,12 +353,12 @@ const GemifyLanding = ({ isDarkMode }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <img 
-          src="/api/placeholder/400/500" 
+          src="https://atouchofbusiness.com/wp-content/uploads/2024/01/Jeweler-Evaluating-Semi-Precious-Gemstone-in-Workshop.png" 
           alt="Expert examination" 
           className="rounded-xl w-full h-64 object-cover"
         />
         <img 
-          src="/api/placeholder/400/500" 
+          src="https://www.thenaturalsapphirecompany.com/education/wp-content/uploads/2010/11/PA213_GIA_certificate_natural_unheated_padparadscha_sapphire.jpg" 
           alt="Gem certification" 
           className="rounded-xl w-full h-64 object-cover mt-8"
         />
