@@ -5,7 +5,7 @@ import {
   Search,
   SlidersHorizontal,
   Eye,
-  FileText,  // Changed from Certificate
+  FileText,
   Timer,
   ArrowUpCircle,
   History,
@@ -13,76 +13,98 @@ import {
   Download
 } from 'lucide-react';
 
-const AuctionsPage = () => {
+const AuctionsPage = ({ isDarkMode }) => {
   const [activeTab, setActiveTab] = useState('live');
   const [selectedLot, setSelectedLot] = useState(null);
+
 
   const auctionLots = [
     {
       id: 1,
-      name: "Exceptional Kashmir Sapphire",
-      currentBid: 158000,
-      estimatedValue: "150,000 - 200,000",
-      timeLeft: "2d 4h 35m",
-      bids: 24,
-      watchers: 156,
-      image: "/api/placeholder/800/600",
-      description: "An extraordinary 8.2-carat Kashmir sapphire of exceptional color and clarity. Accompanied by GRS certificate.",
-      weight: "8.2 carats",
-      color: "Royal Blue",
-      origin: "Kashmir, India",
+      name: "Natural Blue Sapphire",
+      description: "Exceptional 8.52-carat Ceylon sapphire with GRS certification",
+      lotNumber: "Lot 001",
+      currentBid: 45000,
+      timeLeft: "2h 15m",
+      weight: "8.52 carats",
+      origin: "Ceylon",
       treatment: "No Heat",
-      certification: "GRS, AGL",
-      lotNumber: "LOT 4281",
-      condition: "Excellent",
+      image: "/api/placeholder/800/600",
+      documents: [
+        { name: "GRS Certificate", size: "2.4 MB" },
+        { name: "Quality Report", size: "1.8 MB" },
+        { name: "Origin Report", size: "1.2 MB" }
+      ],
       bidHistory: [
-        { time: "2h ago", amount: 158000, bidder: "Client 4281" },
-        { time: "4h ago", amount: 155000, bidder: "Client 3892" },
-        { time: "6h ago", amount: 152000, bidder: "Client 4281" }
+        { bidder: "Bidder 5492", amount: 45000, time: "5 minutes ago" },
+        { bidder: "Bidder 3287", amount: 44000, time: "15 minutes ago" },
+        { bidder: "Bidder 7731", amount: 43000, time: "30 minutes ago" }
       ],
       additionalImages: [
         "/api/placeholder/400/300",
         "/api/placeholder/400/300",
         "/api/placeholder/400/300"
-      ],
-      documents: [
-        { name: "GRS Certificate", size: "2.4 MB" },
-        { name: "AGL Report", size: "1.8 MB" },
-        { name: "Provenance History", size: "1.2 MB" }
       ]
-    },
-    // Add more auction lots...
+    }
+    // Add more auction lots as needed
   ];
 
+  // Define upcoming auctions data
   const upcomingAuctions = [
     {
-      id: 101,
-      name: "Rare Colombian Emerald Collection",
+      id: 1,
+      name: "Exceptional Colored Diamonds",
       date: "Dec 15, 2024",
       preview: "Dec 10-14",
-      lots: 45,
-      image: "/api/placeholder/600/400",
-      featured: true
+      lots: 86,
+      featured: true,
+      image: "/api/placeholder/800/400"
     },
     {
-      id: 102,
-      name: "Imperial Jade Exhibition",
+      id: 2,
+      name: "Important Sapphires & Rubies",
       date: "Dec 20, 2024",
-      preview: "Dec 16-19",
-      lots: 32,
-      image: "/api/placeholder/600/400"
+      preview: "Dec 15-19",
+      lots: 124,
+      featured: false,
+      image: "/api/placeholder/800/400"
+    },
+    {
+      id: 3,
+      name: "Rare Emeralds Collection",
+      date: "Jan 5, 2025",
+      preview: "Dec 28-Jan 3",
+      lots: 95,
+      featured: true,
+      image: "/api/placeholder/800/400"
+    },
+    {
+      id: 4,
+      name: "Imperial Jadeite Selection",
+      date: "Jan 15, 2025",
+      preview: "Jan 10-14",
+      lots: 72,
+      featured: false,
+      image: "/api/placeholder/800/400"
     }
   ];
+  // Your existing auctionLots and upcomingAuctions data...
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 pt-24">
+    <div className={`min-h-screen ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-900 to-slate-800' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    } pt-24 transition-colors duration-300`}>
       {/* Header Section */}
       <div className="px-4 sm:px-6 lg:px-8 mb-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1 className={`text-3xl md:text-4xl font-bold mb-4 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Gem Auctions
           </h1>
-          <p className="text-gray-400 max-w-2xl">
+          <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
             Discover and bid on the world's most exceptional gemstones. Each gem is thoroughly authenticated and certified by leading gemological laboratories.
           </p>
         </div>
@@ -91,13 +113,17 @@ const AuctionsPage = () => {
       {/* Tabs */}
       <div className="px-4 sm:px-6 lg:px-8 mb-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex space-x-4 border-b border-gray-800">
+          <div className={`flex space-x-4 border-b ${
+            isDarkMode ? 'border-gray-800' : 'border-gray-200'
+          }`}>
             <button
               onClick={() => setActiveTab('live')}
               className={`pb-4 px-4 text-sm font-medium ${
                 activeTab === 'live'
                   ? 'text-purple-400 border-b-2 border-purple-400'
-                  : 'text-gray-400 hover:text-white'
+                  : isDarkMode 
+                    ? 'text-gray-400 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Live Auctions
@@ -107,7 +133,9 @@ const AuctionsPage = () => {
               className={`pb-4 px-4 text-sm font-medium ${
                 activeTab === 'upcoming'
                   ? 'text-purple-400 border-b-2 border-purple-400'
-                  : 'text-gray-400 hover:text-white'
+                  : isDarkMode 
+                    ? 'text-gray-400 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Upcoming Auctions
@@ -117,7 +145,9 @@ const AuctionsPage = () => {
               className={`pb-4 px-4 text-sm font-medium ${
                 activeTab === 'past'
                   ? 'text-purple-400 border-b-2 border-purple-400'
-                  : 'text-gray-400 hover:text-white'
+                  : isDarkMode 
+                    ? 'text-gray-400 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Past Results
@@ -132,7 +162,9 @@ const AuctionsPage = () => {
           {activeTab === 'live' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Featured Lot */}
-              <div className="bg-slate-800/50 rounded-xl p-6">
+              <div className={`${
+                isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+              } rounded-xl p-6`}>
                 <div className="aspect-w-4 aspect-h-3 mb-6">
                   <img
                     src={auctionLots[0].image}
@@ -143,8 +175,12 @@ const AuctionsPage = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h2 className="text-2xl font-bold text-white mb-2">{auctionLots[0].name}</h2>
-                      <p className="text-gray-400">{auctionLots[0].description}</p>
+                      <h2 className={`text-2xl font-bold mb-2 ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}>{auctionLots[0].name}</h2>
+                      <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                        {auctionLots[0].description}
+                      </p>
                     </div>
                     <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">
                       {auctionLots[0].lotNumber}
@@ -152,15 +188,23 @@ const AuctionsPage = () => {
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-700/30 rounded-lg p-4">
-                      <div className="text-sm text-gray-400 mb-1">Current Bid</div>
-                      <div className="text-xl font-bold text-white">
+                    <div className={`rounded-lg p-4 ${
+                      isDarkMode ? 'bg-slate-700/30' : 'bg-gray-50'
+                    }`}>
+                      <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Current Bid</div>
+                      <div className={`text-xl font-bold ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}>
                         ${auctionLots[0].currentBid.toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-slate-700/30 rounded-lg p-4">
-                      <div className="text-sm text-gray-400 mb-1">Time Left</div>
-                      <div className="text-xl font-bold text-white flex items-center">
+                    <div className={`rounded-lg p-4 ${
+                      isDarkMode ? 'bg-slate-700/30' : 'bg-gray-50'
+                    }`}>
+                      <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Time Left</div>
+                      <div className={`text-xl font-bold flex items-center ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}>
                         <Clock className="w-5 h-5 mr-2 text-purple-400" />
                         {auctionLots[0].timeLeft}
                       </div>
@@ -169,16 +213,22 @@ const AuctionsPage = () => {
 
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
-                      <div className="text-gray-400 mb-1">Weight</div>
-                      <div className="text-white">{auctionLots[0].weight}</div>
+                      <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Weight</div>
+                      <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                        {auctionLots[0].weight}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-gray-400 mb-1">Origin</div>
-                      <div className="text-white">{auctionLots[0].origin}</div>
+                      <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Origin</div>
+                      <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                        {auctionLots[0].origin}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-gray-400 mb-1">Treatment</div>
-                      <div className="text-white">{auctionLots[0].treatment}</div>
+                      <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Treatment</div>
+                      <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                        {auctionLots[0].treatment}
+                      </div>
                     </div>
                   </div>
 
@@ -186,7 +236,9 @@ const AuctionsPage = () => {
                     <button className="flex-1 bg-purple-500 text-white py-3 rounded-lg hover:bg-purple-600 transition-colors font-medium">
                       Place Bid
                     </button>
-                    <button className="px-4 py-3 bg-slate-700/50 text-white rounded-lg hover:bg-slate-700 transition-colors">
+                    <button className={`px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors ${
+                      isDarkMode ? 'bg-slate-700/50 text-white' : 'bg-gray-100 text-gray-900'
+                    }`}>
                       <Eye className="w-5 h-5" />
                     </button>
                   </div>
@@ -196,15 +248,23 @@ const AuctionsPage = () => {
               {/* Bid History and Details */}
               <div className="space-y-6">
                 {/* Certification */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-                  <FileText className="w-5 h-5 mr-2 text-purple-400" />
+                <div className={`rounded-xl p-6 ${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                }`}>
+                  <h3 className={`text-lg font-medium mb-4 flex items-center ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    <FileText className="w-5 h-5 mr-2 text-purple-400" />
                     Certification & Documents
                   </h3>
                   <div className="space-y-3">
                     {auctionLots[0].documents.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-slate-700/30 rounded-lg">
-                        <span className="text-white">{doc.name}</span>
+                      <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${
+                        isDarkMode ? 'bg-slate-700/30' : 'bg-gray-50'
+                      }`}>
+                        <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                          {doc.name}
+                        </span>
                         <button className="text-purple-400 hover:text-purple-300 flex items-center">
                           <Download className="w-4 h-4 mr-1" />
                           <span className="text-sm">{doc.size}</span>
@@ -215,20 +275,32 @@ const AuctionsPage = () => {
                 </div>
 
                 {/* Bid History */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+                <div className={`rounded-xl p-6 ${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                }`}>
+                  <h3 className={`text-lg font-medium mb-4 flex items-center ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     <History className="w-5 h-5 mr-2 text-purple-400" />
                     Bid History
                   </h3>
                   <div className="space-y-3">
                     {auctionLots[0].bidHistory.map((bid, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-slate-700/30 rounded-lg">
+                      <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${
+                        isDarkMode ? 'bg-slate-700/30' : 'bg-gray-50'
+                      }`}>
                         <div>
-                          <div className="text-white">{bid.bidder}</div>
-                          <div className="text-sm text-gray-400">{bid.time}</div>
+                          <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                            {bid.bidder}
+                          </div>
+                          <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                            {bid.time}
+                          </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-white font-medium">
+                          <div className={`font-medium ${
+                            isDarkMode ? 'text-white' : 'text-gray-900'
+                          }`}>
                             ${bid.amount.toLocaleString()}
                           </div>
                         </div>
@@ -238,8 +310,12 @@ const AuctionsPage = () => {
                 </div>
 
                 {/* Additional Images */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4">Additional Views</h3>
+                <div className={`rounded-xl p-6 ${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                }`}>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>Additional Views</h3>
                   <div className="grid grid-cols-3 gap-4">
                     {auctionLots[0].additionalImages.map((img, index) => (
                       <img
@@ -258,7 +334,9 @@ const AuctionsPage = () => {
           {activeTab === 'upcoming' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {upcomingAuctions.map((auction) => (
-                <div key={auction.id} className="bg-slate-800/50 rounded-xl overflow-hidden group">
+                <div key={auction.id} className={`rounded-xl overflow-hidden group ${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                }`}>
                   <div className="relative">
                     <img
                       src={auction.image}
@@ -272,19 +350,27 @@ const AuctionsPage = () => {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">{auction.name}</h3>
+                    <h3 className={`text-xl font-bold mb-2 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>{auction.name}</h3>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                       <div>
-                        <div className="text-sm text-gray-400">Date</div>
-                        <div className="text-white">{auction.date}</div>
+                        <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Date</div>
+                        <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                          {auction.date}
+                        </div>
                       </div>
                       <div>
-                        <div className="text-sm text-gray-400">Preview</div>
-                        <div className="text-white">{auction.preview}</div>
+                        <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Preview</div>
+                        <div className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                          {auction.preview}
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-400">{auction.lots} Lots</span>
+                      <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                        {auction.lots} Lots
+                      </span>
                       <button className="text-purple-400 hover:text-purple-300 flex items-center">
                         View Catalog
                         <ArrowRight className="w-4 h-4 ml-2" />
