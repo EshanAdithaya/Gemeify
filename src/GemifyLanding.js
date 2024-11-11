@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, Menu, ShoppingCart, Heart, ArrowRight, Star } from 'lucide-react';
+import CollectionsPage from './pages/Collections';
 
 const GemifyLanding = () => {
   const featuredGems = [
@@ -9,7 +10,7 @@ const GemifyLanding = () => {
       description: "3.2 Carat | AAA Quality",
       price: "15,999",
       rating: 5,
-      image: "/api/placeholder/600/400"
+      image: "https://cdn.shopify.com/s/files/1/0080/0004/5171/products/BS01HMDB_4b2042f1-421e-4024-b814-6bc73855a9c5_350x@2x.jpg?v=1625054014"
     },
     {
       id: 2,
@@ -59,17 +60,17 @@ const GemifyLanding = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
+              <a href='/'>   <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
                 Gemify
-              </span>
+              </span> </a>
             </div>
             
             <div className="hidden md:block">
               <div className="flex items-center space-x-8">
-                <a className="text-gray-300 hover:text-white transition-colors">Collections</a>
-                <a className="text-gray-300 hover:text-white transition-colors">Auctions</a>
-                <a className="text-gray-300 hover:text-white transition-colors">Marketplace</a>
-                <a className="text-gray-300 hover:text-white transition-colors">About</a>
+                <a className="text-gray-300 hover:text-white transition-colors" href='collections'>Collections</a>
+                <a className="text-gray-300 hover:text-white transition-colors" href='auctions'>Auctions</a>
+                <a className="text-gray-300 hover:text-white transition-colors" href='marketplace'>Marketplace</a>
+                <a className="text-gray-300 hover:text-white transition-colors" href='about'>About</a>
               </div>
             </div>
             
