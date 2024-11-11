@@ -458,7 +458,7 @@ const GemifyLanding = ({ isDarkMode }) => {
       </div>
 
 {/* Featured Gems Grid */}
-<div className="px-4 sm:px-6 lg:px-8 py-12">
+{/* <div className="px-4 sm:px-6 lg:px-8 py-12">
   <div className="max-w-7xl mx-auto">
     <h2 className={`text-2xl md:text-3xl font-bold mb-8 ${
       isDarkMode ? 'text-white' : 'text-gray-900'
@@ -530,7 +530,7 @@ const GemifyLanding = ({ isDarkMode }) => {
       ))}
     </div>
   </div>
-</div>
+</div> */}
 
       {/* Categories Section */}
       {/* <div className="px-4 sm:px-6 lg:px-8 py-12">
