@@ -1,12 +1,14 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, ShoppingCart, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Menu, Heart, Sun, Moon } from 'lucide-react';
 
-const Navbar = () => {
-  const location = useLocation();
-
+const Navbar = ({ isDarkMode, setIsDarkMode }) => {
   return (
-    <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50">
+    <nav className={`fixed w-full ${
+      isDarkMode 
+        ? 'bg-slate-900/80' 
+        : 'bg-white/80'
+      } backdrop-blur-md z-50`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -20,9 +22,9 @@ const Navbar = () => {
               <Link 
                 to="/collections" 
                 className={`${
-                  location.pathname === '/collections' 
-                    ? 'text-white' 
-                    : 'text-gray-300 hover:text-white'
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
               >
                 Collections
@@ -30,9 +32,9 @@ const Navbar = () => {
               <Link 
                 to="/auctions" 
                 className={`${
-                  location.pathname === '/auctions' 
-                    ? 'text-white' 
-                    : 'text-gray-300 hover:text-white'
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
               >
                 Auctions
@@ -40,9 +42,9 @@ const Navbar = () => {
               <Link 
                 to="/marketplace" 
                 className={`${
-                  location.pathname === '/marketplace' 
-                    ? 'text-white' 
-                    : 'text-gray-300 hover:text-white'
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
               >
                 Marketplace
@@ -50,9 +52,9 @@ const Navbar = () => {
               <Link 
                 to="/about" 
                 className={`${
-                  location.pathname === '/about' 
-                    ? 'text-white' 
-                    : 'text-gray-300 hover:text-white'
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
               >
                 About
@@ -61,16 +63,42 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-300 hover:text-white">
+            {/* Theme Toggle */}
+            <button 
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 ${
+                isDarkMode 
+                  ? 'text-gray-300 hover:text-white' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            {/* Search */}
+            <button className={`p-2 ${
+              isDarkMode 
+                ? 'text-gray-300 hover:text-white' 
+                : 'text-gray-600 hover:text-gray-900'
+            }`}>
               <Search size={20} />
             </button>
-            <button className="p-2 text-gray-300 hover:text-white">
+
+            {/* Wishlist */}
+            <button className={`p-2 ${
+              isDarkMode 
+                ? 'text-gray-300 hover:text-white' 
+                : 'text-gray-600 hover:text-gray-900'
+            }`}>
               <Heart size={20} />
             </button>
-            <button className="p-2 text-gray-300 hover:text-white">
-              <ShoppingCart size={20} />
-            </button>
-            <button className="md:hidden p-2 text-gray-300 hover:text-white">
+
+            {/* Mobile Menu */}
+            <button className={`md:hidden p-2 ${
+              isDarkMode 
+                ? 'text-gray-300 hover:text-white' 
+                : 'text-gray-600 hover:text-gray-900'
+            }`}>
               <Menu size={20} />
             </button>
           </div>
