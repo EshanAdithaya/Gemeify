@@ -21,7 +21,7 @@ const GemifyLanding = ({ isDarkMode }) => {
           description: "3.2 Carat | AAA Quality",
           price: "15,999",
           rating: 5,
-          image: "/api/placeholder/600/400",
+          image: "https://cdn.shopify.com/s/files/1/0080/0004/5171/products/BS01HMDB_4b2042f1-421e-4024-b814-6bc73855a9c5_350x@2x.jpg?v=1625054014",
           quality: "AAA",
           certification: "GIA",
           highlights: [
@@ -36,7 +36,7 @@ const GemifyLanding = ({ isDarkMode }) => {
           description: "1.8 Carat | VS1 Clarity",
           price: "32,999",
           rating: 5,
-          image: "/api/placeholder/600/400",
+          image: "https://media.cnn.com/api/v1/images/stellar/prod/230328171155-01-eternal-pink-diamond.jpg?c=original",
           quality: "VS1",
           certification: "GIA",
           highlights: [
@@ -51,7 +51,7 @@ const GemifyLanding = ({ isDarkMode }) => {
           description: "2.5 Carat | Natural",
           price: "12,999",
           rating: 4.5,
-          image: "/api/placeholder/600/400",
+          image: "https://jrcolombianemeralds.com/cdn/shop/files/IMG_4559.jpg?v=1712765173&width=2570",
           quality: "AAA",
           certification: "GRS",
           highlights: [
@@ -65,22 +65,22 @@ const GemifyLanding = ({ isDarkMode }) => {
   const categories = [
     {
       name: "Diamonds",
-      image: "/api/placeholder/400/300",
+      image: "https://5.imimg.com/data5/SELLER/Default/2024/2/382845659/WJ/BP/SL/211079491/diamonds-for-sale.jpg",
       count: "2,534"
     },
     {
       name: "Rubies",
-      image: "/api/placeholder/400/300",
+      image: "https://www.latelita.com/cdn/shop/articles/the-ruby-gemstone-everything-you-ever-needed-to-know-about-rubies-748231.jpg?v=1692710601&width=2048",
       count: "1,826"
     },
     {
       name: "Sapphires",
-      image: "/api/placeholder/400/300",
+      image: "https://www.gemsinsrilanka.com/wp-content/uploads/2021/01/Blue-sapphire-sri-lanka.jpg",
       count: "1,463"
     },
     {
       name: "Emeralds",
-      image: "/api/placeholder/400/300",
+      image: "https://www.astrosawal.com/assets/gemstone/Emrald_gemstone.jpg",
       count: "982"
     }
   ];
@@ -533,7 +533,7 @@ const GemifyLanding = ({ isDarkMode }) => {
 </div>
 
       {/* Categories Section */}
-      <div className="px-4 sm:px-6 lg:px-8 py-12">
+      {/* <div className="px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -554,7 +554,7 @@ const GemifyLanding = ({ isDarkMode }) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
 
   );
