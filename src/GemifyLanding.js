@@ -61,7 +61,7 @@ const GemifyLanding = ({ isDarkMode }) => {
           ]
         }
       ];
-      
+
   const categories = [
     {
       name: "Diamonds",
@@ -117,12 +117,11 @@ const GemifyLanding = ({ isDarkMode }) => {
   ];
 
   return (
-    <div className={`min-h-screen ${
-        isDarkMode 
-          ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white' 
-          : 'bg-gradient-to-br from-gray-50 to-white text-gray-900'
-      } transition-colors duration-300`}> 
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
+<div className={`min-h-screen ${
+    isDarkMode 
+      ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white' 
+      : 'bg-gradient-to-br from-gray-50 to-white text-gray-900'
+  } transition-all duration-300`}>
       {/* Hero Section */}
       <div className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
@@ -557,7 +556,7 @@ const GemifyLanding = ({ isDarkMode }) => {
         </div>
       </div>
     </div>
-    </div>
+
   );
 };
 
