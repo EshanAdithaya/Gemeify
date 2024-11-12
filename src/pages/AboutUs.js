@@ -14,7 +14,7 @@ import {
   Clock
 } from 'lucide-react';
 
-const AboutUs = () => {
+const AboutUs = ({ isDarkMode }) => {
   const stats = [
     { label: 'Years of Experience', value: '25+' },
     { label: 'Certified Gems', value: '10K+' },
@@ -70,18 +70,24 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 pt-24">
+    <div className={`min-h-screen ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-900 to-slate-800' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    } pt-24 transition-colors duration-300`}>
       {/* Hero Section */}
       <div className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Crafting Excellence in
               <span className="block bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
                 Fine Gemstones
               </span>
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
               Since 1998, Gemify has been at the forefront of the precious gems industry, 
               combining traditional expertise with modern technology to deliver exceptional stones.
             </p>
@@ -95,10 +101,14 @@ const AboutUs = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                <div className={`text-3xl md:text-4xl font-bold mb-2 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {stat.value}
                 </div>
-                <div className="text-gray-400">{stat.label}</div>
+                <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
@@ -110,8 +120,12 @@ const AboutUs = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
-              <div className="space-y-4 text-gray-400">
+              <h2 className={`text-3xl font-bold mb-6 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Our Story</h2>
+              <div className={`space-y-4 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 <p>
                   Gemify was founded with a vision to make the world's finest gemstones accessible 
                   to collectors and enthusiasts worldwide. What started as a small family business 
@@ -147,17 +161,23 @@ const AboutUs = () => {
       {/* Our Values */}
       <div className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">Our Values</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Our Values</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-slate-800/50 rounded-xl p-6 text-center">
+              <div key={index} className={`${
+                isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+              } rounded-xl p-6 text-center`}>
                 <div className="flex justify-center mb-4">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className={`text-xl font-semibold mb-3 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {value.title}
                 </h3>
-                <p className="text-gray-400">
+                <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                   {value.description}
                 </p>
               </div>
@@ -169,22 +189,30 @@ const AboutUs = () => {
       {/* Our Team */}
       <div className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">Meet Our Experts</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Meet Our Experts</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="bg-slate-800/50 rounded-xl overflow-hidden">
+              <div key={index} className={`${
+                isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+              } rounded-xl overflow-hidden`}>
                 <img 
                   src={member.image} 
                   alt={member.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-1">
+                  <h3 className={`text-xl font-semibold mb-1 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {member.name}
                   </h3>
                   <div className="text-purple-400 mb-2">{member.role}</div>
-                  <div className="text-sm text-gray-400 mb-3">{member.credentials}</div>
-                  <p className="text-gray-400">
+                  <div className={`text-sm mb-3 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>{member.credentials}</div>
+                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                     {member.description}
                   </p>
                 </div>
@@ -197,53 +225,85 @@ const AboutUs = () => {
       {/* Contact Section */}
       <div className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-slate-800/50 rounded-xl p-8">
+          <div className={`${
+            isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+          } rounded-xl p-8`}>
             <div className="grid md:grid-cols-2 gap-12">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-6">Get in Touch</h2>
-                <p className="text-gray-400 mb-8">
+                <h2 className={`text-3xl font-bold mb-6 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Get in Touch</h2>
+                <p className={`mb-8 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Have questions about our gems or services? Our expert team is here to help.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Mail className="w-5 h-5 text-purple-400 mr-3" />
-                    <span className="text-gray-300">contact@gemify.com</span>
+                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                      contact@gemify.com
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <Phone className="w-5 h-5 text-purple-400 mr-3" />
-                    <span className="text-gray-300">+1 (555) 123-4567</span>
+                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                      +1 (555) 123-4567
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <MapPin className="w-5 h-5 text-purple-400 mr-3" />
-                    <span className="text-gray-300">123 Gem Street, New York, NY 10001</span>
+                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                      123 Gem Street, New York, NY 10001
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <Clock className="w-5 h-5 text-purple-400 mr-3" />
-                    <span className="text-gray-300">Mon - Fri: 9:00 AM - 6:00 PM EST</span>
+                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                      Mon - Fri: 9:00 AM - 6:00 PM EST
+                    </span>
                   </div>
                 </div>
               </div>
               <div>
                 <form className="space-y-4">
                   <div>
-                    <label className="block text-gray-400 mb-2">Name</label>
+                    <label className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                      Name
+                    </label>
                     <input 
                       type="text"
-                      className="w-full bg-slate-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                        isDarkMode 
+                          ? 'bg-slate-700/50 text-white' 
+                          : 'bg-gray-50 text-gray-900 border border-gray-200'
+                      }`}
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-400 mb-2">Email</label>
+                    <label className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                      Email
+                    </label>
                     <input 
                       type="email"
-                      className="w-full bg-slate-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                        isDarkMode 
+                          ? 'bg-slate-700/50 text-white' 
+                          : 'bg-gray-50 text-gray-900 border border-gray-200'
+                      }`}
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-400 mb-2">Message</label>
+                    <label className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                      Message
+                    </label>
                     <textarea 
                       rows="4"
-                      className="w-full bg-slate-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                        isDarkMode 
+                          ? 'bg-slate-700/50 text-white' 
+                          : 'bg-gray-50 text-gray-900 border border-gray-200'
+                      }`}
                     ></textarea>
                   </div>
                   <button className="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
