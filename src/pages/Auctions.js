@@ -29,7 +29,7 @@ const AuctionsPage = ({ isDarkMode }) => {
       weight: "8.52 carats",
       origin: "Ceylon",
       treatment: "No Heat",
-      image: "/api/placeholder/800/600",
+      image: "https://www.burtonsgemsandopals.com/cdn/shop/files/heatedbluesapphire.jpg?v=1689299200&width=416",
       documents: [
         { name: "GRS Certificate", size: "2.4 MB" },
         { name: "Quality Report", size: "1.8 MB" },
@@ -41,9 +41,9 @@ const AuctionsPage = ({ isDarkMode }) => {
         { bidder: "Bidder 7731", amount: 43000, time: "30 minutes ago" }
       ],
       additionalImages: [
-        "/api/placeholder/400/300",
-        "/api/placeholder/400/300",
-        "/api/placeholder/400/300"
+        "https://imgix.starlanka.com/static/bluesapphire-imagecategory.jpg",
+        "https://www.elizabethjewellers.com/cdn/shop/products/21_4.gif?v=1480696210",
+        "https://cdn.shopify.com/s/files/1/0080/0004/5171/products/BS01HMB_d235a2e9-0e0d-4675-9360-07bc9106df89_350x@2x.jpg?v=1625054119"
       ]
     }
     // Add more auction lots as needed
@@ -58,7 +58,7 @@ const AuctionsPage = ({ isDarkMode }) => {
       preview: "Dec 10-14",
       lots: 86,
       featured: true,
-      image: "/api/placeholder/800/400"
+      image: "https://jewelryinformer.com/wp-content/uploads/2024/01/fancy-colored-diamonds-1024x576-1.jpg"
     },
     {
       id: 2,
@@ -67,7 +67,7 @@ const AuctionsPage = ({ isDarkMode }) => {
       preview: "Dec 15-19",
       lots: 124,
       featured: false,
-      image: "/api/placeholder/800/400"
+      image: "https://4cs.gia.edu/wp-content/uploads/2016/03/80147-960x960-ruby-sapphire-gems-300x300.jpg"
     },
     {
       id: 3,
@@ -76,7 +76,7 @@ const AuctionsPage = ({ isDarkMode }) => {
       preview: "Dec 28-Jan 3",
       lots: 95,
       featured: true,
-      image: "/api/placeholder/800/400"
+      image: "https://hips.hearstapps.com/hmg-prod/images/emeraldauctionphoto-1492452110.jpg?crop=0.6666666666666666xw:1xh;center,top&resize=1200:*"
     },
     {
       id: 4,
@@ -85,7 +85,7 @@ const AuctionsPage = ({ isDarkMode }) => {
       preview: "Jan 10-14",
       lots: 72,
       featured: false,
-      image: "/api/placeholder/800/400"
+      image: "https://www.gia.edu/images/138016.jpg"
     }
   ];
   // Your existing auctionLots and upcomingAuctions data...
