@@ -13,7 +13,7 @@ import {
   Eye
 } from 'lucide-react';
 
-const Marketplace = () => {
+const Marketplace = ({ isDarkMode }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState('Featured');
   const [viewType, setViewType] = useState('grid');
@@ -65,10 +65,8 @@ const Marketplace = () => {
         sales: 892
       }
     },
-    // Add more gems...
   ];
 
-  // Duplicate some gems for display purposes
   const displayGems = [...gems, ...gems, ...gems].map((gem, index) => ({
     ...gem,
     id: index + 1
@@ -84,16 +82,22 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 pt-24">
+    <div className={`min-h-screen ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-900 to-slate-800' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    } pt-24 transition-colors duration-300`}>
       {/* Header */}
       <div className="px-4 sm:px-6 lg:px-8 mb-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              <h1 className={`text-3xl md:text-4xl font-bold mb-2 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
                 Gem Marketplace
               </h1>
-              <p className="text-gray-400">
+              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                 Browse our collection of certified precious gems
               </p>
             </div>
@@ -103,13 +107,21 @@ const Marketplace = () => {
                 <input
                   type="text"
                   placeholder="Search gems..."
-                  className="w-full bg-slate-800/50 text-white placeholder-gray-400 rounded-lg py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`w-full ${
+                    isDarkMode 
+                      ? 'bg-slate-800/50 text-white placeholder-gray-400' 
+                      : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
+                  } rounded-lg py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500`}
                 />
-                <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+                <Search className={`absolute right-3 top-2.5 h-5 w-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`} />
               </div>
               <button
                 onClick={() => setFilterOpen(true)}
-                className="p-2 text-gray-400 hover:text-white md:hidden"
+                className={`p-2 md:hidden ${
+                  isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 <SlidersHorizontal size={24} />
               </button>
@@ -126,14 +138,22 @@ const Marketplace = () => {
             <div className="hidden lg:block w-64 flex-shrink-0">
               <div className="sticky top-24 space-y-6">
                 {/* Price Range */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4">Price Range</h3>
+                <div className={`${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                } rounded-xl p-6`}>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>Price Range</h3>
                   <div className="space-y-2">
                     {filters.priceRange.map((range) => (
-                      <label key={range} className="flex items-center space-x-2 text-gray-300 hover:text-white cursor-pointer">
+                      <label key={range} className={`flex items-center space-x-2 cursor-pointer ${
+                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                      }`}>
                         <input
                           type="checkbox"
-                          className="rounded border-gray-600 text-purple-500 focus:ring-purple-500 bg-slate-700"
+                          className={`rounded text-purple-500 focus:ring-purple-500 ${
+                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+                          }`}
                         />
                         <span>{range}</span>
                       </label>
@@ -142,14 +162,22 @@ const Marketplace = () => {
                 </div>
 
                 {/* Categories */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4">Categories</h3>
+                <div className={`${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                } rounded-xl p-6`}>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>Categories</h3>
                   <div className="space-y-2">
                     {filters.categories.map((category) => (
-                      <label key={category} className="flex items-center space-x-2 text-gray-300 hover:text-white cursor-pointer">
+                      <label key={category} className={`flex items-center space-x-2 cursor-pointer ${
+                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                      }`}>
                         <input
                           type="checkbox"
-                          className="rounded border-gray-600 text-purple-500 focus:ring-purple-500 bg-slate-700"
+                          className={`rounded text-purple-500 focus:ring-purple-500 ${
+                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+                          }`}
                         />
                         <span>{category}</span>
                       </label>
@@ -158,14 +186,22 @@ const Marketplace = () => {
                 </div>
 
                 {/* Certification */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4">Certification</h3>
+                <div className={`${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                } rounded-xl p-6`}>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>Certification</h3>
                   <div className="space-y-2">
                     {filters.certification.map((cert) => (
-                      <label key={cert} className="flex items-center space-x-2 text-gray-300 hover:text-white cursor-pointer">
+                      <label key={cert} className={`flex items-center space-x-2 cursor-pointer ${
+                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                      }`}>
                         <input
                           type="checkbox"
-                          className="rounded border-gray-600 text-purple-500 focus:ring-purple-500 bg-slate-700"
+                          className={`rounded text-purple-500 focus:ring-purple-500 ${
+                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+                          }`}
                         />
                         <span>{cert}</span>
                       </label>
@@ -174,14 +210,22 @@ const Marketplace = () => {
                 </div>
 
                 {/* Cut */}
-                <div className="bg-slate-800/50 rounded-xl p-6">
-                  <h3 className="text-lg font-medium text-white mb-4">Cut</h3>
+                <div className={`${
+                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                } rounded-xl p-6`}>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>Cut</h3>
                   <div className="space-y-2">
                     {filters.cut.map((cutType) => (
-                      <label key={cutType} className="flex items-center space-x-2 text-gray-300 hover:text-white cursor-pointer">
+                      <label key={cutType} className={`flex items-center space-x-2 cursor-pointer ${
+                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                      }`}>
                         <input
                           type="checkbox"
-                          className="rounded border-gray-600 text-purple-500 focus:ring-purple-500 bg-slate-700"
+                          className={`rounded text-purple-500 focus:ring-purple-500 ${
+                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+                          }`}
                         />
                         <span>{cutType}</span>
                       </label>
@@ -194,16 +238,22 @@ const Marketplace = () => {
             {/* Products Grid */}
             <div className="flex-1">
               {/* Sort Bar */}
-              <div className="bg-slate-800/50 rounded-xl p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <p className="text-gray-400">
-                  Showing <span className="text-white">{displayGems.length}</span> results
+              <div className={`${
+                isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+              } rounded-xl p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4`}>
+                <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Showing <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>{displayGems.length}</span> results
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="relative">
                     <select
                       value={selectedSort}
                       onChange={(e) => setSelectedSort(e.target.value)}
-                      className="appearance-none bg-slate-700/50 text-white px-4 py-2 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className={`appearance-none px-4 py-2 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                        isDarkMode 
+                          ? 'bg-slate-700/50 text-white' 
+                          : 'bg-gray-50 text-gray-900'
+                      }`}
                     >
                       <option>Featured</option>
                       <option>Price: Low to High</option>
@@ -211,13 +261,17 @@ const Marketplace = () => {
                       <option>Most Popular</option>
                       <option>Newest</option>
                     </select>
-                    <ChevronDown className="absolute right-2 top-3 h-4 w-4 text-gray-400 pointer-events-none" />
+                    <ChevronDown className={`absolute right-2 top-3 h-4 w-4 ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    } pointer-events-none`} />
                   </div>
                   <div className="flex gap-1">
                     <button
                       onClick={() => setViewType('grid')}
                       className={`p-2 rounded ${
-                        viewType === 'grid' ? 'bg-slate-700 text-white' : 'text-gray-400 hover:text-white'
+                        viewType === 'grid' 
+                          ? isDarkMode ? 'bg-slate-700 text-white' : 'bg-gray-100 text-gray-900'
+                          : isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
                       }`}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,7 +281,9 @@ const Marketplace = () => {
                     <button
                       onClick={() => setViewType('list')}
                       className={`p-2 rounded ${
-                        viewType === 'list' ? 'bg-slate-700 text-white' : 'text-gray-400 hover:text-white'
+                        viewType === 'list' 
+                          ? isDarkMode ? 'bg-slate-700 text-white' : 'bg-gray-100 text-gray-900'
+                          : isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
                       }`}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,14 +298,16 @@ const Marketplace = () => {
               {viewType === 'grid' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {displayGems.map((gem) => (
-                    <div key={gem.id} className="bg-slate-800/50 rounded-xl overflow-hidden group">
+                    <div key={gem.id} className={`${
+                      isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                    } rounded-xl overflow-hidden group`}>
                       <div className="relative">
                         <img 
                           src={gem.image} 
                           alt={gem.name}
                           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
+                       <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
                           <Heart size={20} className="text-white" />
                         </button>
                         {gem.discount && (
@@ -263,35 +321,43 @@ const Marketplace = () => {
                           <span className="text-sm text-purple-400">{gem.category}</span>
                           <div className="flex items-center">
                             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <span className="text-sm text-gray-400 ml-1">{gem.rating}</span>
+                            <span className={`text-sm ml-1 ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                            }`}>{gem.rating}</span>
                           </div>
                         </div>
-                        <h3 className="text-lg font-semibold text-white mb-2">{gem.name}</h3>
+                        <h3 className={`text-lg font-semibold mb-2 ${
+                          isDarkMode ? 'text-white' : 'text-gray-900'
+                        }`}>{gem.name}</h3>
                         <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
                           <div>
-                            <span className="text-gray-400">Weight:</span>
-                            <span className="text-white ml-1">{gem.weight}</span>
+                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Weight:</span>
+                            <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} ml-1`}>{gem.weight}</span>
                           </div>
                           <div>
-                            <span className="text-gray-400">Cut:</span>
-                            <span className="text-white ml-1">{gem.cut}</span>
+                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Cut:</span>
+                            <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} ml-1`}>{gem.cut}</span>
                           </div>
                           <div>
-                            <span className="text-gray-400">Origin:</span>
-                            <span className="text-white ml-1">{gem.origin}</span>
+                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Origin:</span>
+                            <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} ml-1`}>{gem.origin}</span>
                           </div>
                           <div>
-                            <span className="text-gray-400">Treatment:</span>
-                            <span className="text-white ml-1">{gem.treatment}</span>
+                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Treatment:</span>
+                            <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} ml-1`}>{gem.treatment}</span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between mb-4">
                           <div>
-                            <div className="text-2xl font-bold text-white">
+                            <div className={`text-2xl font-bold ${
+                              isDarkMode ? 'text-white' : 'text-gray-900'
+                            }`}>
                               ${gem.price.toLocaleString()}
                             </div>
                             {gem.originalPrice && (
-                              <div className="text-sm text-gray-400 line-through">
+                              <div className={`text-sm line-through ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                              }`}>
                                 ${gem.originalPrice.toLocaleString()}
                               </div>
                             )}
@@ -305,7 +371,11 @@ const Marketplace = () => {
                           <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                             Purchase Now
                           </button>
-                          <button className="p-2 bg-slate-700/50 text-white rounded-lg hover:bg-slate-700 transition-colors">
+                          <button className={`p-2 rounded-lg transition-colors ${
+                            isDarkMode 
+                              ? 'bg-slate-700/50 text-white hover:bg-slate-700' 
+                              : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                          }`}>
                             <Eye className="w-5 h-5" />
                           </button>
                         </div>
@@ -319,7 +389,9 @@ const Marketplace = () => {
               {viewType === 'list' && (
                 <div className="space-y-6">
                   {displayGems.map((gem) => (
-                    <div key={gem.id} className="bg-slate-800/50 rounded-xl overflow-hidden">
+                    <div key={gem.id} className={`${
+                      isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                    } rounded-xl overflow-hidden`}>
                       <div className="flex flex-col md:flex-row">
                         <div className="md:w-72 relative">
                           <img 
@@ -327,7 +399,7 @@ const Marketplace = () => {
                             alt={gem.name}
                             className="w-full h-48 md:h-full object-cover"
                           />
-                          <button className="absolute top-4 right-4 p-2 bg-white/10backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
+                          <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
                             <Heart size={20} className="text-white" />
                           </button>
                           {gem.discount && (
@@ -341,20 +413,28 @@ const Marketplace = () => {
                             <div>
                               <div className="flex items-center gap-2 mb-2">
                                 <span className="text-sm text-purple-400">{gem.category}</span>
-                                <span className="text-sm text-gray-400">•</span>
+                                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>•</span>
                                 <div className="flex items-center">
                                   <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                  <span className="text-sm text-gray-400 ml-1">{gem.rating}</span>
+                                  <span className={`text-sm ml-1 ${
+                                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                  }`}>{gem.rating}</span>
                                 </div>
                               </div>
-                              <h3 className="text-xl font-semibold text-white">{gem.name}</h3>
+                              <h3 className={`text-xl font-semibold ${
+                                isDarkMode ? 'text-white' : 'text-gray-900'
+                              }`}>{gem.name}</h3>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-bold text-white">
+                              <div className={`text-2xl font-bold ${
+                                isDarkMode ? 'text-white' : 'text-gray-900'
+                              }`}>
                                 ${gem.price.toLocaleString()}
                               </div>
                               {gem.originalPrice && (
-                                <div className="text-sm text-gray-400 line-through">
+                                <div className={`text-sm line-through ${
+                                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                }`}>
                                   ${gem.originalPrice.toLocaleString()}
                                 </div>
                               )}
@@ -363,20 +443,36 @@ const Marketplace = () => {
 
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                             <div>
-                              <span className="text-gray-400 block text-sm">Weight</span>
-                              <span className="text-white">{gem.weight}</span>
+                              <span className={`block text-sm ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>Weight</span>
+                              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                                {gem.weight}
+                              </span>
                             </div>
                             <div>
-                              <span className="text-gray-400 block text-sm">Cut</span>
-                              <span className="text-white">{gem.cut}</span>
+                              <span className={`block text-sm ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>Cut</span>
+                              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                                {gem.cut}
+                              </span>
                             </div>
                             <div>
-                              <span className="text-gray-400 block text-sm">Origin</span>
-                              <span className="text-white">{gem.origin}</span>
+                              <span className={`block text-sm ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>Origin</span>
+                              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                                {gem.origin}
+                              </span>
                             </div>
                             <div>
-                              <span className="text-gray-400 block text-sm">Treatment</span>
-                              <span className="text-white">{gem.treatment}</span>
+                              <span className={`block text-sm ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>Treatment</span>
+                              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+                                {gem.treatment}
+                              </span>
                             </div>
                           </div>
 
@@ -384,14 +480,20 @@ const Marketplace = () => {
                             <div className="flex items-center gap-6">
                               <div className="flex items-center">
                                 <Shield className="w-4 h-4 text-purple-400 mr-2" />
-                                <span className="text-gray-300">{gem.certification} Certified</span>
+                                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                                  {gem.certification} Certified
+                                </span>
                               </div>
                               <div className="flex items-center">
                                 <PackageCheck className="w-4 h-4 text-purple-400 mr-2" />
-                                <span className="text-gray-300">Free Shipping</span>
+                                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                                  Free Shipping
+                                </span>
                               </div>
                             </div>
-                            <div className="flex items-center text-gray-400">
+                            <div className={`flex items-center ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                            }`}>
                               <span className="text-sm">Sold by {gem.seller.name}</span>
                               {gem.seller.verified && (
                                 <Shield className="w-4 h-4 ml-1 text-blue-400" />
@@ -421,12 +523,16 @@ const Marketplace = () => {
       {/* Mobile Filter Sidebar */}
       {filterOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 lg:hidden">
-          <div className="absolute inset-y-0 right-0 max-w-xs w-full bg-slate-900 p-6">
+          <div className={`absolute inset-y-0 right-0 max-w-xs w-full ${
+            isDarkMode ? 'bg-slate-900' : 'bg-white'
+          } p-6`}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-white">Filters</h2>
+              <h2 className={`text-xl font-bold ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Filters</h2>
               <button
                 onClick={() => setFilterOpen(false)}
-                className="text-gray-400 hover:text-white"
+                className={isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}
               >
                 <X className="h-6 w-6" />
               </button>
@@ -434,13 +540,19 @@ const Marketplace = () => {
             <div className="space-y-6">
               {/* Mobile Filters - Same as desktop */}
               <div>
-                <h3 className="text-lg font-medium text-white mb-4">Price Range</h3>
+                <h3 className={`text-lg font-medium mb-4 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Price Range</h3>
                 <div className="space-y-2">
                   {filters.priceRange.map((range) => (
-                    <label key={range} className="flex items-center space-x-2 text-gray-300 hover:text-white cursor-pointer">
+                    <label key={range} className={`flex items-center space-x-2 cursor-pointer ${
+                      isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                    }`}>
                       <input
                         type="checkbox"
-                        className="rounded border-gray-600 text-purple-500 focus:ring-purple-500 bg-slate-700"
+                        className={`rounded text-purple-500 focus:ring-purple-500 ${
+                          isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+                        }`}
                       />
                       <span>{range}</span>
                     </label>
