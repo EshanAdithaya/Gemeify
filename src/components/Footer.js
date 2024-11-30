@@ -110,7 +110,7 @@ const Footer = ({ isDarkMode }) => {
             <p className={`text-sm ${
               isDarkMode ? 'text-gray-400' : 'text-gray-500'
             }`}>
-              © 2024 Gemify. All rights reserved.
+              © 2024 Developed by Eshan Adithaya and team. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               {['Terms', 'Privacy', 'Cookies'].map((link) => (
