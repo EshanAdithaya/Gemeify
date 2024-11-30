@@ -8,6 +8,9 @@ import Footer from './components/Footer';
 import Auctions from './pages/Auctions';
 import Marketplace from './pages/Marketplace';
 import AboutUs from './pages/AboutUs';
+// import { LogIn } from 'lucide-react';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -26,6 +29,8 @@ function App() {
           <Route path="/auctions" element={<Auctions isDarkMode={isDarkMode} />} />
           <Route path="/marketplace" element={<Marketplace isDarkMode={isDarkMode} />} />
           <Route path="/about" element={<AboutUs isDarkMode={isDarkMode} />} />
+          <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+          <Route path="/signup" element={<Signup isDarkMode={isDarkMode} />} />
         </Routes>
         <Footer isDarkMode={isDarkMode} />
       </div>

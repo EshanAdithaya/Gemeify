@@ -1,9 +1,75 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Menu, X, Heart, Sun, Moon } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, Menu, X, Heart, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
 const Navbar = ({ isDarkMode, setIsDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const user = auth.currentUser;
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('isAuthenticated');
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  const UserMenu = () => (
+    <div className="relative">
+      <button
+        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+        className={`flex items-center space-x-2 ${
+          isDarkMode
+            ? 'text-gray-300 hover:text-white'
+            : 'text-gray-600 hover:text-gray-900'
+        } transition-colors`}
+      >
+        <User size={20} />
+        <span>{user.displayName || 'User'}</span>
+      </button>
+
+      {isUserMenuOpen && (
+        <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg ${
+          isDarkMode ? 'bg-slate-800' : 'bg-white'
+        } ring-1 ring-black ring-opacity-5`}>
+          <div className="py-1" role="menu">
+            <Link
+              to="/settings"
+              className={`flex items-center px-4 py-2 text-sm ${
+                isDarkMode
+                  ? 'text-gray-300 hover:bg-slate-700'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+              onClick={() => setIsUserMenuOpen(false)}
+            >
+              <Settings size={16} className="mr-2" />
+              Settings
+            </Link>
+            <button
+              onClick={() => {
+                handleLogout();
+                setIsUserMenuOpen(false);
+              }}
+              className={`flex items-center w-full px-4 py-2 text-sm ${
+                isDarkMode
+                  ? 'text-gray-300 hover:bg-slate-700'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <LogOut size={16} className="mr-2" />
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <nav
@@ -102,6 +168,22 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
               <Heart size={20} />
             </button>
 
+            {/* User Authentication */}
+            {user ? (
+              <UserMenu />
+            ) : (
+              <Link
+                to="/login"
+                className={`${
+                  isDarkMode
+                    ? 'text-gray-300 hover:text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                } transition-colors`}
+              >
+                Login
+              </Link>
+            )}
+
             {/* Mobile Menu */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -118,7 +200,9 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
 
         {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-slate-800 p-4 rounded-b-lg shadow-lg">
+          <div className={`md:hidden ${
+            isDarkMode ? 'bg-slate-800' : 'bg-white'
+          } p-4 rounded-b-lg shadow-lg`}>
             <div className="flex flex-col space-y-4">
               <Link
                 to="/collections"
@@ -160,10 +244,38 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
                     ? 'text-gray-300 hover:text-white'
                     : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
-                onClick={() => setIsDarkMode(false)}
+                onClick={() => setIsMenuOpen(false)}
               >
                 About
               </Link>
+              {user && (
+                <>
+                  <Link
+                    to="/settings"
+                    className={`${
+                      isDarkMode
+                        ? 'text-gray-300 hover:text-white'
+                        : 'text-gray-600 hover:text-gray-900'
+                    } transition-colors`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Settings
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className={`text-left ${
+                      isDarkMode
+                        ? 'text-gray-300 hover:text-white'
+                        : 'text-gray-600 hover:text-gray-900'
+                    } transition-colors`}
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
