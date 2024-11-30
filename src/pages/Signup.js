@@ -26,13 +26,19 @@ const Signup = ({ isDarkMode }) => {
       await updateProfile(user, { displayName: name });
 
       // Create user document in Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        name,
-        email,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
+      // In your signup component when creating the user document:
+await setDoc(doc(db, 'users', user.uid), {
+  uid: user.uid,
+  name,
+  email,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  role: 'customer', // Add customer role
+  status: 'New',    // Add initial status
+  totalSpent: 0,    // Add initial total spent
+  lastPurchase: null, // Add last purchase date
+  isBanned: false    // Add ban status
+});
 
       // Navigate to login page
       navigate('/login');

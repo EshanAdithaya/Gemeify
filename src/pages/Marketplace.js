@@ -27,6 +27,7 @@ const Marketplace = ({ isDarkMode }) => {
   const [selectedGem, setSelectedGem] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   // Fetch gems on component mount
   useEffect(() => {
     const fetchGems = async () => {
@@ -38,7 +39,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         const gemsData = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        }));
+        })).filter(gem => gem.availability !== 'Sold'); // Filter out sold gems
         setGems(gemsData);
         setFilteredGems(gemsData);
       } catch (error) {
@@ -364,6 +365,11 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                 {gem.certification}
                               </div>
                             </div>
+                            <div className="flex items-center justify-between mb-4">
+                              <div className={`text-sm font-medium ${gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'}`}>
+                                {gem.availability}
+                              </div>
+                            </div>
                             <div className="flex gap-2">
                               <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                                 Purchase Now
@@ -486,7 +492,11 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                   </div>
                                 </div>
                               </div>
-
+                              <div className="flex items-center justify-between mb-4">
+                                <div className={`text-sm font-medium ${gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'}`}>
+                                  {gem.availability}
+                                </div>
+                              </div>
                               <div className="flex gap-4">
                                 <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                                   Purchase Now
