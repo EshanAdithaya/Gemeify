@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../firebase';
-import GemDetailModal from './GemDetail';  // Adjust the import path as needed
+import GemDetailModal from './GemDetail';
 
 const Marketplace = ({ isDarkMode }) => {
   const [filterOpen, setFilterOpen] = useState(false);
@@ -25,10 +25,24 @@ const Marketplace = ({ isDarkMode }) => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGem, setSelectedGem] = useState(null);
-const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // New filter states
+  const [priceRange, setPriceRange] = useState([0, 50000]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCertifications, setSelectedCertifications] = useState([]);
+  const [selectedCuts, setSelectedCuts] = useState([]);
+  const [selectedClarity, setSelectedClarity] = useState([]);
+  const [selectedTreatments, setSelectedTreatments] = useState([]);
 
+  const filters = {
+    categories: ['All', 'Diamond', 'Ruby', 'Sapphire', 'Emerald', 'Pearl', 'Other'],
+    certification: ['GIA', 'IGI', 'AGS', 'GRS', 'Gubelin'],
+    cut: ['Round', 'Oval', 'Cushion', 'Princess', 'Emerald Cut'],
+    clarity: ['FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2'],
+    treatment: ['Heated', 'No Heat', 'Minor', 'None'],
+  };
 
-  // Fetch gems on component mount
   useEffect(() => {
     const fetchGems = async () => {
       setIsLoading(true);
@@ -39,7 +53,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         const gemsData = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        })).filter(gem => gem.availability !== 'Sold'); // Filter out sold gems
+        })).filter(gem => gem.availability !== 'Sold');
         setGems(gemsData);
         setFilteredGems(gemsData);
       } catch (error) {
@@ -53,55 +67,116 @@ const [isModalOpen, setIsModalOpen] = useState(false);
     fetchGems();
   }, []);
 
-  // Handle sorting
+  // Enhanced filter function
   useEffect(() => {
-    let sortedGems = [...filteredGems];
+    let filtered = [...gems];
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(gem => 
+        gem.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        gem.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        gem.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply category filter
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(gem => selectedCategories.includes(gem.category));
+    }
+
+    // Apply price range filter
+    filtered = filtered.filter(gem => 
+      gem.price >= priceRange[0] && gem.price <= priceRange[1]
+    );
+
+    // Apply certification filter
+    if (selectedCertifications.length > 0) {
+      filtered = filtered.filter(gem => selectedCertifications.includes(gem.certification));
+    }
+
+    // Apply cut filter
+    if (selectedCuts.length > 0) {
+      filtered = filtered.filter(gem => selectedCuts.includes(gem.cut));
+    }
+
+    // Apply clarity filter
+    if (selectedClarity.length > 0) {
+      filtered = filtered.filter(gem => selectedClarity.includes(gem.clarity));
+    }
+
+    // Apply treatment filter
+    if (selectedTreatments.length > 0) {
+      filtered = filtered.filter(gem => selectedTreatments.includes(gem.treatment));
+    }
+
+    // Apply sorting
     switch (selectedSort) {
       case 'Price: Low to High':
-        sortedGems.sort((a, b) => a.price - b.price);
+        filtered.sort((a, b) => a.price - b.price);
         break;
       case 'Price: High to Low':
-        sortedGems.sort((a, b) => b.price - a.price);
+        filtered.sort((a, b) => b.price - a.price);
         break;
       case 'Newest':
-        sortedGems.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+        filtered.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+        break;
+      case 'Most Popular':
+        filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
         break;
       default:
-        // Featured sorting (default) - could be based on rating or other criteria
+        // Featured sorting logic here
         break;
     }
-    setFilteredGems(sortedGems);
-  }, [selectedSort]);
 
-  // Handle search
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredGems(gems);
-      return;
-    }
-
-  
-    const searchResults = gems.filter(gem => 
-      gem.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      gem.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      gem.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredGems(searchResults);
-  }, [searchTerm, gems]);
+    setFilteredGems(filtered);
+  }, [
+    gems,
+    searchTerm,
+    selectedSort,
+    priceRange,
+    selectedCategories,
+    selectedCertifications,
+    selectedCuts,
+    selectedClarity,
+    selectedTreatments
+  ]);
 
   const handleGemClick = (gem) => {
     setSelectedGem(gem);
     setIsModalOpen(true);
   };
 
-  const filters = {
-    categories: ['All', 'Diamond', 'Ruby', 'Sapphire', 'Emerald', 'Pearl', 'Other'],
-    certification: ['GIA', 'IGI', 'AGS', 'GRS', 'Gubelin'],
-    cut: ['Round', 'Oval', 'Cushion', 'Princess', 'Emerald Cut'],
-    clarity: ['FL', 'IF', 'VVS1', 'VVS2', 'VS1', 'VS2'],
-    treatment: ['Heated', 'No Heat', 'Minor', 'None'],
-    priceRange: ['Under $1,000', '$1,000 - $5,000', '$5,000 - $10,000', '$10,000+']
-  };
+  const FilterSection = ({ title, options, selected, onChange }) => (
+    <div className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'} rounded-xl p-6 mb-4`}>
+      <h3 className={`text-lg font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        {title}
+      </h3>
+      <div className="space-y-2">
+        {options.map((option) => (
+          <label key={option} className={`flex items-center space-x-2 cursor-pointer ${
+            isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+          }`}>
+            <input
+              type="checkbox"
+              checked={selected.includes(option)}
+              onChange={() => {
+                if (selected.includes(option)) {
+                  onChange(selected.filter(item => item !== option));
+                } else {
+                  onChange([...selected, option]);
+                }
+              }}
+              className={`rounded text-purple-500 focus:ring-purple-500 ${
+                isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
+              }`}
+            />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
 
   if (error) {
     return (
@@ -174,58 +249,64 @@ const [isModalOpen, setIsModalOpen] = useState(false);
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex gap-8">
-            {/* Filters - Desktop */}
+            {/* Enhanced Sidebar Filters - Desktop */}
             <div className="hidden lg:block w-64 flex-shrink-0">
               <div className="sticky top-24 space-y-6">
-                {/* Price Range */}
-                <div className={`${
-                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
-                } rounded-xl p-6`}>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    isDarkMode ? 'text-white' : 'text-gray-900'
-                  }`}>Price Range</h3>
-                  <div className="space-y-2">
-                    {filters.priceRange.map((range) => (
-                      <label key={range} className={`flex items-center space-x-2 cursor-pointer ${
-                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                      }`}>
-                        <input
-                          type="checkbox"
-                          className={`rounded text-purple-500 focus:ring-purple-500 ${
-                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
-                          }`}
-                        />
-                        <span>{range}</span>
-                      </label>
-                    ))}
+                {/* Price Range Slider */}
+                <div className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'} rounded-xl p-6`}>
+                  <h3 className={`text-lg font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Price Range
+                  </h3>
+                  <input
+                    type="range"
+                    min="0"
+                    max="50000"
+                    step="1000"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between mt-2 text-sm">
+                    <span>${priceRange[0].toLocaleString()}</span>
+                    <span>${priceRange[1].toLocaleString()}</span>
                   </div>
                 </div>
 
-                {/* Categories */}
-                <div className={`${
-                  isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
-                } rounded-xl p-6`}>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    isDarkMode ? 'text-white' : 'text-gray-900'
-                  }`}>Categories</h3>
-                  <div className="space-y-2">
-                    {filters.categories.map((category) => (
-                      <label key={category} className={`flex items-center space-x-2 cursor-pointer ${
-                        isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                      }`}>
-                        <input
-                          type="checkbox"
-                          className={`rounded text-purple-500 focus:ring-purple-500 ${
-                            isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
-                          }`}
-                        />
-                        <span>{category}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+                {/* Filter Sections */}
+                <FilterSection
+                  title="Categories"
+                  options={filters.categories}
+                  selected={selectedCategories}
+                  onChange={setSelectedCategories}
+                />
+                
+                <FilterSection
+                  title="Certification"
+                  options={filters.certification}
+                  selected={selectedCertifications}
+                  onChange={setSelectedCertifications}
+                />
 
-                {/* Other filter sections remain the same */}
+                <FilterSection
+                  title="Cut"
+                  options={filters.cut}
+                  selected={selectedCuts}
+                  onChange={setSelectedCuts}
+                />
+
+                <FilterSection
+                  title="Clarity"
+                  options={filters.clarity}
+                  selected={selectedClarity}
+                  onChange={setSelectedClarity}
+                />
+
+                <FilterSection
+                  title="Treatment"
+                  options={filters.treatment}
+                  selected={selectedTreatments}
+                  onChange={setSelectedTreatments}
+                />
               </div>
             </div>
 
@@ -296,7 +377,6 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                 <>
                   {/* Grid View */}
                   {viewType === 'grid' && (
-                    
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {filteredGems.map((gem) => (
                         <div 
@@ -365,12 +445,14 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                 {gem.certification}
                               </div>
                             </div>
-                            <div className="flex items-center justify-between mb-4">
-                              <div className={`text-sm font-medium ${gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'}`}>
+                            <div className="flex items-center justify-between">
+                              <div className={`text-sm font-medium ${
+                                gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'
+                              }`}>
                                 {gem.availability}
                               </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 mt-4">
                               <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                                 Purchase Now
                               </button>
@@ -493,7 +575,9 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                 </div>
                               </div>
                               <div className="flex items-center justify-between mb-4">
-                                <div className={`text-sm font-medium ${gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'}`}>
+                                <div className={`text-sm font-medium ${
+                                  gem.availability === 'Available' ? 'text-green-500' : 'text-yellow-500'
+                                }`}>
                                   {gem.availability}
                                 </div>
                               </div>
@@ -501,7 +585,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                 <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                                   Purchase Now
                                 </button>
-                                <button className="px-4 py-2 border border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500 hover:text-white transition-colors">
+                                <button className="px-4 py-2 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-500 hover:text-white transition-colors">
                                   View Details
                                 </button>
                               </div>
@@ -523,7 +607,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         <div className="fixed inset-0 bg-black/50 z-50 lg:hidden">
           <div className={`absolute inset-y-0 right-0 max-w-xs w-full ${
             isDarkMode ? 'bg-slate-900' : 'bg-white'
-          } p-6`}>
+          } p-6 overflow-y-auto`}>
             <div className="flex justify-between items-center mb-6">
               <h2 className={`text-xl font-bold ${
                 isDarkMode ? 'text-white' : 'text-gray-900'
@@ -536,41 +620,75 @@ const [isModalOpen, setIsModalOpen] = useState(false);
               </button>
             </div>
             <div className="space-y-6">
-              {/* Mobile Filters - Same as desktop */}
+              {/* Price Range Slider */}
               <div>
-                <h3 className={`text-lg font-medium mb-4 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
-                }`}>Price Range</h3>
-                <div className="space-y-2">
-                  {filters.priceRange.map((range) => (
-                    <label key={range} className={`flex items-center space-x-2 cursor-pointer ${
-                      isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                    }`}>
-                      <input
-                        type="checkbox"
-                        className={`rounded text-purple-500 focus:ring-purple-500 ${
-                          isDarkMode ? 'bg-slate-700 border-gray-600' : 'bg-white border-gray-300'
-                        }`}
-                      />
-                      <span>{range}</span>
-                    </label>
-                  ))}
+                <h3 className={`text-lg font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Price Range
+                </h3>
+                <input
+                  type="range"
+                  min="0"
+                  max="50000"
+                  step="1000"
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                  className="w-full"
+                />
+                <div className="flex justify-between mt-2">
+                  <span>${priceRange[0].toLocaleString()}</span>
+                  <span>${priceRange[1].toLocaleString()}</span>
                 </div>
               </div>
-              {/* Add other filter sections here */}
+
+              {/* Mobile Filter Sections */}
+              <FilterSection
+                title="Categories"
+                options={filters.categories}
+                selected={selectedCategories}
+                onChange={setSelectedCategories}
+              />
+              
+              <FilterSection
+                title="Certification"
+                options={filters.certification}
+                selected={selectedCertifications}
+                onChange={setSelectedCertifications}
+              />
+
+              <FilterSection
+                title="Cut"
+                options={filters.cut}
+                selected={selectedCuts}
+                onChange={setSelectedCuts}
+              />
+
+              <FilterSection
+                title="Clarity"
+                options={filters.clarity}
+                selected={selectedClarity}
+                onChange={setSelectedClarity}
+              />
+
+              <FilterSection
+                title="Treatment"
+                options={filters.treatment}
+                selected={selectedTreatments}
+                onChange={setSelectedTreatments}
+              />
             </div>
           </div>
         </div>
       )}
+
       {/* Gem Detail Modal */}
-{selectedGem && (
-  <GemDetailModal
-    gem={selectedGem}
-    isOpen={isModalOpen}
-    onClose={() => setIsModalOpen(false)}
-    isDarkMode={isDarkMode}
-  />
-)}
+      {selectedGem && (
+        <GemDetailModal
+          gem={selectedGem}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          isDarkMode={isDarkMode}
+        />
+      )}
     </div>
   );
 };
