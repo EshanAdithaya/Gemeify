@@ -113,15 +113,10 @@ const Footer = ({ isDarkMode }) => {
               © 2024 Developed by Eshan Adithaya and team. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              {['Terms', 'Privacy', 'Cookies'].map((link) => (
-                <a key={link} className={`text-sm ${
-                  isDarkMode 
-                    ? 'text-gray-400 hover:text-white' 
-                    : 'text-gray-500 hover:text-gray-900'
-                  } transition-colors cursor-pointer`}>{link}</a>
-              ))}
+            Made with ❤️ by Eshan Adithaya
             </div>
           </div>
+          
         </div>
       </div>
     </footer>
