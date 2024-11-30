@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../firebase';
+import GemDetailModal from './GemDetail';  // Adjust the import path as needed
 
 const Marketplace = ({ isDarkMode }) => {
   const [filterOpen, setFilterOpen] = useState(false);
@@ -23,6 +24,8 @@ const Marketplace = ({ isDarkMode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGem, setSelectedGem] = useState(null);
+const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch gems on component mount
   useEffect(() => {
@@ -76,6 +79,7 @@ const Marketplace = ({ isDarkMode }) => {
       return;
     }
 
+  
     const searchResults = gems.filter(gem => 
       gem.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       gem.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,6 +87,11 @@ const Marketplace = ({ isDarkMode }) => {
     );
     setFilteredGems(searchResults);
   }, [searchTerm, gems]);
+
+  const handleGemClick = (gem) => {
+    setSelectedGem(gem);
+    setIsModalOpen(true);
+  };
 
   const filters = {
     categories: ['All', 'Diamond', 'Ruby', 'Sapphire', 'Emerald', 'Pearl', 'Other'],
@@ -286,11 +295,16 @@ const Marketplace = ({ isDarkMode }) => {
                 <>
                   {/* Grid View */}
                   {viewType === 'grid' && (
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {filteredGems.map((gem) => (
-                        <div key={gem.id} className={`${
-                          isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
-                        } rounded-xl overflow-hidden group`}>
+                        <div 
+                          key={gem.id} 
+                          onClick={() => handleGemClick(gem)}
+                          className={`${
+                            isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                          } rounded-xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow duration-300`}
+                        >
                           <div className="relative">
                             <img 
                               src={gem.mainImage} 
@@ -372,9 +386,13 @@ const Marketplace = ({ isDarkMode }) => {
                   {viewType === 'list' && (
                     <div className="space-y-6">
                       {filteredGems.map((gem) => (
-                        <div key={gem.id} className={`${
-                          isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
-                        } rounded-xl overflow-hidden`}>
+                        <div 
+                          key={gem.id} 
+                          onClick={() => handleGemClick(gem)}
+                          className={`${
+                            isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'
+                          } rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300`}
+                        >
                           <div className="flex flex-col md:flex-row">
                             <div className="md:w-72 relative">
                               <img 
@@ -534,6 +552,15 @@ const Marketplace = ({ isDarkMode }) => {
           </div>
         </div>
       )}
+      {/* Gem Detail Modal */}
+{selectedGem && (
+  <GemDetailModal
+    gem={selectedGem}
+    isOpen={isModalOpen}
+    onClose={() => setIsModalOpen(false)}
+    isDarkMode={isDarkMode}
+  />
+)}
     </div>
   );
 };
