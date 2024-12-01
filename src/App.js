@@ -14,6 +14,7 @@ import Marketplace from './pages/Marketplace';
 import AboutUs from './pages/AboutUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ChristmasTheme from './components/ChristmasTheme';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -64,6 +65,7 @@ function App() {
         ? 'bg-gradient-to-br from-slate-900 to-slate-800' 
         : 'bg-gradient-to-br from-gray-50 to-white'
     }`}>
+      
       <div className={`max-w-md w-full mx-4 ${
         isDarkMode ? 'bg-slate-800' : 'bg-white'
       } rounded-xl shadow-lg p-8 text-center`}>
@@ -100,6 +102,7 @@ function App() {
           ? 'bg-gradient-to-br from-slate-900 to-slate-800'
           : 'bg-gradient-to-br from-gray-50 to-white'
       }`}>
+        <ChristmasTheme isDarkmode={isDarkMode} />
         <Navbar 
           isDarkMode={isDarkMode} 
           setIsDarkMode={setIsDarkMode} 

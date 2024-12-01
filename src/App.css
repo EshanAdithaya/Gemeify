@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+
+/* christmas theme*/ 
+/* Add this to your App.css */
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+  }
+  25% {
+    transform: translateY(25%) rotate(45deg);
+  }
+  50% {
+    transform: translateY(50%) rotate(90deg);
+  }
+  75% {
+    transform: translateY(75%) rotate(135deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(180deg);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fall {
+  animation: fall linear infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
