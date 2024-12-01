@@ -8,7 +8,7 @@ const ChristmasTheme = ({ isDarkMode }) => {
     const initialSnowflakes = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      animationDuration: 5 + Math.random() * 10,
+      animationDuration: 10 + Math.random() * 10,
       opacity: 0.3 + Math.random() * 0.7,
       size: 4 + Math.random() * 6
     }));
@@ -21,7 +21,7 @@ const ChristmasTheme = ({ isDarkMode }) => {
         return [...prev, {
           id: Date.now(),
           left: Math.random() * 100,
-          animationDuration: 5 + Math.random() * 10,
+          animationDuration: 5 + Math.random() * 20,
           opacity: 0.3 + Math.random() * 0.7,
           size: 4 + Math.random() * 6
         }];
