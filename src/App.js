@@ -15,6 +15,7 @@ import AboutUs from './pages/AboutUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ChristmasTheme from './components/ChristmasTheme';
+import PopupController from './components/PopupMessage';
 
 // Preloader component
 const Preloader = ({ isDarkMode }) => (
@@ -161,6 +162,7 @@ function App() {
           } />
         </Routes>
         <Footer isDarkMode={isDarkMode} />
+        <PopupController user={user} isDarkMode={isDarkMode} />
       </div>
     </BrowserRouter>
   );
