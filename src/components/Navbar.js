@@ -88,6 +88,12 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
             </Link>
           </div>
 
+          {/* <div className="flex items-center">
+            <Link to="/">
+              <img src="/path/to/logo.png" alt="Gemify Logo" className="h-8 w-auto" />
+            </Link>
+          </div>
+           */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-8">
               <Link
