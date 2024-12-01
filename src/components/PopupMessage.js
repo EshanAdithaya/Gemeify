@@ -2,26 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { X, Mail, Bell } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import Cookies from 'js-cookie';
+
+const COOKIE_NAME = 'shown_popups';
+const COOKIE_EXPIRY = 3; // days
+
 
 const PopupController = ({ user, isDarkMode }) => {
-  const [currentPopup, setCurrentPopup] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [email, setEmail] = useState('');
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [seenPopups, setSeenPopups] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('seenPopups') || '[]');
-    } catch {
-      return [];
-    }
-  });
+    const [currentPopup, setCurrentPopup] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
+    const [email, setEmail] = useState('');
+    const [isAnimating, setIsAnimating] = useState(false);
+    
+    // Initialize seen popups from both cookies and localStorage
+    const [seenPopups, setSeenPopups] = useState(() => {
+      const cookiePopups = Cookies.get(COOKIE_NAME);
+      const localPopups = localStorage.getItem('seenPopups');
+      
+      try {
+        const cookieArray = cookiePopups ? JSON.parse(cookiePopups) : [];
+        const localArray = localPopups ? JSON.parse(localPopups) : [];
+        // Combine and deduplicate popup IDs
+        return [...new Set([...cookieArray, ...localArray])];
+      } catch {
+        return [];
+      }
+    });
+
+    const updateSeenPopups = (newSeenPopups) => {
+        // Update cookie with 3-day expiration
+        Cookies.set(COOKIE_NAME, JSON.stringify(newSeenPopups), { 
+          expires: COOKIE_EXPIRY,
+          sameSite: 'Strict',
+          secure: true
+        });
+        
+        // Update localStorage as backup
+        localStorage.setItem('seenPopups', JSON.stringify(newSeenPopups));
+        
+        // Update state
+        setSeenPopups(newSeenPopups);
+      };
 
   // Fetch eligible popups
   useEffect(() => {
     const fetchPopups = async () => {
       try {
         const now = new Date().toISOString();
-        const userType = user ? 'registered' : 'guests';
         
         const popupsQuery = query(
           collection(db, 'popups'),
@@ -34,17 +61,20 @@ const PopupController = ({ user, isDarkMode }) => {
         const eligiblePopups = querySnapshot.docs
           .map(doc => ({ id: doc.id, ...doc.data() }))
           .filter(popup => {
-            // Filter by audience
-            const audienceMatch = 
-              popup.targetAudience === 'all' || 
-              (popup.targetAudience === userType) ||
-              (popup.targetAudience === 'registered' && user) ||
-              (popup.targetAudience === 'guests' && !user);
-            
             // Check if popup hasn't been seen
             const notSeen = !seenPopups.includes(popup.id);
             
-            return audienceMatch && notSeen;
+            // Target audience filtering logic
+            switch (popup.targetAudience) {
+              case 'guests':
+                return !user && notSeen;
+              case 'registered':
+                return user && notSeen;
+              case 'all':
+                return notSeen;
+              default:
+                return false;
+            }
           })
           .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
 
@@ -57,34 +87,29 @@ const PopupController = ({ user, isDarkMode }) => {
       }
     };
 
-    // Wait a bit before showing popup for better UX
     const timer = setTimeout(fetchPopups, 2000);
     return () => clearTimeout(timer);
   }, [user, seenPopups]);
 
-  // Handle popup close
+
   const handleClose = () => {
     setIsAnimating(true);
     setTimeout(() => {
       setShowPopup(false);
       setIsAnimating(false);
-      // Mark popup as seen
       if (currentPopup) {
         const newSeenPopups = [...seenPopups, currentPopup.id];
-        setSeenPopups(newSeenPopups);
-        localStorage.setItem('seenPopups', JSON.stringify(newSeenPopups));
+        updateSeenPopups(newSeenPopups);
       }
     }, 300);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentPopup?.showEmail && !email) return;
 
     try {
-      // Here you can add logic to handle the email submission
-      // For example, save to your newsletter collection
+      // Add your email submission logic here
       console.log('Form submitted with email:', email);
       handleClose();
     } catch (error) {
