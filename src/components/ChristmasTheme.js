@@ -1,46 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 const ChristmasTheme = ({ isDarkMode }) => {
   const [snowflakes, setSnowflakes] = useState([]);
+  const MAX_SNOWFLAKES = 100;
+
+  // Create a single snowflake with a unique ID
+  const createSnowflake = useCallback((index) => ({
+    id: `snowflake-${Date.now()}-${index}`,
+    left: Math.random() * 100,
+    animationDuration: 5 + Math.random() * 10,
+    opacity: 0.3 + Math.random() * 0.7,
+    size: 4 + Math.random() * 6
+  }), []);
+
+  // Add a new snowflake and remove old ones
+  const addSnowflake = useCallback(() => {
+    setSnowflakes(prev => {
+      // Remove snowflakes that have completed their animation
+      const activeSnowflakes = prev.slice(-MAX_SNOWFLAKES);
+      
+      // Add new snowflake
+      return [...activeSnowflakes, createSnowflake(prev.length)];
+    });
+  }, [createSnowflake]);
 
   useEffect(() => {
-    // Generate initial snowflakes
-    const initialSnowflakes = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      animationDuration: 10 + Math.random() * 10,
-      opacity: 0.3 + Math.random() * 0.7,
-      size: 4 + Math.random() * 6
-    }));
+    // Generate initial batch of snowflakes
+    const initialSnowflakes = Array.from(
+      { length: 30 }, 
+      (_, i) => createSnowflake(i)
+    );
     setSnowflakes(initialSnowflakes);
 
-    // Immediately add new snowflakes
-    const addSnowflake = () => {
-      setSnowflakes(prev => {
-        if (prev.length > 100) return prev;
-        return [...prev, {
-          id: Date.now(),
-          left: Math.random() * 100,
-          animationDuration: 5 + Math.random() * 20,
-          opacity: 0.3 + Math.random() * 0.7,
-          size: 4 + Math.random() * 6
-        }];
-      });
-    };
-
-    // Add initial batch of snowflakes
-    for (let i = 0; i < 50; i++) {
-      addSnowflake();
-    }
-
-    // Periodically add new snowflakes
+    // Set up interval for adding new snowflakes
     const interval = setInterval(addSnowflake, 500);
 
-    return () => clearInterval(interval);
-  }, []);
+    // Cleanup function
+    return () => {
+      clearInterval(interval);
+      setSnowflakes([]);
+    };
+  }, [createSnowflake, addSnowflake]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
       {/* Snowflakes */}
       {snowflakes.map(snowflake => (
         <div
@@ -55,24 +58,35 @@ const ChristmasTheme = ({ isDarkMode }) => {
             background: isDarkMode ? 'white' : '#e5e7eb',
             borderRadius: '50%',
             animation: `fall ${snowflake.animationDuration}s linear infinite`,
-            filter: 'blur(1px)'
+            filter: 'blur(1px)',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }}
         />
       ))}
 
       {/* Christmas lights top border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-green-500 to-red-500 animate-twinkle" />
+      <div 
+        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-green-500 to-red-500" 
+        style={{
+          animation: 'twinkle 2s ease-in-out infinite'
+        }}
+      />
 
       {/* Festive corner decorations */}
       <div className="absolute top-0 left-0 w-32 h-32">
-        <div className={`w-full h-full border-l-4 border-t-4 rounded-tl-xl ${
-          isDarkMode ? 'border-red-400/30' : 'border-red-500/30'
-        }`} />
+        <div 
+          className={`w-full h-full border-l-4 border-t-4 rounded-tl-xl transition-colors duration-300 ${
+            isDarkMode ? 'border-red-400/30' : 'border-red-500/30'
+          }`} 
+        />
       </div>
       <div className="absolute top-0 right-0 w-32 h-32">
-        <div className={`w-full h-full border-r-4 border-t-4 rounded-tr-xl ${
-          isDarkMode ? 'border-green-400/30' : 'border-green-500/30'
-        }`} />
+        <div 
+          className={`w-full h-full border-r-4 border-t-4 rounded-tr-xl transition-colors duration-300 ${
+            isDarkMode ? 'border-green-400/30' : 'border-green-500/30'
+          }`}
+        />
       </div>
     </div>
   );
