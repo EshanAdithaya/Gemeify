@@ -14,8 +14,8 @@ const ChristmasTheme = ({ isDarkMode }) => {
     }));
     setSnowflakes(initialSnowflakes);
 
-    // Periodically add new snowflakes
-    const interval = setInterval(() => {
+    // Immediately add new snowflakes
+    const addSnowflake = () => {
       setSnowflakes(prev => {
         if (prev.length > 100) return prev;
         return [...prev, {
@@ -26,7 +26,15 @@ const ChristmasTheme = ({ isDarkMode }) => {
           size: 4 + Math.random() * 6
         }];
       });
-    }, 500);
+    };
+
+    // Add initial batch of snowflakes
+    for (let i = 0; i < 50; i++) {
+      addSnowflake();
+    }
+
+    // Periodically add new snowflakes
+    const interval = setInterval(addSnowflake, 500);
 
     return () => clearInterval(interval);
   }, []);
