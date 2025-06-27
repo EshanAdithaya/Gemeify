@@ -13,6 +13,7 @@ import { Order } from '../../orders/entities/order.entity';
 import { Bid } from '../../bids/entities/bid.entity';
 import { Review } from '../../reviews/entities/review.entity';
 import { WishlistItem } from '../../wishlist/entities/wishlist-item.entity';
+import { Notification } from '../../notifications/entities/notification.entity';
 
 export enum UserRole {
   SUPER_ADMIN = 'super_admin',
@@ -116,6 +117,9 @@ export class User {
 
   @OneToMany(() => WishlistItem, (item) => item.user)
   wishlistItems: WishlistItem[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notifications: Notification[];
 
   // Virtual fields
   get fullName(): string {

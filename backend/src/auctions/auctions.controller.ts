@@ -33,7 +33,7 @@ export class AuctionsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new auction' })
   @ApiResponse({ status: 201, description: 'Auction created successfully' })
-  async create(@Body() createAuctionDto: CreateAuctionDto, @Request() req) {
+  async create(@Body() createAuctionDto: CreateAuctionDto, @Request() req: any) {
     console.log(`🏛️ Creating auction for user: ${req.user.id}`);
     const auction = await this.auctionsService.create(createAuctionDto, req.user.id);
     return {
@@ -140,7 +140,7 @@ export class AuctionsController {
   async placeBid(
     @Param('id') id: string,
     @Body() placeBidDto: PlaceBidDto,
-    @Request() req,
+    @Request() req: any,
   ) {
     console.log(`💰 Placing bid on auction ${id} by user: ${req.user.id}`);
     const bid = await this.auctionsService.placeBid(id, placeBidDto, req.user.id);

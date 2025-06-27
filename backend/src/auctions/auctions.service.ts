@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException, ForbiddenException 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan, MoreThan, Between } from 'typeorm';
 import { Auction, AuctionStatus, AuctionType } from './entities/auction.entity';
-import { Bid } from '../bids/entities/bid.entity';
+import { Bid, BidStatus } from '../bids/entities/bid.entity';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { PlaceBidDto } from './dto/place-bid.dto';
@@ -190,7 +190,7 @@ export class AuctionsService {
     if (auction.bids && auction.bids.length > 0) {
       const currentHighestBid = auction.bids[0];
       if (currentHighestBid) {
-        currentHighestBid.status = 'outbid';
+        currentHighestBid.status = BidStatus.OUTBID;
         await this.bidRepository.save(currentHighestBid);
       }
     }
@@ -202,7 +202,7 @@ export class AuctionsService {
       maxAutoBidAmount: placeBidDto.maxAutoBidAmount,
       user: { id: userId },
       auction: { id: auctionId },
-      status: 'winning',
+      status: BidStatus.WINNING,
     });
 
     const savedBid = await this.bidRepository.save(bid);
@@ -270,7 +270,7 @@ export class AuctionsService {
 
     // Find the winning bid
     const winningBid = await this.bidRepository.findOne({
-      where: { auction: { id: auctionId }, status: 'winning' },
+      where: { auction: { id: auctionId }, status: BidStatus.WINNING },
       relations: ['user'],
       order: { amount: 'DESC' },
     });
@@ -282,13 +282,13 @@ export class AuctionsService {
       auction.status = AuctionStatus.SOLD;
       
       // Mark winning bid as won
-      winningBid.status = 'won';
+      winningBid.status = BidStatus.WON;
       await this.bidRepository.save(winningBid);
       
       // Mark other bids as lost
       await this.bidRepository.update(
-        { auction: { id: auctionId }, status: 'active' },
-        { status: 'lost' }
+        { auction: { id: auctionId }, status: BidStatus.ACTIVE },
+        { status: BidStatus.LOST }
       );
     } else {
       auction.status = AuctionStatus.ENDED;

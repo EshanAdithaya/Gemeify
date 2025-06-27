@@ -32,6 +32,9 @@ import { Auction } from './auctions/entities/auction.entity';
 import { Bid } from './bids/entities/bid.entity';
 import { Review } from './reviews/entities/review.entity';
 import { WishlistItem } from './wishlist/entities/wishlist-item.entity';
+import { Notification } from './notifications/entities/notification.entity';
+import { AnalyticsEvent } from './analytics/entities/analytics-event.entity';
+import { DailyStats } from './analytics/entities/daily-stats.entity';
 
 @Module({
   controllers: [AppController],
@@ -60,6 +63,9 @@ import { WishlistItem } from './wishlist/entities/wishlist-item.entity';
         Bid,
         Review,
         WishlistItem,
+        Notification,
+        AnalyticsEvent,
+        DailyStats,
       ],
       synchronize: true, // Set to false in production
       logging: process.env.NODE_ENV === 'development',
