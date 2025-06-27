@@ -14,6 +14,7 @@ import Marketplace from './pages/Marketplace';
 import AboutUs from './pages/AboutUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import LiveAuctions from './pages/LiveAuctions';
 import ChristmasTheme from './components/ChristmasTheme';
 import PopupController from './components/PopupMessage';
 
@@ -136,6 +137,11 @@ function App() {
           <Route path="/about" element={
             <ProtectedRoute>
               <AboutUs isDarkMode={isDarkMode} />
+            </ProtectedRoute>
+          } />
+          <Route path="/live-auctions" element={
+            <ProtectedRoute>
+              <LiveAuctions isDarkMode={isDarkMode} />
             </ProtectedRoute>
           } />
           <Route path="/login" element={
