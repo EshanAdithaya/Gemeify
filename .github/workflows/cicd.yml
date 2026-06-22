@@ -59,9 +59,10 @@ jobs:
           rm -rf /tmp/admin
           mkdir -p /tmp/admin
           cd /tmp/admin
-          git init -b main .
+          git init .
           git config user.name "$GIT_NAME"
           git config user.email "$GIT_EMAIL"
+          git branch -M main
           rsync -a --delete "$GITHUB_WORKSPACE/admin-dashboard/" .
           git add -A
           git commit -m "CI sync admin-dashboard from upstream repo" || echo "No changes to commit"
@@ -75,9 +76,10 @@ jobs:
           rm -rf /tmp/client
           mkdir -p /tmp/client
           cd /tmp/client
-          git init -b main .
+          git init .
           git config user.name "$GIT_NAME"
           git config user.email "$GIT_EMAIL"
+          git branch -M main
           rsync -a --delete "$GITHUB_WORKSPACE/client-dashboard/" .
           git add -A
           git commit -m "CI sync client-dashboard from upstream repo" || echo "No changes to commit"
