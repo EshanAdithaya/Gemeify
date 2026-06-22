@@ -26,49 +26,66 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Detect changed paths
+        id: paths
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            admin:
+              - 'admin-dashboard/**'
+            client:
+              - 'client-dashboard/**'
+            backend:
+              - 'backend/**'
+
       - name: Build admin dashboard
+        if: steps.paths.outputs.admin == 'true'
         working-directory: admin-dashboard
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Build client dashboard
+        if: steps.paths.outputs.client == 'true'
         working-directory: client-dashboard
         run: |
-          npm install
+          npm ci
           npm run build
 
+
       - name: Sync admin-dashboard to GitLab repo
+        if: steps.paths.outputs.admin == 'true'
         run: |
           rm -rf /tmp/admin
           mkdir -p /tmp/admin
-          git init /tmp/admin
           cd /tmp/admin
+          git init -b main .
           git config user.name "$GIT_NAME"
           git config user.email "$GIT_EMAIL"
           rsync -a --delete "$GITHUB_WORKSPACE/admin-dashboard/" .
-          git add .
-          git commit -m "CI sync admin-dashboard from upstream repo"
-          git branch -M main
-          git remote add origin "$ADMIN_REPO"
-          git push --force origin main
+          git add -A
+          git commit -m "CI sync admin-dashboard from upstream repo" || echo "No changes to commit"
+          git remote add origin "$ADMIN_REPO" || true
+          git push --force origin main || echo "Push failed"
+
 
       - name: Sync client-dashboard to GitLab repo
+        if: steps.paths.outputs.client == 'true'
         run: |
           rm -rf /tmp/client
           mkdir -p /tmp/client
-          git init /tmp/client
           cd /tmp/client
+          git init -b main .
           git config user.name "$GIT_NAME"
           git config user.email "$GIT_EMAIL"
           rsync -a --delete "$GITHUB_WORKSPACE/client-dashboard/" .
-          git add .
-          git commit -m "CI sync client-dashboard from upstream repo"
-          git branch -M main
-          git remote add origin "$CLIENT_REPO"
-          git push --force origin main
+          git add -A
+          git commit -m "CI sync client-dashboard from upstream repo" || echo "No changes to commit"
+          git remote add origin "$CLIENT_REPO" || true
+          git push --force origin main || echo "Push failed"
 
       - name: Build and push backend container
+        if: steps.paths.outputs.backend == 'true'
         env:
           DOCKER_BUILDKIT: 1
         run: |
