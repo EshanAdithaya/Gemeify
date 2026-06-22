@@ -3,6 +3,8 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { securityHeaders } from './common/middleware/security-headers.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +17,12 @@ async function bootstrap() {
 
   // Add global logging interceptor
   app.useGlobalInterceptors(new LoggingInterceptor());
+
+  // Consistent error contract across the whole API
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  // Baseline defensive HTTP headers on every response
+  app.use(securityHeaders);
 
   // Enable CORS for frontend communication
   const corsOrigins = [
