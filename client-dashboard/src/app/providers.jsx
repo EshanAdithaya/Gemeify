@@ -2,6 +2,7 @@
 
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { CompareProvider } from '@/context/CompareContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Preloader from '@/components/Preloader';
@@ -33,7 +34,9 @@ export default function Providers({ children }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Shell>{children}</Shell>
+        <CompareProvider>
+          <Shell>{children}</Shell>
+        </CompareProvider>
       </AuthProvider>
     </ThemeProvider>
   );

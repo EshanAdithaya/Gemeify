@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, PackageCheck, Loader } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, PackageCheck, Loader, GitCompare } from 'lucide-react';
 import { gemsAPI } from '@/lib/api';
 import { useTheme } from '@/context/ThemeContext';
+import { useCompare } from '@/context/CompareContext';
 import Protected from '@/components/Protected';
 import GemDetailModal from '@/components/GemDetailModal';
+import CompareTray from '@/components/CompareTray';
+import RecentlyViewed from '@/components/RecentlyViewed';
 
 const PLACEHOLDER =
   'https://images.unsplash.com/photo-1551732998-9573f695fdbb?auto=format&fit=crop&w=800&q=80';
@@ -77,6 +80,7 @@ function FilterSection({ title, options, selected, onChange, isDarkMode }) {
 
 function MarketplaceContent() {
   const { isDarkMode } = useTheme();
+  const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState('Featured');
@@ -166,6 +170,7 @@ function MarketplaceContent() {
   const handleGemClick = (gem) => {
     setSelectedGem(gem);
     setIsModalOpen(true);
+    recordView(gem);
   };
 
   if (error) {
@@ -258,6 +263,8 @@ function MarketplaceContent() {
           </div>
 
           <div className="flex-1">
+            <RecentlyViewed onSelect={handleGemClick} />
+
             {/* Sort bar */}
             <div
               className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'} rounded-xl p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4`}
@@ -328,6 +335,22 @@ function MarketplaceContent() {
                       <img src={gem.mainImage} alt={gem.name} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                       <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
                         <Heart size={20} className="text-white" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleCompare(gem);
+                        }}
+                        disabled={!isComparing(gem.id) && !canAddMore}
+                        aria-label={isComparing(gem.id) ? 'Remove from comparison' : 'Add to comparison'}
+                        title={!isComparing(gem.id) && !canAddMore ? 'Compare up to 4 gems' : 'Compare'}
+                        className={`absolute bottom-4 left-4 p-2 rounded-full backdrop-blur-md transition-colors disabled:opacity-40 ${
+                          isComparing(gem.id)
+                            ? 'bg-purple-500 text-white'
+                            : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
+                      >
+                        <GitCompare size={18} />
                       </button>
                       {gem.discount ? (
                         <div className="absolute top-4 left-4 px-2 py-1 bg-purple-500 text-white text-sm rounded-full">
@@ -491,6 +514,8 @@ function MarketplaceContent() {
       {selectedGem && (
         <GemDetailModal gem={selectedGem} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       )}
+
+      <CompareTray />
     </div>
   );
 }
