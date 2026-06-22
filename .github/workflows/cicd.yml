@@ -1,0 +1,77 @@
+name: Sync Frontends and Build Backend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sync-and-build:
+    runs-on: ubuntu-latest
+    env:
+      GIT_NAME: eshangunathilaka
+      GIT_EMAIL: eshangunathilaka@users.noreply.github.com
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+      ADMIN_REPO: https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/eshangunathilaka/gemeify-admin.git
+      CLIENT_REPO: https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/eshangunathilaka/gemeify-client.git
+      BACKEND_IMAGE: registry.gitlab.com/eshangunathilaka/gemeify-client/backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build admin dashboard
+        working-directory: admin-dashboard
+        run: |
+          npm install
+          npm run build
+
+      - name: Build client dashboard
+        working-directory: client-dashboard
+        run: |
+          npm install
+          npm run build
+
+      - name: Sync admin-dashboard to GitLab repo
+        run: |
+          rm -rf /tmp/admin
+          mkdir -p /tmp/admin
+          git init /tmp/admin
+          cd /tmp/admin
+          git config user.name "$GIT_NAME"
+          git config user.email "$GIT_EMAIL"
+          rsync -a --delete "$GITHUB_WORKSPACE/admin-dashboard/" .
+          git add .
+          git commit -m "CI sync admin-dashboard from upstream repo"
+          git branch -M main
+          git remote add origin "$ADMIN_REPO"
+          git push --force origin main
+
+      - name: Sync client-dashboard to GitLab repo
+        run: |
+          rm -rf /tmp/client
+          mkdir -p /tmp/client
+          git init /tmp/client
+          cd /tmp/client
+          git config user.name "$GIT_NAME"
+          git config user.email "$GIT_EMAIL"
+          rsync -a --delete "$GITHUB_WORKSPACE/client-dashboard/" .
+          git add .
+          git commit -m "CI sync client-dashboard from upstream repo"
+          git branch -M main
+          git remote add origin "$CLIENT_REPO"
+          git push --force origin main
+
+      - name: Build and push backend container
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          echo "$GITLAB_TOKEN" | docker login -u oauth2 --password-stdin registry.gitlab.com
+          docker build -t "$BACKEND_IMAGE:latest" backend
+          docker push "$BACKEND_IMAGE:latest"
