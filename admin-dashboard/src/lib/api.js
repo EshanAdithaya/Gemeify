@@ -42,8 +42,18 @@ export const usersAPI = {
 };
 
 export const gemsAPI = {
-  getAll: (page = 1, limit = 20) => api.get(`/gems?page=${page}&limit=${limit}`),
+  // Admin route returns gems across all statuses (the public /gems only
+  // exposes approved listings).
+  getAll: (page = 1, limit = 20, status) => {
+    const params = new URLSearchParams({ page, limit });
+    if (status && status !== 'all') params.append('status', status);
+    return api.get(`/gems/admin?${params}`);
+  },
   getById: (id) => api.get(`/gems/${id}`),
+  getStats: () => api.get('/gems/stats'),
+  approve: (id) => api.patch(`/gems/${id}/approve`),
+  reject: (id, reason) => api.patch(`/gems/${id}/reject`, { reason }),
+  remove: (id) => api.delete(`/gems/${id}`),
 };
 
 export const categoriesAPI = {
