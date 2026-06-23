@@ -5,9 +5,11 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { CompareProvider } from '@/context/CompareContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { WishlistProvider } from '@/context/WishlistContext';
+import { CartProvider } from '@/context/CartContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Preloader from '@/components/Preloader';
+import CartDrawer from '@/components/CartDrawer';
 
 function Shell({ children }) {
   const { isDarkMode } = useTheme();
@@ -28,6 +30,7 @@ function Shell({ children }) {
       <Navbar />
       {children}
       <Footer />
+      <CartDrawer />
     </div>
   );
 }
@@ -38,9 +41,11 @@ export default function Providers({ children }) {
       <AuthProvider>
         <ToastProvider>
           <WishlistProvider>
-            <CompareProvider>
-              <Shell>{children}</Shell>
-            </CompareProvider>
+            <CartProvider>
+              <CompareProvider>
+                <Shell>{children}</Shell>
+              </CompareProvider>
+            </CartProvider>
           </WishlistProvider>
         </ToastProvider>
       </AuthProvider>

@@ -8,6 +8,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { useCompare } from '@/context/CompareContext';
 import { useToast } from '@/context/ToastContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useCart } from '@/context/CartContext';
 import Protected from '@/components/Protected';
 import GemDetailModal from '@/components/GemDetailModal';
 import CompareTray from '@/components/CompareTray';
@@ -89,6 +90,17 @@ function MarketplaceContent() {
   const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
   const { toast } = useToast();
   const { has: inWishlist, toggle: toggleWishlist } = useWishlist();
+  const { addItem, setOpen: setCartOpen } = useCart();
+
+  const handlePurchase = (gem) => {
+    if (gem.availability !== 'Available') {
+      toast('This gem is no longer available', 'info');
+      return;
+    }
+    addItem(gem, 1);
+    setCartOpen(true);
+    toast(`${gem.name} added to cart`, 'success');
+  };
 
   const handleCompare = (gem) => {
     const wasComparing = isComparing(gem.id);
@@ -434,7 +446,13 @@ function MarketplaceContent() {
                         {gem.availability}
                       </div>
                       <div className="flex gap-2 mt-4">
-                        <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePurchase(gem);
+                          }}
+                          className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                        >
                           Purchase Now
                         </button>
                         <button

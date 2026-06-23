@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Menu, X, Heart, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
+import { Search, Menu, X, Heart, ShoppingBag, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useCart } from '@/context/CartContext';
 
 const NAV_LINKS = [
   { href: '/collections', label: 'Collections' },
@@ -20,6 +21,7 @@ export default function Navbar() {
   const { isDarkMode, setIsDarkMode } = useTheme();
   const { user, logout } = useAuth();
   const { count: wishlistCount } = useWishlist();
+  const { count: cartCount, setOpen: setCartOpen } = useCart();
   const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,6 +84,15 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
+
+            <button onClick={() => setCartOpen(true)} className={`relative p-2 ${linkClass}`} aria-label="Open cart">
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-600 text-white text-[11px] font-medium flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
 
             {user ? (
               <div className="relative">
