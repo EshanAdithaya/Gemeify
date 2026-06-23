@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Menu, X, Heart, ShoppingBag, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
+import { Search, Menu, X, Heart, ShoppingBag, Sun, Moon, User, Settings, LogOut, Package } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -111,6 +111,26 @@ export default function Navbar() {
                     } ring-1 ring-black ring-opacity-5`}
                   >
                     <div className="py-1" role="menu">
+                      <Link
+                        href="/account/orders"
+                        className={`flex items-center px-4 py-2 text-sm ${
+                          isDarkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Package size={16} className="mr-2" />
+                        My Orders
+                      </Link>
+                      <Link
+                        href="/wishlist"
+                        className={`flex items-center px-4 py-2 text-sm ${
+                          isDarkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Heart size={16} className="mr-2" />
+                        Wishlist
+                      </Link>
                       <Link
                         href="/settings"
                         className={`flex items-center px-4 py-2 text-sm ${
