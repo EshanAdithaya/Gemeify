@@ -5,6 +5,7 @@ import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, Pa
 import { gemsAPI } from '@/lib/api';
 import { useTheme } from '@/context/ThemeContext';
 import { useCompare } from '@/context/CompareContext';
+import { useToast } from '@/context/ToastContext';
 import Protected from '@/components/Protected';
 import GemDetailModal from '@/components/GemDetailModal';
 import CompareTray from '@/components/CompareTray';
@@ -83,6 +84,17 @@ function FilterSection({ title, options, selected, onChange, isDarkMode }) {
 function MarketplaceContent() {
   const { isDarkMode } = useTheme();
   const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
+  const { toast } = useToast();
+
+  const handleCompare = (gem) => {
+    const wasComparing = isComparing(gem.id);
+    if (!wasComparing && !canAddMore) {
+      toast('You can compare up to 4 gems at once', 'info');
+      return;
+    }
+    toggleCompare(gem);
+    toast(wasComparing ? `Removed ${gem.name} from comparison` : `Added ${gem.name} to comparison`, 'success');
+  };
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState('Featured');
@@ -346,7 +358,7 @@ function MarketplaceContent() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleCompare(gem);
+                          handleCompare(gem);
                         }}
                         disabled={!isComparing(gem.id) && !canAddMore}
                         aria-label={isComparing(gem.id) ? 'Remove from comparison' : 'Add to comparison'}
