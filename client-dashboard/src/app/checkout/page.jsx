@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { useTheme } from '@/context/ThemeContext';
+import { Events } from '@/lib/analytics';
 import OptimizedImage from '@/components/OptimizedImage';
 import Button from '@/components/ui/Button';
 
@@ -68,6 +69,7 @@ export default function CheckoutPage() {
         paymentMethod,
       });
       const order = res.data?.data;
+      Events.orderCreated(order?.id, Number(order?.total) || subtotal);
       clear();
       setConfirmation(order);
       toast('Order placed successfully!', 'success');

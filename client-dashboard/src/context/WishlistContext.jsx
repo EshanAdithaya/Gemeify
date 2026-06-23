@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { wishlistAPI } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
+import { Events } from '@/lib/analytics';
 
 const WishlistContext = createContext(null);
 
@@ -57,6 +58,7 @@ export function WishlistProvider({ children }) {
           toast(`Removed ${gem.name || 'gem'} from wishlist`, 'success');
         } else {
           await wishlistAPI.add(gem.id);
+          Events.wishlistAdded(gem.id);
           toast(`Saved ${gem.name || 'gem'} to wishlist`, 'success');
         }
       } catch {

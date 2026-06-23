@@ -88,6 +88,21 @@ npm run build     # full TypeScript type-check
 CI (`.github/workflows/backend-ci.yml`) runs the tests and type-check on every
 branch and pull request.
 
+## Storefront Capabilities
+
+The Next.js client is a full shopping experience: faceted catalog with gem
+comparison and recently-viewed, backend-synced **wishlist**, persistent
+**cart**, **checkout** that creates real transactional orders, **account/order
+history** with cancellation, and **post-purchase reviews** that feed live
+rating aggregation.
+
+It is also built for discovery and speed: per-page metadata, dynamic
+`sitemap.xml`/`robots.txt`, Organization/WebSite/Product/Article **JSON-LD**,
+public **SSR gem pages** (`/gems/[slug]`) with ISR and rich snippets, a
+statically-generated **Gem Guides** content hub, `next/image` optimization,
+long-lived asset caching, a PWA manifest, accessibility (skip link/focus/aria),
+and fire-and-forget funnel **analytics**.
+
 ## Technology Stack
 
 - **Frontend:** Next.js 14 (App Router), React 18, Tailwind CSS, Axios, lucide-react

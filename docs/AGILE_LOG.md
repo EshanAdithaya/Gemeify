@@ -39,6 +39,55 @@ Gemify gemstone marketplace. Each sprint runs the same ceremony:
 | 8 | Fine-tune | Standardise responses & streamline | ✅ Done |
 | 9 | Feature | Admin moderation workflow UI | ✅ Done |
 | 10 | Fine-tune | Docs, seed data & retrospective | ✅ Done |
+| 11 | SEO | SEO foundation (metadata, sitemap, robots, structured data) | ✅ Done |
+| 12 | Performance | Image optimization, bundle & caching | ✅ Done |
+| 13 | UI | Next-level UI design system (tokens, toasts, button) | ✅ Done |
+| 14 | Growth | Organic attraction — Gem Guides + newsletter | ✅ Done |
+| 15 | SEO | Public SSR gem pages with ISR + Product schema | ✅ Done |
+| 16 | Feature | Activate the wishlist end-to-end | ✅ Done |
+| 17 | Feature | Shopping cart with persistent drawer | ✅ Done |
+| 18 | Feature | Checkout → real transactional orders | ✅ Done |
+| 19 | Feature | Account order history & post-purchase reviews | ✅ Done |
+| 20 | Quality | Accessibility, PWA, analytics & retrospective | ✅ Done |
+
+## Phase 2 Retrospective (Sprints 11–20)
+
+Phase 1 built a working, tested backend marketplace. Phase 2 made it
+**discoverable, fast, beautiful, and transactional** on the storefront.
+
+### Sprints 11–15 (PO target: UI / speed / SEO / organic pull)
+- **SEO (11, 15):** per-page metadata + canonical/OG/Twitter, dynamic
+  robots & sitemap, Organization/WebSite JSON-LD, and public SSR gem pages
+  (`/gems/[slug]`) with ISR and Product/Breadcrumb structured data for rich
+  snippets.
+- **Performance (12):** next/image (AVIF/WebP, responsive, lazy, blur-up),
+  long-lived static caching, `optimizePackageImports`, skeleton loaders.
+- **UI (13):** brand token scale, reusable Button, toast system, motion +
+  reduced-motion support, global polish.
+- **Organic growth (14):** statically-generated Gem Guides hub with
+  Article/Breadcrumb schema, internal links into the catalog, newsletter
+  capture.
+
+### Sprints 16–20 (PO choice: activate the conversion loop)
+The PO chose to light up the dormant backend features the storefront wasn’t
+using — turning traffic into transactions:
+- Wishlist (16), Cart (17), Checkout → real transactional orders (18),
+  Account/order history + post-purchase reviews (19).
+- Accessibility (skip link, focus, aria), PWA manifest, app-level
+  loading/404/error states, and fire-and-forget funnel analytics wired to the
+  existing `/analytics/track` endpoint (20).
+
+### The flywheel we built
+Guides & SEO pull organic traffic → fast, polished pages convert → purchases
+generate reviews → reviews feed rating aggregation and Product rich snippets →
+better rankings pull more traffic.
+
+### Carried debt / next backlog
+- Replace the demo newsletter store with a real ESP integration.
+- Real payment-gateway capture in checkout.
+- Server-side gem-view tracking on `/gems/[slug]`.
+- Component/E2E tests for the new storefront flows (cart, checkout, wishlist).
+- Move TypeORM `synchronize` to migrations before production.
 
 ## Sprint 10 — Retrospective
 

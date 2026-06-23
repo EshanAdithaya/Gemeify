@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Preloader from '@/components/Preloader';
 import CartDrawer from '@/components/CartDrawer';
+import AnalyticsTracker from '@/components/AnalyticsTracker';
 
 function Shell({ children }) {
   const { isDarkMode } = useTheme();
@@ -27,10 +28,17 @@ function Shell({ children }) {
           : 'bg-gradient-to-br from-gray-50 to-white'
       }`}
     >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+      >
+        Skip to content
+      </a>
       <Navbar />
-      {children}
+      <div id="main">{children}</div>
       <Footer />
       <CartDrawer />
+      <AnalyticsTracker />
     </div>
   );
 }
