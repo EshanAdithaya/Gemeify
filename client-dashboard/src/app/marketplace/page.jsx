@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, PackageCheck, GitCompare } from 'lucide-react';
 import { gemsAPI } from '@/lib/api';
 import { useTheme } from '@/context/ThemeContext';
@@ -30,6 +31,7 @@ function normalizeGem(g) {
   const originalPrice = Number(g.originalPrice) || 0;
   return {
     id: g.id,
+    slug: g.slug,
     name: g.name,
     category: g.category?.name || 'Gemstone',
     price,
@@ -498,9 +500,15 @@ function MarketplaceContent() {
                           <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                             Purchase Now
                           </button>
-                          <button className="px-4 py-2 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-500 hover:text-white transition-colors">
-                            View Details
-                          </button>
+                          {gem.slug ? (
+                            <Link
+                              href={`/gems/${gem.slug}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="px-4 py-2 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-500 hover:text-white transition-colors"
+                            >
+                              View Details
+                            </Link>
+                          ) : null}
                         </div>
                       </div>
                     </div>

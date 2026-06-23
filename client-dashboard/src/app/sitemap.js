@@ -13,7 +13,30 @@ const STATIC_ROUTES = [
   { path: '/guides', priority: 0.7, changeFrequency: 'weekly' },
 ];
 
-export default function sitemap() {
+const API = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001').replace(/\/$/, '');
+
+// Best-effort fetch of approved gems for the sitemap. Resilient: if the
+// backend is unreachable at build time the sitemap still emits static + guides.
+async function fetchGemUrls() {
+  try {
+    const res = await fetch(`${API}/gems?limit=1000`, { next: { revalidate: 3600 } });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const gems = json?.data?.data || [];
+    return gems
+      .filter((g) => g.slug)
+      .map((g) => ({
+        url: `${SITE.url}/gems/${g.slug}`,
+        lastModified: g.updatedAt ? new Date(g.updatedAt) : new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      }));
+  } catch {
+    return [];
+  }
+}
+
+export default async function sitemap() {
   const now = new Date();
   const staticEntries = STATIC_ROUTES.map((r) => ({
     url: `${SITE.url}${r.path}`,
@@ -29,5 +52,7 @@ export default function sitemap() {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...guideEntries];
+  const gemEntries = await fetchGemUrls();
+
+  return [...staticEntries, ...guideEntries, ...gemEntries];
 }
