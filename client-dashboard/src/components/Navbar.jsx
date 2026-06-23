@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/collections', label: 'Collections' },
   { href: '/auctions', label: 'Auctions' },
   { href: '/marketplace', label: 'Marketplace' },
+  { href: '/guides', label: 'Guides' },
   { href: '/about', label: 'About' },
 ];
 

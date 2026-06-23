@@ -1,4 +1,5 @@
 import { SITE } from '@/lib/seo';
+import { GUIDES } from '@/lib/guides';
 
 // Static marketing/catalog routes. Dynamic per-gem URLs are appended once the
 // public gem pages exist (see /gems/[slug]).
@@ -14,10 +15,19 @@ const STATIC_ROUTES = [
 
 export default function sitemap() {
   const now = new Date();
-  return STATIC_ROUTES.map((r) => ({
+  const staticEntries = STATIC_ROUTES.map((r) => ({
     url: `${SITE.url}${r.path}`,
     lastModified: now,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));
+
+  const guideEntries = GUIDES.map((g) => ({
+    url: `${SITE.url}/guides/${g.slug}`,
+    lastModified: new Date(g.updated),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  return [...staticEntries, ...guideEntries];
 }
