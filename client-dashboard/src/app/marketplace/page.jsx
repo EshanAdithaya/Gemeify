@@ -1,11 +1,20 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, PackageCheck, Loader } from 'lucide-react';
+import Link from 'next/link';
+import { Search, SlidersHorizontal, X, Heart, Star, ChevronDown, Shield, Eye, PackageCheck, GitCompare } from 'lucide-react';
 import { gemsAPI } from '@/lib/api';
 import { useTheme } from '@/context/ThemeContext';
+import { useCompare } from '@/context/CompareContext';
+import { useToast } from '@/context/ToastContext';
+import { useWishlist } from '@/context/WishlistContext';
+import { useCart } from '@/context/CartContext';
 import Protected from '@/components/Protected';
 import GemDetailModal from '@/components/GemDetailModal';
+import CompareTray from '@/components/CompareTray';
+import RecentlyViewed from '@/components/RecentlyViewed';
+import OptimizedImage from '@/components/OptimizedImage';
+import { GemGridSkeleton } from '@/components/Skeleton';
 
 const PLACEHOLDER =
   'https://images.unsplash.com/photo-1551732998-9573f695fdbb?auto=format&fit=crop&w=800&q=80';
@@ -24,6 +33,7 @@ function normalizeGem(g) {
   const originalPrice = Number(g.originalPrice) || 0;
   return {
     id: g.id,
+    slug: g.slug,
     name: g.name,
     category: g.category?.name || 'Gemstone',
     price,
@@ -77,6 +87,30 @@ function FilterSection({ title, options, selected, onChange, isDarkMode }) {
 
 function MarketplaceContent() {
   const { isDarkMode } = useTheme();
+  const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
+  const { toast } = useToast();
+  const { has: inWishlist, toggle: toggleWishlist } = useWishlist();
+  const { addItem, setOpen: setCartOpen } = useCart();
+
+  const handlePurchase = (gem) => {
+    if (gem.availability !== 'Available') {
+      toast('This gem is no longer available', 'info');
+      return;
+    }
+    addItem(gem, 1);
+    setCartOpen(true);
+    toast(`${gem.name} added to cart`, 'success');
+  };
+
+  const handleCompare = (gem) => {
+    const wasComparing = isComparing(gem.id);
+    if (!wasComparing && !canAddMore) {
+      toast('You can compare up to 4 gems at once', 'info');
+      return;
+    }
+    toggleCompare(gem);
+    toast(wasComparing ? `Removed ${gem.name} from comparison` : `Added ${gem.name} to comparison`, 'success');
+  };
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState('Featured');
@@ -166,6 +200,7 @@ function MarketplaceContent() {
   const handleGemClick = (gem) => {
     setSelectedGem(gem);
     setIsModalOpen(true);
+    recordView(gem);
   };
 
   if (error) {
@@ -258,6 +293,8 @@ function MarketplaceContent() {
           </div>
 
           <div className="flex-1">
+            <RecentlyViewed onSelect={handleGemClick} />
+
             {/* Sort bar */}
             <div
               className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'} rounded-xl p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4`}
@@ -308,9 +345,7 @@ function MarketplaceContent() {
             </div>
 
             {isLoading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader className="w-12 h-12 animate-spin text-purple-500" />
-              </div>
+              <GemGridSkeleton count={6} />
             ) : filteredGems.length === 0 ? (
               <div className={`text-center py-16 rounded-xl ${isDarkMode ? 'bg-slate-800/50 text-gray-400' : 'bg-white text-gray-600 shadow-lg'}`}>
                 No gems match your filters yet.
@@ -324,10 +359,44 @@ function MarketplaceContent() {
                     className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg'} rounded-xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow duration-300`}
                   >
                     <div className="relative">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={gem.mainImage} alt={gem.name} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
-                      <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
-                        <Heart size={20} className="text-white" />
+                      <div className="relative h-48 overflow-hidden">
+                        <OptimizedImage
+                          src={gem.mainImage}
+                          alt={gem.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleWishlist(gem);
+                        }}
+                        aria-label={inWishlist(gem.id) ? 'Remove from wishlist' : 'Save to wishlist'}
+                        aria-pressed={inWishlist(gem.id)}
+                        className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors"
+                      >
+                        <Heart
+                          size={20}
+                          className={inWishlist(gem.id) ? 'text-red-500 fill-red-500' : 'text-white'}
+                        />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCompare(gem);
+                        }}
+                        disabled={!isComparing(gem.id) && !canAddMore}
+                        aria-label={isComparing(gem.id) ? 'Remove from comparison' : 'Add to comparison'}
+                        title={!isComparing(gem.id) && !canAddMore ? 'Compare up to 4 gems' : 'Compare'}
+                        className={`absolute bottom-4 left-4 p-2 rounded-full backdrop-blur-md transition-colors disabled:opacity-40 ${
+                          isComparing(gem.id)
+                            ? 'bg-purple-500 text-white'
+                            : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
+                      >
+                        <GitCompare size={18} />
                       </button>
                       {gem.discount ? (
                         <div className="absolute top-4 left-4 px-2 py-1 bg-purple-500 text-white text-sm rounded-full">
@@ -377,7 +446,13 @@ function MarketplaceContent() {
                         {gem.availability}
                       </div>
                       <div className="flex gap-2 mt-4">
-                        <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePurchase(gem);
+                          }}
+                          className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                        >
                           Purchase Now
                         </button>
                         <button
@@ -456,9 +531,15 @@ function MarketplaceContent() {
                           <button className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors">
                             Purchase Now
                           </button>
-                          <button className="px-4 py-2 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-500 hover:text-white transition-colors">
-                            View Details
-                          </button>
+                          {gem.slug ? (
+                            <Link
+                              href={`/gems/${gem.slug}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="px-4 py-2 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-500 hover:text-white transition-colors"
+                            >
+                              View Details
+                            </Link>
+                          ) : null}
                         </div>
                       </div>
                     </div>
@@ -491,6 +572,8 @@ function MarketplaceContent() {
       {selectedGem && (
         <GemDetailModal gem={selectedGem} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       )}
+
+      <CompareTray />
     </div>
   );
 }

@@ -118,7 +118,7 @@ logs
 *.sw?
 
 # Uploads
-uploads/
+/uploads/
 *.tmp
 
 # Database

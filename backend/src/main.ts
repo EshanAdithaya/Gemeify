@@ -3,6 +3,9 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { securityHeaders } from './common/middleware/security-headers.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,8 +16,14 @@ async function bootstrap() {
   console.log('🗄️  Database:', process.env.DB_DATABASE || 'gemify_multivendor');
   console.log('🔐 JWT Secret:', process.env.JWT_SECRET ? 'Configured' : 'Using Default');
 
-  // Add global logging interceptor
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  // Add global interceptors: request logging + response envelope normalisation
+  app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor());
+
+  // Consistent error contract across the whole API
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  // Baseline defensive HTTP headers on every response
+  app.use(securityHeaders);
 
   // Enable CORS for frontend communication
   const corsOrigins = [

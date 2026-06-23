@@ -3,20 +3,25 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Menu, X, Heart, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
+import { Search, Menu, X, Heart, ShoppingBag, Sun, Moon, User, Settings, LogOut, Package } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
+import { useWishlist } from '@/context/WishlistContext';
+import { useCart } from '@/context/CartContext';
 
 const NAV_LINKS = [
   { href: '/collections', label: 'Collections' },
   { href: '/auctions', label: 'Auctions' },
   { href: '/marketplace', label: 'Marketplace' },
+  { href: '/guides', label: 'Guides' },
   { href: '/about', label: 'About' },
 ];
 
 export default function Navbar() {
   const { isDarkMode, setIsDarkMode } = useTheme();
   const { user, logout } = useAuth();
+  const { count: wishlistCount } = useWishlist();
+  const { count: cartCount, setOpen: setCartOpen } = useCart();
   const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,8 +76,22 @@ export default function Navbar() {
               <Search size={20} />
             </button>
 
-            <button className={`p-2 ${linkClass}`} aria-label="Wishlist">
+            <Link href="/wishlist" className={`relative p-2 ${linkClass}`} aria-label="Wishlist">
               <Heart size={20} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-600 text-white text-[11px] font-medium flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
+
+            <button onClick={() => setCartOpen(true)} className={`relative p-2 ${linkClass}`} aria-label="Open cart">
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-600 text-white text-[11px] font-medium flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
             {user ? (
@@ -92,6 +111,26 @@ export default function Navbar() {
                     } ring-1 ring-black ring-opacity-5`}
                   >
                     <div className="py-1" role="menu">
+                      <Link
+                        href="/account/orders"
+                        className={`flex items-center px-4 py-2 text-sm ${
+                          isDarkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Package size={16} className="mr-2" />
+                        My Orders
+                      </Link>
+                      <Link
+                        href="/wishlist"
+                        className={`flex items-center px-4 py-2 text-sm ${
+                          isDarkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Heart size={16} className="mr-2" />
+                        Wishlist
+                      </Link>
                       <Link
                         href="/settings"
                         className={`flex items-center px-4 py-2 text-sm ${

@@ -54,7 +54,12 @@ export const gemsAPI = {
     return api.get(`/gems?${params}`);
   },
   getById: (id) => api.get(`/gems/${id}`),
-  search: (q) => api.get(`/gems/search?q=${encodeURIComponent(q)}`),
+  getBySlug: (slug) => api.get(`/gems/slug/${slug}`),
+  // Backend exposes search via the catalog query (?search=), not a sub-route.
+  search: (q, page = 1, limit = 12) => {
+    const params = new URLSearchParams({ page, limit, search: q });
+    return api.get(`/gems?${params}`);
+  },
 };
 
 // Categories API calls
@@ -86,8 +91,16 @@ export const wishlistAPI = {
 
 // Orders API calls
 export const ordersAPI = {
-  getMyOrders: (page = 1, limit = 10) => api.get(`/orders/my-orders?page=${page}&limit=${limit}`),
+  getMyOrders: (page = 1, limit = 10) => api.get(`/orders?page=${page}&limit=${limit}`),
+  getById: (id) => api.get(`/orders/${id}`),
   create: (orderData) => api.post('/orders', orderData),
+  cancel: (id) => api.patch(`/orders/${id}/cancel`),
+};
+
+// Reviews API calls
+export const reviewsAPI = {
+  getForGem: (gemId, page = 1, limit = 10) => api.get(`/reviews/gem/${gemId}?page=${page}&limit=${limit}`),
+  create: (reviewData) => api.post('/reviews', reviewData),
 };
 
 export default api;
