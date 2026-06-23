@@ -4,6 +4,7 @@ import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { CompareProvider } from '@/context/CompareContext';
 import { ToastProvider } from '@/context/ToastContext';
+import { WishlistProvider } from '@/context/WishlistContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Preloader from '@/components/Preloader';
@@ -36,9 +37,11 @@ export default function Providers({ children }) {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          <CompareProvider>
-            <Shell>{children}</Shell>
-          </CompareProvider>
+          <WishlistProvider>
+            <CompareProvider>
+              <Shell>{children}</Shell>
+            </CompareProvider>
+          </WishlistProvider>
         </ToastProvider>
       </AuthProvider>
     </ThemeProvider>

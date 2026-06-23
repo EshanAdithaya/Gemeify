@@ -7,6 +7,7 @@ import { gemsAPI } from '@/lib/api';
 import { useTheme } from '@/context/ThemeContext';
 import { useCompare } from '@/context/CompareContext';
 import { useToast } from '@/context/ToastContext';
+import { useWishlist } from '@/context/WishlistContext';
 import Protected from '@/components/Protected';
 import GemDetailModal from '@/components/GemDetailModal';
 import CompareTray from '@/components/CompareTray';
@@ -87,6 +88,7 @@ function MarketplaceContent() {
   const { isDarkMode } = useTheme();
   const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
   const { toast } = useToast();
+  const { has: inWishlist, toggle: toggleWishlist } = useWishlist();
 
   const handleCompare = (gem) => {
     const wasComparing = isComparing(gem.id);
@@ -354,8 +356,19 @@ function MarketplaceContent() {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <button className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
-                        <Heart size={20} className="text-white" />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleWishlist(gem);
+                        }}
+                        aria-label={inWishlist(gem.id) ? 'Remove from wishlist' : 'Save to wishlist'}
+                        aria-pressed={inWishlist(gem.id)}
+                        className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors"
+                      >
+                        <Heart
+                          size={20}
+                          className={inWishlist(gem.id) ? 'text-red-500 fill-red-500' : 'text-white'}
+                        />
                       </button>
                       <button
                         onClick={(e) => {

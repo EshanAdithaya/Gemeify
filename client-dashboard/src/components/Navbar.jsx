@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Search, Menu, X, Heart, Sun, Moon, User, Settings, LogOut } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
+import { useWishlist } from '@/context/WishlistContext';
 
 const NAV_LINKS = [
   { href: '/collections', label: 'Collections' },
@@ -18,6 +19,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const { isDarkMode, setIsDarkMode } = useTheme();
   const { user, logout } = useAuth();
+  const { count: wishlistCount } = useWishlist();
   const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -72,9 +74,14 @@ export default function Navbar() {
               <Search size={20} />
             </button>
 
-            <button className={`p-2 ${linkClass}`} aria-label="Wishlist">
+            <Link href="/wishlist" className={`relative p-2 ${linkClass}`} aria-label="Wishlist">
               <Heart size={20} />
-            </button>
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-600 text-white text-[11px] font-medium flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
 
             {user ? (
               <div className="relative">
