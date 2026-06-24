@@ -1,86 +1,239 @@
 'use client';
 
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import Link from 'next/link';
+import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 
-const SOCIAL_ICONS = [Facebook, Twitter, Instagram, Linkedin];
-const QUICK_LINKS = ['About Us', 'Collections', 'Auctions', 'Blog', 'Contact'];
-const SERVICE_LINKS = ['FAQ', 'Shipping Info', 'Returns', 'Track Order', 'Privacy Policy'];
+const COL_DISCOVER = [
+  { label: 'Collections',    href: '/collections'  },
+  { label: 'Live Auctions',  href: '/auctions'     },
+  { label: 'Marketplace',    href: '/marketplace'  },
+  { label: 'Investment Guides', href: '/guides'    },
+  { label: 'About Gemify',   href: '/about'        },
+];
+
+const COL_SERVICES = [
+  { label: 'Private Consultation', href: '/about' },
+  { label: 'Gem Authentication',   href: '/guides' },
+  { label: 'Portfolio Advisory',   href: '/about'  },
+  { label: 'Shipping & Insurance', href: '/about'  },
+  { label: 'Returns Policy',       href: '/about'  },
+];
+
+const CERTIFICATIONS = ['GIA', 'AGL', 'GRS', 'Gübelin', 'IGI'];
+
 const CONTACT = [
-  { Icon: Mail, text: 'contact@gemify.com' },
-  { Icon: Phone, text: '+1 (555) 123-4567' },
-  { Icon: MapPin, text: '123 Gem Street, NY 10001' },
+  { Icon: Mail,   text: 'private@gemify.com',        href: 'mailto:private@gemify.com' },
+  { Icon: Phone,  text: '+1 (800) GEMIFY-1',         href: 'tel:+18004364391'          },
+  { Icon: MapPin, text: 'Geneva · Dubai · Singapore', href: null                        },
 ];
 
 export default function Footer() {
   const { isDarkMode } = useTheme();
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
-  const muted = isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900';
-  const heading = isDarkMode ? 'text-gray-300' : 'text-gray-900';
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail('');
+    }
+  };
+
+  const dark = isDarkMode;
+
+  const bg     = dark ? 'bg-obsidian-950'       : 'bg-obsidian-900';
+  const border = dark ? 'border-gold-900/25'     : 'border-gold-800/20';
+  const muted  = dark ? 'text-pearl-500'         : 'text-pearl-400';
+  const body   = dark ? 'text-pearl-300'         : 'text-pearl-200';
+  const head   = dark ? 'text-pearl-100'         : 'text-pearl-50';
 
   return (
-    <footer
-      className={`${
-        isDarkMode ? 'bg-slate-900 text-gray-300' : 'bg-white text-gray-600 border-t'
-      } transition-colors duration-300`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
-              Gemify
+    <footer className={`${bg} border-t ${border}`}>
+      {/* Newsletter strip */}
+      <div className={`border-b ${border} py-10 px-6`}>
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <p className="section-label mb-1">Private Newsletter</p>
+            <h3 className={`font-display text-2xl md:text-3xl font-light italic ${head}`}
+              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              First access to rare acquisitions
             </h3>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-              Discover the world's finest collection of precious gems and jewelry.
+          </div>
+          {subscribed ? (
+            <p className="text-gold-500 text-sm font-semibold tracking-wider">
+              Thank you — you will be the first to know.
             </p>
-            <div className="flex space-x-4">
-              {SOCIAL_ICONS.map((Icon, index) => (
-                <Icon key={index} className={`w-5 h-5 cursor-pointer ${muted}`} />
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex w-full max-w-sm">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your private email"
+                className="flex-1 bg-obsidian-900 border border-gold-800/40 text-pearl-100 placeholder-pearl-600 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-600/70 rounded-l-sm"
+              />
+              <button
+                type="submit"
+                className="btn-gold rounded-l-none"
+                aria-label="Subscribe"
+              >
+                <ArrowRight size={16} />
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* Main columns */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          {/* Brand column */}
+          <div className="space-y-5">
+            <Link href="/" className="inline-flex items-center gap-3">
+              <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7 flex-shrink-0">
+                <polygon
+                  points="14,2 26,9 26,21 14,26 2,21 2,9"
+                  fill="none" stroke="url(#gFoot)" strokeWidth="1.5"
+                />
+                <polygon
+                  points="14,6 22,10.5 22,19.5 14,22 6,19.5 6,10.5"
+                  fill="url(#gFootFill)" opacity="0.25"
+                />
+                <defs>
+                  <linearGradient id="gFoot" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%"   stopColor="#C9A84C"/>
+                    <stop offset="100%" stopColor="#B8962E"/>
+                  </linearGradient>
+                  <linearGradient id="gFootFill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%"   stopColor="#D4AF37"/>
+                    <stop offset="100%" stopColor="#C9A84C"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="font-display text-xl tracking-widest-xl font-semibold text-gold-gradient"
+                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                GEMIFY
+              </span>
+            </Link>
+            <p className={`text-sm leading-relaxed ${muted}`}>
+              A curated vault of investment-grade certified gemstones, personally
+              selected by master gemologists. Trusted by collectors in Geneva,
+              Dubai, and Singapore.
+            </p>
+            <div className="flex gap-4">
+              {[Twitter, Instagram, Linkedin].map((Icon, i) => (
+                <a key={i} href="#" aria-label="Social link"
+                  className={`transition-colors ${muted} hover:text-gold-500`}>
+                  <Icon size={17} />
+                </a>
               ))}
             </div>
           </div>
 
+          {/* Discover */}
           <div>
-            <h4 className={`text-lg font-semibold mb-4 ${heading}`}>Quick Links</h4>
-            <ul className="space-y-2">
-              {QUICK_LINKS.map((link) => (
-                <li key={link}>
-                  <a className={`${muted} transition-colors cursor-pointer`}>{link}</a>
+            <h4 className="section-label mb-5">Discover</h4>
+            <ul className="space-y-3">
+              {COL_DISCOVER.map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href}
+                    className={`text-sm link-underline transition-colors ${body} hover:text-gold-400`}>
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Services */}
           <div>
-            <h4 className={`text-lg font-semibold mb-4 ${heading}`}>Customer Service</h4>
-            <ul className="space-y-2">
-              {SERVICE_LINKS.map((link) => (
-                <li key={link}>
-                  <a className={`${muted} transition-colors cursor-pointer`}>{link}</a>
+            <h4 className="section-label mb-5">Services</h4>
+            <ul className="space-y-3">
+              {COL_SERVICES.map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href}
+                    className={`text-sm link-underline transition-colors ${body} hover:text-gold-400`}>
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
-            <h4 className={`text-lg font-semibold mb-4 ${heading}`}>Contact Us</h4>
+            <h4 className="section-label mb-5">Private Desk</h4>
             <div className="space-y-4">
-              {CONTACT.map(({ Icon, text }, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <Icon className="w-5 h-5 text-purple-400" />
-                  <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>{text}</span>
-                </div>
-              ))}
+              {CONTACT.map(({ Icon, text, href }) =>
+                href ? (
+                  <a key={text} href={href}
+                    className={`flex items-start gap-3 text-sm transition-colors ${body} hover:text-gold-400`}>
+                    <Icon size={15} className="text-gold-600 mt-0.5 flex-shrink-0" />
+                    <span>{text}</span>
+                  </a>
+                ) : (
+                  <div key={text} className={`flex items-start gap-3 text-sm ${muted}`}>
+                    <Icon size={15} className="text-gold-600 mt-0.5 flex-shrink-0" />
+                    <span>{text}</span>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
 
-        <div className={`${isDarkMode ? 'border-gray-800' : 'border-gray-200'} border-t mt-12 pt-8 transition-colors`}>
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-              © 2024 Developed by Eshan Gunathilaka and team. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">Made with ❤️ by Eshan Gunathilaka</div>
+        {/* Certification badges */}
+        <div className={`mt-12 pt-8 border-t ${border}`}>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            <div>
+              <p className="section-label mb-3">Certified By</p>
+              <div className="flex flex-wrap gap-4">
+                {CERTIFICATIONS.map((cert) => (
+                  <span
+                    key={cert}
+                    className={`px-3 py-1 text-[11px] font-bold tracking-widest border rounded-sm ${
+                      dark
+                        ? 'border-gold-800/50 text-pearl-400'
+                        : 'border-gold-700/40 text-pearl-300'
+                    }`}
+                  >
+                    {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="text-right">
+              <p className={`text-[11px] font-semibold tracking-wider mb-1 ${muted}`}>
+                SECURE TRANSACTIONS
+              </p>
+              <div className="flex gap-2 items-center justify-end">
+                {['SSL', 'PCI DSS', '256-BIT'].map((b) => (
+                  <span key={b} className={`px-2 py-0.5 text-[10px] font-bold tracking-widest border rounded-sm ${
+                    dark ? 'border-obsidian-700 text-pearl-500' : 'border-obsidian-600 text-pearl-400'
+                  }`}>{b}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className={`mt-8 pt-6 border-t ${border} flex flex-col sm:flex-row justify-between items-center gap-3`}>
+          <p className={`text-xs ${muted}`}>
+            © {new Date().getFullYear()} Gemify. All rights reserved. Investment grade gemstones for discerning collectors.
+          </p>
+          <div className="flex gap-6">
+            {['Privacy Policy', 'Terms', 'Cookie Policy'].map((l) => (
+              <a key={l} href="#"
+                className={`text-xs transition-colors ${muted} hover:text-gold-500`}>
+                {l}
+              </a>
+            ))}
           </div>
         </div>
       </div>

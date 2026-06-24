@@ -1,16 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 
-// Lightweight email capture. Persists intent locally (no backend list yet) and
-// gives immediate feedback — a stepping stone toward a real ESP integration.
 export default function Newsletter() {
   const { toast } = useToast();
   const [email, setEmail] = useState('');
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy]   = useState(false);
+  const [done, setDone]   = useState(false);
 
   const submit = (e) => {
     e.preventDefault();
@@ -23,7 +21,7 @@ export default function Newsletter() {
       const list = JSON.parse(localStorage.getItem('gemify:newsletter') || '[]');
       if (!list.includes(email)) list.push(email);
       localStorage.setItem('gemify:newsletter', JSON.stringify(list));
-      toast('You’re subscribed — welcome to Gemify!', 'success');
+      setDone(true);
       setEmail('');
     } finally {
       setBusy(false);
@@ -31,23 +29,37 @@ export default function Newsletter() {
   };
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-brand-900 to-slate-900 p-8 text-center shadow-xl">
-      <Mail className="mx-auto mb-3 text-brand-300" size={32} />
-      <h3 className="text-2xl font-bold text-white">Gem insights, in your inbox</h3>
-      <p className="mt-2 text-slate-300">
-        Buying guides, new arrivals and auction alerts. No spam — unsubscribe anytime.
+    <div className="luxury-card p-8 md:p-10 text-center">
+      <p className="section-label mb-3">Private Intelligence</p>
+      <h3 className="font-display text-2xl md:text-3xl font-light text-pearl-100 mb-3"
+        style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+        Gem insights, in your inbox
+      </h3>
+      <p className="text-pearl-400 text-sm max-w-md mx-auto mb-7">
+        Buying guides, new arrivals, and private auction alerts.
+        No spam — unsubscribe anytime.
       </p>
-      <form onSubmit={submit} className="mt-5 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          aria-label="Email address"
-          className="flex-1 rounded-lg px-4 py-2 bg-slate-800/80 text-white placeholder-slate-400 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
-        />
-        <Button type="submit" loading={busy}>Subscribe</Button>
-      </form>
+
+      {done ? (
+        <div className="flex flex-col items-center gap-3">
+          <CheckCircle size={28} className="text-gold-500" />
+          <p className="text-gold-400 font-semibold tracking-wide">You are on the private list.</p>
+        </div>
+      ) : (
+        <form onSubmit={submit} className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            aria-label="Email address"
+            className="flex-1 bg-obsidian-900 border border-gold-800/40 text-pearl-100 placeholder-pearl-600 px-4 py-3 text-sm focus:outline-none focus:border-gold-600/60 rounded-l-sm"
+          />
+          <button type="submit" disabled={busy} className="btn-gold rounded-l-none disabled:opacity-50">
+            {busy ? '…' : (<>Subscribe <ArrowRight size={14} /></>)}
+          </button>
+        </form>
+      )}
     </div>
   );
 }
