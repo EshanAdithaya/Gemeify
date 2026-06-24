@@ -6,65 +6,82 @@ import JsonLd from '@/components/JsonLd';
 import Newsletter from '@/components/Newsletter';
 
 export const metadata = buildMetadata({
-  title: 'Gem Guides',
+  title: 'Gem Investment Guides',
   description:
-    'Expert gemstone buying guides and education — certificates, the 4 Cs, sapphire selection and ethical sourcing. Learn before you buy.',
+    'Expert gemstone buying guides for serious collectors and investors — certificates, the 4 Cs, sapphire selection, ruby valuation, diamond grading, and ethical sourcing. Written by FGA-certified gemologists.',
   path: '/guides',
-  keywords: ['gemstone guides', 'gem education', 'how to buy gemstones'],
+  keywords: [
+    'gemstone investment guide', 'how to buy certified sapphire', 'ruby investment tips',
+    'gem education', 'GIA certificate explained', 'diamond buying guide Europe',
+    'precious gem portfolio advice',
+  ],
 });
 
 const collectionLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Gem Guides',
+  name: 'Gemify Investment Guides',
   url: `${SITE.url}/guides`,
+  description: 'Expert gemstone buying guides for collectors and investors.',
   hasPart: GUIDES.map((g) => ({
     '@type': 'Article',
     headline: g.title,
     url: `${SITE.url}/guides/${g.slug}`,
+    author: { '@type': 'Organization', name: 'Gemify' },
   })),
 };
 
 export default function GuidesPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-obsidian-950 pt-28 pb-20 px-6 lg:px-8">
       <JsonLd data={collectionLd} />
       <div className="max-w-5xl mx-auto">
-        <header className="text-center mb-12 animate-fade-up">
-          <p className="text-brand-400 font-medium">Learn</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mt-2">Gem Guides</h1>
-          <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-            Everything you need to buy with confidence — written by people who grade stones for a living.
+
+        {/* Header */}
+        <header className="text-center mb-16 animate-fade-up">
+          <p className="section-label mb-3">Expert Knowledge</p>
+          <h1 className="font-display font-light text-pearl-50 mb-4"
+            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}>
+            Gem Investment Guides
+          </h1>
+          <p className="text-pearl-400 max-w-2xl mx-auto text-base leading-relaxed">
+            Everything you need to invest with confidence — written by FGA-certified gemologists
+            who grade stones professionally.
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {GUIDES.map((g) => (
+        {/* Guide cards */}
+        <div className="grid md:grid-cols-2 gap-5">
+          {GUIDES.map((g, idx) => (
             <Link
               key={g.slug}
               href={`/guides/${g.slug}`}
-              className="group block rounded-2xl bg-slate-800/50 hover:bg-slate-800 p-6 transition-colors"
+              className="luxury-card group flex flex-col p-7 animate-fade-up"
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
-              <span className="inline-block text-xs font-medium text-brand-300 bg-brand-500/10 rounded-full px-3 py-1">
+              <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 mb-4 self-start border border-gold-700/40 text-gold-500"
+                style={{ background: 'rgba(212,175,55,0.08)' }}>
                 {g.category}
               </span>
-              <h2 className="text-xl font-semibold text-white mt-3 group-hover:text-brand-300 transition-colors">
+              <h2 className="font-display text-xl font-medium text-pearl-100 mb-2 group-hover:text-gold-400 transition-colors"
+                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
                 {g.title}
               </h2>
-              <p className="text-slate-400 mt-2">{g.excerpt}</p>
-              <div className="flex items-center justify-between mt-4 text-sm text-slate-500">
-                <span className="flex items-center gap-1">
-                  <Clock size={14} /> {g.readingTime} min read
+              <p className="text-pearl-500 text-sm leading-relaxed flex-1 mb-5">{g.excerpt}</p>
+              <div className="flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1.5 text-pearl-500">
+                  <Clock size={12} /> {g.readingTime} min read
                 </span>
-                <span className="flex items-center gap-1 text-brand-400 group-hover:gap-2 transition-all">
-                  Read <ArrowRight size={14} />
+                <span className="flex items-center gap-1.5 text-gold-500 group-hover:text-gold-300 font-semibold tracking-wider uppercase transition-all">
+                  Read Guide <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-14">
+        {/* Newsletter */}
+        <div className="mt-16">
           <Newsletter />
         </div>
       </div>

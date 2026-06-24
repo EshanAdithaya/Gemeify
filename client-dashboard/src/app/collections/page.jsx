@@ -1,83 +1,139 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import { ArrowRight, Gem, ScanEye, Sparkles } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import Protected from '@/components/Protected';
-import animationData from '@/resources/animation.json';
-
-// lottie-react touches the DOM, so load it client-side only.
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 const FEATURES = [
-  { emoji: '✨', title: 'Curated Collections', text: 'Handpicked gems organized into themed collections' },
-  { emoji: '💎', title: 'Virtual Showcase', text: 'Interactive 3D views of our finest pieces' },
-  { emoji: '🎯', title: 'Personalized Recommendations', text: 'Tailored suggestions based on your preferences' },
+  {
+    Icon: Gem,
+    title: 'Curated Collections',
+    text: 'Handpicked investment-grade gems organised into themed collector sets.',
+  },
+  {
+    Icon: ScanEye,
+    title: 'Immersive Showcase',
+    text: 'High-resolution imagery and detailed certification data for every stone.',
+  },
+  {
+    Icon: Sparkles,
+    title: 'Personalised Curation',
+    text: 'Bespoke recommendations from our gemologists based on your portfolio goals.',
+  },
 ];
 
 function CollectionsContent() {
   const { isDarkMode } = useTheme();
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const dark    = isDarkMode;
+  const pageBg  = dark ? 'bg-obsidian-950' : 'bg-pearl-100';
+  const divider = dark ? 'border-gold-900/25' : 'border-gold-700/15';
+  const subText = dark ? 'text-pearl-400' : 'text-obsidian-500';
 
   return (
-    <div
-      className={`min-h-screen flex flex-col items-center justify-center ${
-        isDarkMode ? 'bg-gradient-to-br from-slate-900 to-slate-800' : 'bg-gradient-to-br from-gray-50 to-white'
-      }`}
-    >
-      <div className="max-w-4xl mx-auto px-4 py-12 pt-28 text-center">
-        <div className="w-[400px] max-w-full h-[400px] mx-auto mb-8">
-          <Lottie animationData={animationData} loop style={{ width: '100%', height: '100%' }} />
-        </div>
+    <div className={`min-h-screen ${pageBg} pt-32 pb-24 px-6 lg:px-8`}>
+      <div className="max-w-4xl mx-auto text-center">
 
-        <div className="space-y-6">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
-            Coming Soon
-          </h1>
-
-          <p className={`text-xl max-w-2xl mx-auto ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            We&apos;re crafting something special for you. Our collection feature will bring a whole new way to discover
-            and explore precious gems.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {FEATURES.map((feature) => (
-              <div
-                key={feature.title}
-                className={`p-6 rounded-xl ${
-                  isDarkMode ? 'bg-slate-800/50' : 'bg-white'
-                } shadow-lg transform hover:scale-105 transition-transform duration-300`}
-              >
-                <div className="text-purple-500 text-2xl mb-3">{feature.emoji}</div>
-                <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {feature.title}
-                </h3>
-                <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>{feature.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className={`mt-12 p-8 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-white'} shadow-lg max-w-xl mx-auto`}>
-            <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              Be the First to Know
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className={`flex-1 px-4 py-2 rounded-lg ${
-                  isDarkMode ? 'bg-slate-700 text-white placeholder-gray-400' : 'bg-gray-50 text-gray-900 placeholder-gray-500'
-                } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-              />
-              <button className="bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition-colors duration-300">
-                Notify Me
-              </button>
+        {/* Decorative gem mark */}
+        <div className="flex justify-center mb-10">
+          <div className="relative">
+            <div className="w-20 h-20 rounded-sm border border-gold-700/40 flex items-center justify-center animate-border-glow"
+              style={{ background: 'rgba(212,175,55,0.06)' }}>
+              <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10 animate-float">
+                <polygon points="20,3 37,12 37,28 20,37 3,28 3,12"
+                  fill="none" stroke="url(#gCol)" strokeWidth="1.5"/>
+                <polygon points="20,9 31,14.5 31,25.5 20,30 9,25.5 9,14.5"
+                  fill="url(#gColFill)" opacity="0.2"/>
+                <defs>
+                  <linearGradient id="gCol" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#C9A84C"/>
+                    <stop offset="100%" stopColor="#D4AF37"/>
+                  </linearGradient>
+                  <linearGradient id="gColFill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#D4AF37"/>
+                    <stop offset="100%" stopColor="#C9A84C"/>
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
           </div>
+        </div>
 
-          <div className="mt-12 flex items-center justify-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-purple-500 animate-bounce" />
-            <div className="h-2 w-2 rounded-full bg-purple-500 animate-bounce [animation-delay:0.1s]" />
-            <div className="h-2 w-2 rounded-full bg-purple-500 animate-bounce [animation-delay:0.2s]" />
-          </div>
+        <p className="section-label mb-4">Private Collections</p>
+        <h1 className={`font-display font-light leading-tight mb-6 ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
+          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>
+          Something Extraordinary
+          <br />
+          <span className="text-gold-gradient italic">Is Being Curated</span>
+        </h1>
+
+        <p className={`text-lg max-w-xl mx-auto mb-16 leading-relaxed ${subText}`}>
+          Our gemologists are assembling a world-class private collection experience.
+          Gain first access to rare specimens before they reach the open marketplace.
+        </p>
+
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
+          {FEATURES.map(({ Icon, title, text }, idx) => (
+            <div key={title}
+              className="luxury-card p-8 flex flex-col items-center text-center animate-fade-up"
+              style={{ animationDelay: `${idx * 0.1}s` }}>
+              <div className="w-11 h-11 rounded-sm border border-gold-700/40 flex items-center justify-center mb-5"
+                style={{ background: 'rgba(212,175,55,0.08)' }}>
+                <Icon size={20} className="text-gold-500" />
+              </div>
+              <h3 className={`font-display text-lg font-medium mb-2 ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
+                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                {title}
+              </h3>
+              <p className={`text-sm leading-relaxed ${subText}`}>{text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Notify form */}
+        <div className={`luxury-card p-10 max-w-lg mx-auto`}>
+          <h2 className={`font-display text-2xl font-light mb-2 ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
+            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            First Access
+          </h2>
+          <p className={`text-sm mb-6 ${subText}`}>Be notified the moment collections launch.</p>
+
+          {subscribed ? (
+            <p className="text-gold-500 font-semibold tracking-wide">
+              You are on the list. We will be in touch.
+            </p>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); if (email.trim()) setSubscribed(true); }}
+              className="flex gap-0">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your private email"
+                className={`flex-1 bg-transparent border px-4 py-2.5 text-sm focus:outline-none focus:border-gold-600/70 rounded-l-sm ${
+                  dark
+                    ? 'border-gold-800/40 text-pearl-100 placeholder-pearl-600'
+                    : 'border-gold-700/30 text-obsidian-800 placeholder-obsidian-400'
+                }`}
+              />
+              <button type="submit" className="btn-gold rounded-l-none">
+                Notify Me <ArrowRight size={14} />
+              </button>
+            </form>
+          )}
+        </div>
+
+        {/* Thin gold dots */}
+        <div className={`mt-14 pt-8 border-t ${divider} flex items-center justify-center gap-3`}>
+          {[0,1,2].map((i) => (
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-float"
+              style={{ animationDelay: `${i * 0.4}s`, opacity: 0.5 + i * 0.2 }} />
+          ))}
         </div>
       </div>
     </div>

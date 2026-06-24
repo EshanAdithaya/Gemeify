@@ -24,8 +24,8 @@ function Shell({ children }) {
     <div
       className={`min-h-screen ${
         isDarkMode
-          ? 'bg-gradient-to-br from-slate-900 to-slate-800'
-          : 'bg-gradient-to-br from-gray-50 to-white'
+          ? 'bg-obsidian-950'
+          : 'bg-pearl-100'
       }`}
     >
       <a
