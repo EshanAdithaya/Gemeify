@@ -3,22 +3,17 @@
 import { Loader2 } from 'lucide-react';
 
 const VARIANTS = {
-  primary:
-    'bg-brand-600 hover:bg-brand-700 text-white shadow-sm hover:shadow-glow',
-  secondary:
-    'bg-slate-700/60 hover:bg-slate-700 text-white',
-  outline:
-    'border border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white',
-  ghost:
-    'text-brand-500 hover:bg-brand-500/10',
-  danger:
-    'bg-red-500/90 hover:bg-red-600 text-white',
+  primary:   'btn-gold',
+  secondary: 'btn-outline-gold',
+  outline:   'btn-outline-gold',
+  ghost:     'text-gold-500 hover:text-gold-400 hover:bg-gold-500/8 px-3 py-2 rounded-sm transition-colors',
+  danger:    'bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold tracking-widest uppercase px-4 py-2 rounded-sm transition-colors',
 };
 
 const SIZES = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2',
-  lg: 'px-6 py-3 text-lg',
+  sm: 'text-[10px] py-1.5 px-3',
+  md: '',
+  lg: 'text-sm py-3.5 px-7',
 };
 
 export default function Button({
@@ -31,13 +26,16 @@ export default function Button({
   Icon,
   ...props
 }) {
+  const base = VARIANTS[variant] || VARIANTS.primary;
+  const sizeClass = SIZES[size] || '';
+
   return (
     <button
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/60 disabled:opacity-50 disabled:cursor-not-allowed ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${base} ${sizeClass} ${className}`}
       {...props}
     >
-      {loading ? <Loader2 size={18} className="animate-spin" /> : Icon ? <Icon size={18} /> : null}
+      {loading ? <Loader2 size={15} className="animate-spin" /> : Icon ? <Icon size={15} /> : null}
       {children}
     </button>
   );

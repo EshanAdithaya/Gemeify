@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 export default function Error({ error, reset }) {
   useEffect(() => {
@@ -9,15 +10,25 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 px-4">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-white">Something went wrong</h1>
-        <p className="mt-2 text-slate-400">An unexpected error occurred. Please try again.</p>
+    <main className="min-h-screen flex items-center justify-center bg-obsidian-950 px-6">
+      <div className="text-center max-w-sm">
+        <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center border border-gold-900/30 rounded-sm"
+          style={{ background: 'rgba(212,175,55,0.06)' }}>
+          <AlertTriangle size={24} className="text-gold-600" />
+        </div>
+        <p className="section-label mb-2">Unexpected Error</p>
+        <h1 className="font-display text-3xl font-light text-pearl-100 mb-3"
+          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+          Something Went Wrong
+        </h1>
+        <p className="text-pearl-500 text-sm mb-8 leading-relaxed">
+          An unexpected error occurred. Our team has been notified. Please try again.
+        </p>
         <button
           onClick={() => reset()}
-          className="inline-block mt-6 rounded-lg bg-brand-600 hover:bg-brand-700 px-6 py-3 text-white font-medium transition-colors"
+          className="btn-gold inline-flex items-center gap-2"
         >
-          Try again
+          <RefreshCw size={14} /> Try Again
         </button>
       </div>
     </main>
