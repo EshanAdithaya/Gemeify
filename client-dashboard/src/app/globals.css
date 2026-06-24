@@ -164,6 +164,45 @@ body {
   width: 100%;
 }
 
+/* ── Line clamp (supplement Tailwind's built-in for older compat) ─────── */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* ── Light-mode luxury card (for pages with isDarkMode branching) ──────── */
+.luxury-card-light {
+  background: rgba(250, 249, 246, 0.97);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.luxury-card-light:hover {
+  border-color: rgba(212, 175, 55, 0.40);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.10), 0 0 0 1px rgba(212,175,55,0.20);
+}
+
+/* ── Pulse dot (reusable for live indicators) ─────────────────────────── */
+@keyframes ping-gold {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+.ping-gold { animation: ping-gold 1.4s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* ── Fade-up entrance ─────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.5s ease both; }
+
 /* ── Reduced motion ───────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

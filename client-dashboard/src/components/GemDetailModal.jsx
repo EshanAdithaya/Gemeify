@@ -1,183 +1,212 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Heart, Star, Shield, PackageCheck, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { useTheme } from '@/context/ThemeContext';
+import { X, Heart, Star, Shield, ChevronLeft, ChevronRight, ShoppingBag, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
+import { useToast } from '@/context/ToastContext';
+import OptimizedImage from '@/components/OptimizedImage';
 
 export default function GemDetailModal({ gem, isOpen, onClose }) {
-  const { isDarkMode } = useTheme();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
+  const { addItem }          = useCart();
+  const { wishlist, toggle } = useWishlist();
+  const { toast }            = useToast();
+  const [imgIdx, setImgIdx]  = useState(0);
+  const [adding, setAdding]  = useState(false);
 
-  const allImages = [gem.mainImage, ...(gem.additionalImages || [])].filter(Boolean);
+  const allImages = [gem.mainImage, ...(gem.additionalImages || gem.images || [])].filter(Boolean);
+  const inWishlist = wishlist.includes(gem.id);
+  const price = Number(gem.price || 0);
+  const available = gem.status === 'approved' && (gem.quantity ?? 1) > 0;
 
-  const nextImage = () => setSelectedImageIndex((prev) => (prev + 1) % allImages.length);
-  const prevImage = () => setSelectedImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  const next = () => setImgIdx((i) => (i + 1) % allImages.length);
+  const prev = () => setImgIdx((i) => (i - 1 + allImages.length) % allImages.length);
+
+  const handleAdd = async () => {
+    setAdding(true);
+    try {
+      addItem({ id: gem.id, name: gem.name, price, mainImage: allImages[0], maxQuantity: gem.quantity });
+      toast('Added to cart', 'success');
+    } finally {
+      setAdding(false);
+    }
+  };
 
   if (!isOpen) return null;
 
-  const details = [
-    { label: 'Weight', value: `${gem.weight} ct` },
-    { label: 'Cut', value: gem.cut },
-    { label: 'Color', value: gem.color },
-    { label: 'Clarity', value: gem.clarity },
-    { label: 'Origin', value: gem.origin },
-    { label: 'Treatment', value: gem.treatment },
+  const specs = [
+    ['Weight',  gem.weight  ? `${gem.weight} ct` : '—'],
+    ['Cut',     gem.cut     || '—'],
+    ['Colour',  gem.color   || '—'],
+    ['Clarity', gem.clarity || '—'],
+    ['Origin',  gem.origin  || '—'],
+    ['Treatment', gem.treatment || '—'],
   ];
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-black/70" onClick={onClose} />
+    <div className="fixed inset-0 z-[80] overflow-y-auto">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-obsidian-950/85 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className={`relative w-full max-w-6xl ${isDarkMode ? 'bg-slate-800' : 'bg-white'} rounded-2xl shadow-xl overflow-hidden`}>
+        <div className="relative w-full max-w-5xl luxury-card overflow-hidden shadow-luxury">
+
+          {/* Close */}
           <button
             onClick={onClose}
-            className={`absolute top-4 right-4 z-10 p-2 rounded-full ${
-              isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-            }`}
+            aria-label="Close"
+            className="absolute top-4 right-4 z-20 p-2 border border-gold-900/30 text-pearl-500 hover:text-gold-400 hover:border-gold-700/50 transition-colors rounded-sm"
+            style={{ background: 'rgba(14,12,11,0.8)' }}
           >
-            <X className="w-6 h-6" />
+            <X size={16} />
           </button>
 
           <div className="flex flex-col lg:flex-row">
-            {/* Image Section */}
-            <div className="lg:w-1/2 relative">
-              <div
-                className={`relative ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
-                onClick={() => setIsZoomed(!isZoomed)}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={allImages[selectedImageIndex]}
+            {/* ── Image column ── */}
+            <div className="lg:w-1/2 relative bg-obsidian-900">
+              <div className="relative h-[320px] lg:h-[520px]">
+                <OptimizedImage
+                  src={allImages[imgIdx] || null}
                   alt={gem.name}
-                  className={`w-full h-[400px] lg:h-[600px] ${isZoomed ? 'object-cover' : 'object-contain'}`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
                 />
-                {!isZoomed && (
-                  <div className="absolute bottom-4 right-4 p-2 bg-black/50 rounded-lg text-white text-sm flex items-center">
-                    <ZoomIn className="w-4 h-4 mr-1" />
-                    Click to zoom
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/40 to-transparent" />
+
+                {/* Certification watermark */}
+                {gem.certificationLab && (
+                  <div className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-widest uppercase border border-gold-500/40 text-gold-400"
+                    style={{ background: 'rgba(14,12,11,0.75)', backdropFilter: 'blur(8px)' }}>
+                    {gem.certificationLab} Certified
                   </div>
                 )}
+
+                {/* Image nav */}
+                {allImages.length > 1 && (
+                  <>
+                    <button onClick={prev}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 border border-gold-900/40 text-pearl-300 hover:text-gold-400 transition-colors rounded-sm"
+                      style={{ background: 'rgba(14,12,11,0.7)' }}>
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button onClick={next}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 border border-gold-900/40 text-pearl-300 hover:text-gold-400 transition-colors rounded-sm"
+                      style={{ background: 'rgba(14,12,11,0.7)' }}>
+                      <ChevronRight size={16} />
+                    </button>
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                      {allImages.map((_, i) => (
+                        <button key={i} onClick={() => setImgIdx(i)}
+                          className={`w-1.5 h-1.5 rounded-full transition-colors ${i === imgIdx ? 'bg-gold-500' : 'bg-pearl-700'}`} />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-
-              {allImages.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50 rounded-lg">
-                    {allImages.map((img, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setSelectedImageIndex(idx)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                          idx === selectedImageIndex ? 'bg-white' : 'bg-white/50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
             </div>
 
-            {/* Details Section */}
-            <div className="lg:w-1/2 p-6 lg:p-8">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-4">
-                  <span className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-medium">
-                    {gem.category}
-                  </span>
-                  {gem.discount ? (
-                    <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm font-medium">
-                      {gem.discount}% OFF
-                    </span>
-                  ) : null}
-                </div>
-                <button className="p-2 rounded-full bg-purple-50 text-purple-600 hover:bg-purple-100">
-                  <Heart className="w-6 h-6" />
+            {/* ── Details column ── */}
+            <div className="lg:w-1/2 p-6 lg:p-8 overflow-y-auto max-h-[520px]">
+              {/* Category + wishlist */}
+              <div className="flex items-start justify-between mb-3">
+                {gem.category?.name && (
+                  <p className="section-label">{gem.category.name}</p>
+                )}
+                <button
+                  onClick={() => toggle(gem)}
+                  aria-label={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
+                  className={`p-1.5 border rounded-sm transition-colors flex-shrink-0 ml-3 ${
+                    inWishlist
+                      ? 'border-gold-700/50 text-gold-400'
+                      : 'border-gold-900/30 text-pearl-600 hover:text-gold-400 hover:border-gold-700/40'
+                  }`}
+                >
+                  <Heart size={15} className={inWishlist ? 'fill-gold-500/50' : ''} />
                 </button>
               </div>
 
-              <h2 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{gem.name}</h2>
+              <h2 className="font-display text-3xl font-light text-pearl-50 mb-2"
+                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                {gem.name}
+              </h2>
 
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center">
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className={`ml-1 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {gem.rating || '4.8'}
-                  </span>
+              {/* Rating */}
+              {gem.rating && (
+                <div className="flex items-center gap-1.5 mb-4">
+                  {[1,2,3,4,5].map((n) => (
+                    <Star key={n} size={12}
+                      className={n <= Math.round(gem.rating) ? 'text-gold-500 fill-gold-500' : 'text-pearl-700'} />
+                  ))}
+                  <span className="text-xs text-pearl-500 ml-1">{Number(gem.rating).toFixed(1)}</span>
                 </div>
-                <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>•</span>
-                <div className="flex items-center">
-                  <Shield className="w-5 h-5 text-blue-500" />
-                  <span className={`ml-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {gem.certification} Certified
-                  </span>
-                </div>
+              )}
+
+              {/* Price */}
+              <p className="font-display text-3xl font-semibold text-gold-gradient mb-1"
+                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                ${price.toLocaleString()}
+              </p>
+              <p className={`text-[10px] font-bold tracking-widest uppercase mb-5 ${available ? 'text-emerald-400' : 'text-amber-500'}`}>
+                {available ? '● Available' : '○ Unavailable'}
+              </p>
+
+              {/* Specs */}
+              <div className="grid grid-cols-2 gap-2 mb-5">
+                {specs.map(([l, v]) => (
+                  <div key={l}>
+                    <p className="text-[9px] font-bold tracking-wider uppercase text-pearl-600 mb-0.5">{l}</p>
+                    <p className="text-sm text-pearl-100">{v}</p>
+                  </div>
+                ))}
               </div>
 
-              <div className="space-y-6">
-                <div>
-                  <div className={`text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    ${Number(gem.price || 0).toLocaleString()}
-                  </div>
-                  {gem.discount ? (
-                    <div className="text-lg text-gray-500 line-through">
-                      ${Math.round(Number(gem.price) * (1 + gem.discount / 100)).toLocaleString()}
-                    </div>
-                  ) : null}
+              {/* Certification */}
+              {gem.certificationLab && (
+                <div className="flex items-center gap-2 mb-5 px-3 py-2 border border-gold-900/20 rounded-sm"
+                  style={{ background: 'rgba(212,175,55,0.04)' }}>
+                  <Shield size={13} className="text-gold-600 flex-shrink-0" />
+                  <p className="text-xs text-pearl-300">{gem.certificationLab} Certified{gem.certificationNumber ? ` · #${gem.certificationNumber}` : ''}</p>
                 </div>
+              )}
 
-                <div className="grid grid-cols-2 gap-6">
-                  {details.map(({ label, value }) => (
-                    <div key={label}>
-                      <dt className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{label}</dt>
-                      <dd className={`mt-1 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {value || '—'}
-                      </dd>
-                    </div>
-                  ))}
-                </div>
+              {/* Description */}
+              {gem.description && (
+                <p className="text-sm text-pearl-400 leading-relaxed mb-5 line-clamp-3">{gem.description}</p>
+              )}
 
-                {gem.description && (
-                  <div>
-                    <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                      Description
-                    </h3>
-                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{gem.description}</p>
-                  </div>
+              {/* CTAs */}
+              <div className="space-y-2">
+                <button
+                  onClick={handleAdd}
+                  disabled={!available || adding}
+                  className="btn-gold w-full py-3 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ShoppingBag size={14} />
+                  {available ? 'Add to Cart' : 'Unavailable'}
+                </button>
+                {gem.slug && (
+                  <Link href={`/gems/${gem.slug}`} onClick={onClose}
+                    className="btn-outline-gold w-full py-2.5 flex items-center justify-center gap-2 text-xs">
+                    Full Details <ArrowRight size={12} />
+                  </Link>
                 )}
+              </div>
 
-                <div className="flex items-center gap-6 py-4">
-                  <div className="flex items-center">
-                    <Shield className="w-5 h-5 text-green-500 mr-2" />
-                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Authenticity Guaranteed</span>
+              {/* Trust */}
+              <div className="flex gap-4 mt-5 pt-4 border-t border-gold-900/15">
+                {['Insured Shipping', 'Authenticity Guaranteed'].map((t) => (
+                  <div key={t} className="flex items-center gap-1.5">
+                    <Shield size={11} className="text-gold-700 flex-shrink-0" />
+                    <span className="text-[10px] text-pearl-600">{t}</span>
                   </div>
-                  <div className="flex items-center">
-                    <PackageCheck className="w-5 h-5 text-blue-500 mr-2" />
-                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Free Shipping</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <button className="flex-1 bg-purple-500 text-white py-3 rounded-lg hover:bg-purple-600 transition-colors font-medium">
-                    Purchase Now
-                  </button>
-                  <button className="px-6 py-3 border border-purple-500 text-purple-500 rounded-lg hover:bg-purple-50 transition-colors font-medium">
-                    Add to Cart
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
           </div>
