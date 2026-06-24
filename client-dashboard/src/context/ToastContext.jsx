@@ -7,14 +7,14 @@ const ToastContext = createContext(null);
 
 const ICONS = {
   success: CheckCircle2,
-  error: AlertCircle,
-  info: Info,
+  error:   AlertCircle,
+  info:    Info,
 };
 
 const ACCENTS = {
   success: 'border-emerald-500/40 text-emerald-300',
-  error: 'border-red-500/40 text-red-300',
-  info: 'border-brand-500/40 text-brand-300',
+  error:   'border-red-500/40 text-red-300',
+  info:    'border-gold-700/40 text-gold-400',
 };
 
 let idCounter = 0;
@@ -27,7 +27,7 @@ export function ToastProvider({ children }) {
   }, []);
 
   const toast = useCallback(
-    (message, type = 'success', duration = 3000) => {
+    (message, type = 'success', duration = 3200) => {
       const id = ++idCounter;
       setToasts((prev) => [...prev, { id, message, type }]);
       if (duration) setTimeout(() => dismiss(id), duration);
@@ -39,19 +39,28 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ toast, dismiss }}>
       {children}
-      <div className="fixed top-20 right-4 z-[100] flex flex-col gap-2 w-80 max-w-[calc(100vw-2rem)]">
+      <div className="fixed top-24 right-4 z-[100] flex flex-col gap-2 w-80 max-w-[calc(100vw-2rem)]">
         {toasts.map((t) => {
           const Icon = ICONS[t.type] || Info;
           return (
             <div
               key={t.id}
               role="status"
-              className={`animate-toast-in flex items-start gap-3 rounded-xl border bg-slate-900/95 backdrop-blur px-4 py-3 shadow-2xl ${ACCENTS[t.type] || ACCENTS.info}`}
+              className={`flex items-start gap-3 border px-4 py-3 shadow-luxury rounded-sm ${ACCENTS[t.type] || ACCENTS.info}`}
+              style={{
+                background: 'rgba(14,12,11,0.96)',
+                backdropFilter: 'blur(12px)',
+                animation: 'fade-up 0.25s ease both',
+              }}
             >
-              <Icon size={18} className="mt-0.5 shrink-0" />
-              <p className="flex-1 text-sm text-white">{t.message}</p>
-              <button onClick={() => dismiss(t.id)} aria-label="Dismiss" className="text-slate-400 hover:text-white">
-                <X size={16} />
+              <Icon size={16} className="mt-0.5 shrink-0" />
+              <p className="flex-1 text-sm text-pearl-200">{t.message}</p>
+              <button
+                onClick={() => dismiss(t.id)}
+                aria-label="Dismiss"
+                className="text-pearl-600 hover:text-pearl-300 transition-colors"
+              >
+                <X size={14} />
               </button>
             </div>
           );

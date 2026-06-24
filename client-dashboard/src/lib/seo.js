@@ -2,13 +2,13 @@
 // Next.js Metadata objects with sensible Open Graph / Twitter defaults.
 
 export const SITE = {
-  name: 'Gemify',
-  tagline: 'Investment-Grade Certified Gemstones',
+  name: 'Gemeify',
+  tagline: 'The Private Gemstone Investment House',
   description:
-    'Gemify is the premier marketplace for investment-grade certified gemstones — Kashmir sapphires, Burma rubies, Colombian emeralds, and fancy diamonds — personally vetted by master gemologists and trusted by private collectors in Europe, the Middle East, and Asia.',
-  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://gemify.com').replace(/\/$/, ''),
+    'Gemeify is the private marketplace for investment-grade certified gemstones — Kashmir sapphires, Burma rubies, Colombian emeralds, and Argyle pink diamonds — personally vetted by master gemologists and trusted by private collectors in London, Geneva, Dubai, and Singapore.',
+  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://gemeify.com').replace(/\/$/, ''),
   locale: 'en_US',
-  twitter: '@gemify',
+  twitter: '@gemeify',
   ogImage: '/og-default.svg',
   themeColor: '#D4AF37',
 };
