@@ -80,10 +80,7 @@ export default function CheckoutPage() {
             <Lock size={22} className="text-gold-600" />
           </div>
           <p className="section-label mb-1">Private Access Required</p>
-          <h1 className="font-display text-2xl font-light text-pearl-50 mb-3"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-            Sign In to Continue
-          </h1>
+          <h1 className="text-2xl font-bold text-pearl-50 mb-3">Sign In to Continue</h1>
           <p className="text-sm text-pearl-500 mb-6">You need an account to acquire gems.</p>
           <Link href="/login" className="btn-gold inline-flex items-center gap-2">
             Sign In <ArrowRight size={14} />
@@ -100,15 +97,12 @@ export default function CheckoutPage() {
         <div className="luxury-card p-12 text-center max-w-md mx-auto">
           <CheckCircle2 size={44} className="text-emerald-400 mx-auto mb-5" />
           <p className="section-label mb-1">Order Confirmed</p>
-          <h1 className="font-display text-3xl font-light text-pearl-50 mb-3"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-            Thank You
-          </h1>
+          <h1 className="text-3xl font-bold text-pearl-50 mb-3">Thank You</h1>
           <p className="text-sm text-pearl-400 mb-2">Your acquisition has been recorded.</p>
           <p className="font-mono text-sm text-gold-500 mb-7">{confirmation.orderNumber}</p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/account/orders" className="btn-gold">View Orders</Link>
-            <Link href="/marketplace" className="btn-outline-gold">Browse More</Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/account/orders" className="btn-gold w-full sm:w-auto justify-center">View Orders</Link>
+            <Link href="/marketplace" className="btn-outline-gold w-full sm:w-auto justify-center">Browse More</Link>
           </div>
         </div>
       </Shell>
@@ -121,10 +115,7 @@ export default function CheckoutPage() {
       <Shell>
         <div className="luxury-card p-12 text-center max-w-md mx-auto">
           <ShoppingBag size={32} className="text-gold-700 mx-auto mb-4" />
-          <p className="font-display text-xl font-light text-pearl-50 mb-3"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-            Your Cart is Empty
-          </p>
+          <p className="text-xl font-bold text-pearl-50 mb-3">Your Cart is Empty</p>
           <Link href="/marketplace" className="btn-gold inline-flex items-center gap-2">
             Browse the Collection <ArrowRight size={14} />
           </Link>
@@ -138,10 +129,7 @@ export default function CheckoutPage() {
     <Shell>
       <header className="mb-10">
         <p className="section-label mb-1">Secure Acquisition</p>
-        <h1 className="font-display text-4xl font-light text-pearl-50"
-          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-          Checkout
-        </h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-pearl-50">Checkout</h1>
       </header>
 
       <div className="grid lg:grid-cols-3 gap-8">
@@ -238,10 +226,7 @@ export default function CheckoutPage() {
             </div>
             <div className="border-t border-gold-900/20 pt-4 flex justify-between items-baseline">
               <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-600">Total</p>
-              <p className="font-display text-2xl font-semibold text-gold-gradient"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                ${subtotal.toLocaleString()}
-              </p>
+              <p className="text-2xl font-bold text-gold-gradient">${subtotal.toLocaleString()}</p>
             </div>
           </div>
 

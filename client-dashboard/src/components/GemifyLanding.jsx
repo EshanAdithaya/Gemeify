@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Shield, Star, CheckCircle, Eye, TrendingUp, Award, Users } from 'lucide-react';
-import { useTheme } from '@/context/ThemeContext';
+import { ArrowRight, Shield, CheckCircle, Eye, TrendingUp, Award, Users, Star } from 'lucide-react';
 
 /* ─── Static content ────────────────────────────────────────────────────── */
 
@@ -20,7 +19,6 @@ const FEATURED_GEMS = [
     description: '3.82 ct · Ceylon · No Heat',
     price: '148,000',
     currency: 'USD',
-    quality: 'AAA',
     certification: 'GIA',
     origin: 'Sri Lanka',
     image: 'https://cdn.shopify.com/s/files/1/0080/0004/5171/products/BS01HMDB_4b2042f1-421e-4024-b814-6bc73855a9c5_350x@2x.jpg?v=1625054014',
@@ -33,7 +31,6 @@ const FEATURED_GEMS = [
     description: '1.84 ct · Fancy Vivid Pink · VS1',
     price: '342,000',
     currency: 'USD',
-    quality: 'Vivid',
     certification: 'GIA',
     origin: 'Australia',
     image: 'https://media.cnn.com/api/v1/images/stellar/prod/230328171155-01-eternal-pink-diamond.jpg?c=original',
@@ -46,7 +43,6 @@ const FEATURED_GEMS = [
     description: '4.15 ct · Muzo Mine · Minor Oil',
     price: '96,500',
     currency: 'USD',
-    quality: 'AAA',
     certification: 'GRS',
     origin: 'Colombia',
     image: 'https://jrcolombianemeralds.com/cdn/shop/files/IMG_4559.jpg?v=1712765173&width=2570',
@@ -56,62 +52,22 @@ const FEATURED_GEMS = [
 ];
 
 const CATEGORIES = [
-  {
-    name: 'Blue Sapphires',
-    sub: 'Kashmir · Ceylon · Burma',
-    image: 'https://www.gemsinsrilanka.com/wp-content/uploads/2021/01/Blue-sapphire-sri-lanka.jpg',
-    count: '1,463',
-    href: '/marketplace',
-  },
-  {
-    name: 'Rubies',
-    sub: 'Burmese · Mozambique',
-    image: 'https://www.latelita.com/cdn/shop/articles/the-ruby-gemstone-everything-you-ever-needed-to-know-about-rubies-748231.jpg?v=1692710601&width=2048',
-    count: '1,826',
-    href: '/marketplace',
-  },
-  {
-    name: 'Diamonds',
-    sub: 'Fancy Color · D-IF',
-    image: 'https://5.imimg.com/data5/SELLER/Default/2024/2/382845659/WJ/BP/SL/211079491/diamonds-for-sale.jpg',
-    count: '2,534',
-    href: '/marketplace',
-  },
-  {
-    name: 'Emeralds',
-    sub: 'Colombian · Zambian',
-    image: 'https://www.astrosawal.com/assets/gemstone/Emrald_gemstone.jpg',
-    count: '982',
-    href: '/marketplace',
-  },
+  { name: 'Blue Sapphires', sub: 'Kashmir · Ceylon · Burma',    image: 'https://www.gemsinsrilanka.com/wp-content/uploads/2021/01/Blue-sapphire-sri-lanka.jpg',         count: '1,463', href: '/marketplace' },
+  { name: 'Rubies',         sub: 'Burmese · Mozambique',         image: 'https://www.latelita.com/cdn/shop/articles/the-ruby-gemstone-everything-you-ever-needed-to-know-about-rubies-748231.jpg?v=1692710601&width=2048', count: '1,826', href: '/marketplace' },
+  { name: 'Diamonds',       sub: 'Fancy Color · D-IF',           image: 'https://5.imimg.com/data5/SELLER/Default/2024/2/382845659/WJ/BP/SL/211079491/diamonds-for-sale.jpg',                                           count: '2,534', href: '/marketplace' },
+  { name: 'Emeralds',       sub: 'Colombian · Zambian',          image: 'https://www.astrosawal.com/assets/gemstone/Emrald_gemstone.jpg',                                                                                  count: '982',   href: '/marketplace' },
 ];
 
 const TRUST_FEATURES = [
-  {
-    Icon: Shield,
-    title: 'Certified Authentic',
-    desc: 'Every gem accompanied by independent certification from GIA, GRS, AGL or Gübelin.',
-  },
-  {
-    Icon: TrendingUp,
-    title: 'Investment Grade Only',
-    desc: 'Our gemologists curate exclusively top-tier specimens with documented provenance.',
-  },
-  {
-    Icon: Award,
-    title: 'Expert Vetted',
-    desc: 'Each stone personally inspected by our FGA-certified master gemologist team.',
-  },
-  {
-    Icon: Users,
-    title: 'Private Concierge',
-    desc: 'Dedicated relationship manager for acquisitions above $50,000 USD.',
-  },
+  { Icon: Shield,    title: 'Certified Authentic',    desc: 'Every gem accompanied by independent certification from GIA, GRS, AGL or Gübelin.' },
+  { Icon: TrendingUp, title: 'Investment Grade Only', desc: 'Our gemologists curate exclusively top-tier specimens with documented provenance.' },
+  { Icon: Award,     title: 'Expert Vetted',          desc: 'Each stone personally inspected by our FGA-certified master gemologist team.' },
+  { Icon: Users,     title: 'Private Concierge',      desc: 'Dedicated relationship manager for acquisitions above $50,000 USD.' },
 ];
 
 const TESTIMONIALS = [
   {
-    text: 'Gemify sourced a 6-carat unheated Burma ruby that completed my portfolio perfectly. The certification and provenance documentation were flawless.',
+    text: 'Gemeify sourced a 6-carat unheated Burma ruby that completed my portfolio perfectly. The certification and provenance documentation were flawless.',
     name: 'H.E. Sultan Al-Mansoori',
     title: 'Private Collector, Abu Dhabi',
     initials: 'SA',
@@ -136,109 +92,82 @@ const INVESTMENT_POINTS = [
   { Icon: Eye,        title: 'Market Uncorrelated',  text: 'Alternative investment class uncorrelated with equity and bond market cycles.' },
 ];
 
+const TRUST_TAGS = ['GIA Certified', 'AML Compliant', 'Fully Insured', 'Free Global Shipping'];
+
 /* ─── Component ─────────────────────────────────────────────────────────── */
 
 export default function GemifyLanding() {
-  const { isDarkMode } = useTheme();
-
-  const dark    = isDarkMode;
-  const pageBg  = dark ? 'bg-obsidian-950 text-pearl-100' : 'bg-pearl-100 text-obsidian-900';
-  const cardBg  = dark ? 'bg-obsidian-900 border-gold-900/30' : 'bg-white border-gold-700/15';
-  const subText = dark ? 'text-pearl-400' : 'text-obsidian-500';
-  const divider = dark ? 'border-gold-900/25' : 'border-gold-700/15';
-
   return (
-    <div className={`min-h-screen ${pageBg} transition-colors duration-300`}>
+    <div className="min-h-screen bg-obsidian-950 text-pearl-100">
 
-      {/* ── Hero ────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-        {/* Background */}
-        <div className={`absolute inset-0 ${dark ? 'bg-luxury-hero' : 'bg-pearl-200'}`} />
-        <div className="absolute inset-0">
-          {/* Decorative gold orbs */}
-          <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl opacity-[0.04]"
-            style={{ background: 'radial-gradient(circle, #D4AF37, transparent)' }} />
-          <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.03]"
-            style={{ background: 'radial-gradient(circle, #C9A84C, transparent)' }} />
-        </div>
+      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+        {/* Gold ambient glow — hidden on mobile to save paint cost */}
+        <div className="absolute inset-0 bg-luxury-hero" />
+        <div className="hidden sm:block absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.04]"
+          style={{ background: 'radial-gradient(circle, #D4AF37, transparent)' }} />
 
-        {/* Thin gold vertical line accent */}
-        <div className="absolute top-0 left-1/2 w-px h-32 opacity-30"
+        {/* Thin top accent line */}
+        <div className="absolute top-0 left-1/2 w-px h-24 opacity-25"
           style={{ background: 'linear-gradient(to bottom, transparent, #D4AF37)' }} />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24">
-          <div className="max-w-4xl">
-            {/* Label */}
-            <p className="section-label mb-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              Investment-Grade · GIA Certified · Private Collection
-            </p>
+        <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-36 lg:pb-24">
+          {/* Section label */}
+          <p className="section-label mb-6 animate-fade-up">
+            Investment-Grade · GIA Certified · Private Collection
+          </p>
 
-            {/* Headline */}
-            <h1 className={`font-display font-light leading-tight mb-8 animate-fade-up ${
-              dark ? 'text-pearl-50' : 'text-obsidian-950'
-            }`}
-              style={{
-                fontFamily: 'var(--font-cormorant, Georgia, serif)',
-                fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
-                animationDelay: '0.2s',
-              }}
-            >
-              The World&apos;s Finest
-              <br />
-              <span className="text-gold-gradient font-medium italic">
-                Investment Gemstones
+          {/* Headline — bold Inter, mobile-first sizing */}
+          <h1 className="font-bold leading-[1.08] mb-6 text-pearl-50 animate-fade-up"
+            style={{ animationDelay: '0.1s', fontSize: 'clamp(2.2rem, 8vw, 5.5rem)' }}>
+            The World&apos;s Finest
+            <br />
+            <span className="text-gold-gradient">Investment Gemstones</span>
+            <br />
+            <span className="text-pearl-400 font-bold"
+              style={{ fontSize: 'clamp(1.3rem, 4vw, 3rem)' }}>
+              For the Discerning Few
+            </span>
+          </h1>
+
+          {/* Sub-copy */}
+          <p className="text-base sm:text-lg text-pearl-400 max-w-xl leading-relaxed mb-8 animate-fade-up"
+            style={{ animationDelay: '0.2s' }}>
+            Curated sapphires, rubies, emeralds, and diamonds — each personally
+            selected and certified by our master gemologists. Trusted by private
+            collectors in Geneva, Dubai, London, and Singapore.
+          </p>
+
+          {/* CTAs — stacked full-width on mobile, side-by-side on sm+ */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <Link href="/collections" className="btn-gold w-full sm:w-auto justify-center py-4 sm:py-3">
+              Explore Collection
+              <ArrowRight size={16} />
+            </Link>
+            <Link href="/about" className="btn-outline-gold w-full sm:w-auto justify-center py-4 sm:py-3">
+              Private Consultation
+            </Link>
+          </div>
+
+          {/* Trust micro-line — wraps naturally on mobile */}
+          <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 animate-fade-up" style={{ animationDelay: '0.4s' }}>
+            {TRUST_TAGS.map((t) => (
+              <span key={t} className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-pearl-500">
+                <CheckCircle size={11} className="text-gold-500 flex-shrink-0" />
+                {t}
               </span>
-              <br />
-              <span className={`font-light ${dark ? 'text-pearl-300' : 'text-obsidian-600'}`}
-                style={{ fontSize: 'clamp(1.8rem, 4vw, 3.2rem)' }}>
-                For the Discerning Few
-              </span>
-            </h1>
-
-            {/* Sub */}
-            <p className={`text-lg max-w-xl leading-relaxed mb-10 animate-fade-up ${subText}`}
-              style={{ animationDelay: '0.35s' }}>
-              Curated sapphires, rubies, emeralds, and diamonds — each personally
-              selected and certified by our master gemologists. Trusted by private
-              collectors in Geneva, Dubai, London, and Singapore.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: '0.5s' }}>
-              <Link href="/collections" className="btn-gold">
-                Explore Collection
-                <ArrowRight size={16} />
-              </Link>
-              <Link href="/about" className="btn-outline-gold">
-                Private Consultation
-              </Link>
-            </div>
-
-            {/* Trust micro-line */}
-            <div className={`mt-10 flex flex-wrap items-center gap-6 text-[11px] font-semibold tracking-widest uppercase animate-fade-up ${subText}`}
-              style={{ animationDelay: '0.65s' }}>
-              {['GIA Certified', 'AML Compliant', 'Fully Insured', 'Free Global Shipping'].map((t, i) => (
-                <span key={t} className="flex items-center gap-2">
-                  {i > 0 && <span className="text-gold-700">·</span>}
-                  <CheckCircle size={12} className="text-gold-500" />
-                  {t}
-                </span>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div className={`relative border-t ${divider} py-8`}>
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {HERO_STATS.map(({ value, label }, i) => (
-                <div key={label} className="text-center animate-count-up" style={{ animationDelay: `${0.7 + i * 0.1}s` }}>
-                  <p className="font-display text-2xl md:text-3xl font-semibold text-gold-gradient"
-                    style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                    {value}
-                  </p>
-                  <p className={`text-[11px] font-semibold tracking-widest uppercase mt-1 ${subText}`}>{label}</p>
+        {/* Stats bar — 2 columns on mobile, 4 on md */}
+        <div className="relative border-t border-gold-900/25 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+              {HERO_STATS.map(({ value, label }) => (
+                <div key={label} className="text-center py-2">
+                  <p className="text-2xl sm:text-3xl font-bold text-gold-gradient">{value}</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-pearl-500 mt-1">{label}</p>
                 </div>
               ))}
             </div>
@@ -246,78 +175,66 @@ export default function GemifyLanding() {
         </div>
       </section>
 
-      {/* ── Featured Gems ────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-8">
+      {/* ── Featured Gems ─────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+          <div className="flex items-end justify-between mb-10 lg:mb-14">
             <div>
-              <p className="section-label mb-3">Featured Acquisitions</p>
-              <h2 className={`font-display font-light leading-tight ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-                Exceptional Gems, Exceptional Value
+              <p className="section-label mb-2">Featured Acquisitions</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight">
+                Exceptional Gems
               </h2>
             </div>
             <Link href="/marketplace"
-              className={`flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase transition-colors text-gold-500 hover:text-gold-300`}>
-              View All <ArrowRight size={14} />
+              className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-gold-500 hover:text-gold-300 transition-colors flex-shrink-0 ml-4">
+              View All <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {FEATURED_GEMS.map((gem, idx) => (
+          {/* Mobile: horizontal scroll strip; md+: 3-column grid */}
+          <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:overflow-visible snap-x snap-mandatory sm:snap-none">
+            {FEATURED_GEMS.map((gem) => (
               <Link key={gem.id} href="/marketplace"
-                className={`luxury-card group overflow-hidden flex flex-col animate-fade-up`}
-                style={{ animationDelay: `${idx * 0.15}s` }}>
+                className="luxury-card group overflow-hidden flex flex-col flex-none w-[78vw] sm:w-auto snap-start">
                 <div className="relative overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={gem.image}
                     alt={gem.name}
-                    className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent" />
-                  {/* Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-obsidian-950 rounded-sm">
+                  <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-obsidian-950 rounded-sm">
                     {gem.badge}
                   </span>
-                  {/* Cert */}
-                  <span className={`absolute top-4 right-4 px-2 py-1 text-[10px] font-bold tracking-wider border rounded-sm ${
-                    dark ? 'border-gold-700/60 text-gold-400 bg-obsidian-900/70 backdrop-blur-sm'
-                         : 'border-gold-600/60 text-gold-600 bg-white/80 backdrop-blur-sm'
-                  }`}>
+                  <span className="absolute top-3 right-3 px-2 py-1 text-[10px] font-bold tracking-wider border border-gold-700/60 text-gold-400 bg-obsidian-900/70 backdrop-blur-sm rounded-sm">
                     {gem.certification}
                   </span>
-                  <div className="absolute bottom-4 left-4">
-                    <p className={`text-[10px] font-semibold tracking-widest uppercase text-pearl-400`}>{gem.origin}</p>
-                  </div>
+                  <p className="absolute bottom-3 left-3 text-[10px] font-bold tracking-widest uppercase text-pearl-400">
+                    {gem.origin}
+                  </p>
                 </div>
 
-                <div className="flex-1 p-6 flex flex-col">
-                  <h3 className={`font-display text-xl font-medium mb-1 ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
-                    style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                    {gem.name}
-                  </h3>
-                  <p className={`text-sm mb-4 ${subText}`}>{gem.description}</p>
+                <div className="flex-1 p-4 sm:p-6 flex flex-col">
+                  <h3 className="text-base sm:text-lg font-bold text-pearl-100 mb-1 leading-snug">{gem.name}</h3>
+                  <p className="text-xs text-pearl-500 mb-3">{gem.description}</p>
 
-                  <div className="space-y-1.5 mb-5">
+                  <div className="space-y-1 mb-4">
                     {gem.highlights.map((h) => (
                       <div key={h} className="flex items-center gap-2">
-                        <CheckCircle size={13} className="text-gold-500 flex-shrink-0" />
-                        <span className={`text-xs ${subText}`}>{h}</span>
+                        <CheckCircle size={12} className="text-gold-500 flex-shrink-0" />
+                        <span className="text-xs text-pearl-500">{h}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className={`mt-auto pt-4 border-t ${divider} flex items-end justify-between`}>
+                  <div className="mt-auto pt-3 border-t border-gold-900/25 flex items-end justify-between">
                     <div>
-                      <p className={`text-[10px] font-semibold tracking-widest uppercase mb-0.5 ${subText}`}>Acquisition Price</p>
-                      <p className="font-display text-2xl font-semibold text-gold-gradient"
-                        style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                        ${gem.price}
-                      </p>
+                      <p className="text-[9px] font-bold tracking-widest uppercase text-pearl-600 mb-0.5">Price</p>
+                      <p className="text-xl font-bold text-gold-gradient">${gem.price}</p>
                     </div>
-                    <span className={`flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase transition-colors text-gold-500 group-hover:text-gold-300`}>
-                      Acquire <ArrowRight size={13} />
+                    <span className="flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-gold-500 group-hover:text-gold-300 transition-colors">
+                      Acquire <ArrowRight size={12} />
                     </span>
                   </div>
                 </div>
@@ -327,38 +244,32 @@ export default function GemifyLanding() {
         </div>
       </section>
 
-      {/* ── Categories ───────────────────────────────────────────────────── */}
-      <section className={`py-24 px-6 lg:px-8 border-y ${divider} ${dark ? 'bg-obsidian-900/40' : 'bg-pearl-200/50'}`}>
+      {/* ── Categories ────────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-gold-900/25 bg-obsidian-900/40">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <p className="section-label mb-3">Browse By Stone</p>
-            <h2 className={`font-display font-light ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-              Investment Categories
-            </h2>
+          <div className="mb-10 lg:mb-14">
+            <p className="section-label mb-2">Browse By Stone</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Investment Categories</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {CATEGORIES.map((cat, idx) => (
+          {/* 2 columns on mobile, 4 on lg */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {CATEGORIES.map((cat) => (
               <Link key={cat.name} href={cat.href}
-                className="group relative overflow-hidden rounded-sm h-80 cursor-pointer animate-fade-up"
-                style={{ animationDelay: `${idx * 0.1}s` }}>
+                className="group relative overflow-hidden rounded-sm cursor-pointer h-44 sm:h-64 lg:h-80">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={cat.image}
                   alt={cat.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent opacity-80 group-hover:opacity-70 transition-opacity" />
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <p className="section-label mb-1">{cat.count} stones</p>
-                  <h3 className={`font-display text-xl font-medium text-pearl-50 mb-0.5`}
-                    style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                    {cat.name}
-                  </h3>
-                  <p className="text-xs text-pearl-400 mb-3">{cat.sub}</p>
-                  <span className="flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-gold-400 group-hover:text-gold-300 transition-colors">
-                    Explore <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent opacity-80" />
+                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5">
+                  <p className="section-label mb-0.5">{cat.count} stones</p>
+                  <h3 className="text-sm sm:text-lg font-bold text-pearl-50 leading-tight mb-0.5">{cat.name}</h3>
+                  <p className="text-[10px] sm:text-xs text-pearl-400 mb-2 hidden sm:block">{cat.sub}</p>
+                  <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gold-400 group-hover:text-gold-300 transition-colors">
+                    Explore <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
@@ -367,149 +278,134 @@ export default function GemifyLanding() {
         </div>
       </section>
 
-      {/* ── Trust Features ───────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-8">
+      {/* ── Trust Features ────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="section-label mb-3">Our Promise</p>
-            <h2 className={`font-display font-light ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-              The Gemify Standard
-            </h2>
+          <div className="text-center mb-10 lg:mb-14">
+            <p className="section-label mb-2">Our Promise</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">The Gemeify Standard</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TRUST_FEATURES.map(({ Icon, title, desc }, idx) => (
-              <div key={title}
-                className={`luxury-card p-8 flex flex-col items-center text-center animate-fade-up`}
-                style={{ animationDelay: `${idx * 0.1}s` }}>
-                <div className="w-12 h-12 rounded-sm border border-gold-700/40 flex items-center justify-center mb-5"
+
+          {/* 1 col mobile → 2 col sm → 4 col lg */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {TRUST_FEATURES.map(({ Icon, title, desc }) => (
+              <div key={title} className="luxury-card p-6 sm:p-8 flex flex-col items-center text-center">
+                <div className="w-11 h-11 rounded-sm border border-gold-700/40 flex items-center justify-center mb-4"
                   style={{ background: 'rgba(212,175,55,0.08)' }}>
                   <Icon size={20} className="text-gold-500" />
                 </div>
-                <h3 className={`font-display text-lg font-medium mb-3 ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
-                  style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                  {title}
-                </h3>
-                <p className={`text-sm leading-relaxed ${subText}`}>{desc}</p>
+                <h3 className="text-sm sm:text-base font-bold text-pearl-100 mb-2">{title}</h3>
+                <p className="text-xs sm:text-sm text-pearl-500 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Expert Section ───────────────────────────────────────────────── */}
-      <section className={`py-24 px-6 lg:px-8 border-y ${divider} ${dark ? 'bg-obsidian-900/40' : 'bg-pearl-200/50'}`}>
+      {/* ── Expert Section ────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-gold-900/25 bg-obsidian-900/40">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Stack on mobile, side-by-side on lg */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
-              <p className="section-label mb-5">Expert Guidance</p>
-              <h2 className={`font-display font-light leading-tight mb-6 ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-                Your Personal
-                <br />
-                <span className="text-gold-gradient italic">Investment Advisor</span>
+              <p className="section-label mb-4">Expert Guidance</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight mb-5">
+                Your Personal<br />
+                <span className="text-gold-gradient">Investment Advisor</span>
               </h2>
-              <p className={`text-base leading-relaxed mb-8 ${subText}`}>
+              <p className="text-sm sm:text-base text-pearl-400 leading-relaxed mb-7">
                 Our team of FGA-certified gemologists brings decades of market
                 expertise. We provide detailed stone analysis, investment-potential
                 assessments, and personalised acquisition strategies — treating
                 every collection with the discretion of a Swiss private bank.
               </p>
-              <ul className="space-y-4 mb-10">
+              <ul className="space-y-4 mb-8">
                 {[
                   ['Certified Authentication', 'Every stone independently certified by leading gemological labs.'],
                   ['Provenance Documentation', 'Chain of custody and origin reports for significant acquisitions.'],
-                  ['Portfolio Strategy',       'Bespoke advice on gem allocation within your wider investment portfolio.'],
+                  ['Portfolio Strategy', 'Bespoke advice on gem allocation within your wider investment portfolio.'],
                 ].map(([title, desc]) => (
-                  <li key={title} className="flex gap-4">
-                    <CheckCircle size={18} className="text-gold-500 mt-0.5 flex-shrink-0" />
+                  <li key={title} className="flex gap-3">
+                    <CheckCircle size={16} className="text-gold-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className={`text-sm font-semibold mb-0.5 ${dark ? 'text-pearl-200' : 'text-obsidian-800'}`}>{title}</p>
-                      <p className={`text-sm ${subText}`}>{desc}</p>
+                      <p className="text-sm font-bold text-pearl-200 mb-0.5">{title}</p>
+                      <p className="text-xs sm:text-sm text-pearl-500">{desc}</p>
                     </div>
                   </li>
                 ))}
               </ul>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/about" className="btn-gold">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/about" className="btn-gold w-full sm:w-auto justify-center py-4 sm:py-3">
                   Meet Our Experts <ArrowRight size={15} />
                 </Link>
-                <Link href="/about" className="btn-outline-gold">
+                <Link href="/about" className="btn-outline-gold w-full sm:w-auto justify-center py-4 sm:py-3">
                   Schedule Consultation
                 </Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+
+            {/* Images — side by side on mobile, staggered on lg */}
+            <div className="grid grid-cols-2 gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://atouchofbusiness.com/wp-content/uploads/2024/01/Jeweler-Evaluating-Semi-Precious-Gemstone-in-Workshop.png"
                 alt="Expert gemologist examining a precious gemstone"
-                className="rounded-sm w-full h-64 object-cover"
+                className="rounded-sm w-full h-40 sm:h-56 lg:h-64 object-cover"
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://www.thenaturalsapphirecompany.com/education/wp-content/uploads/2010/11/PA213_GIA_certificate_natural_unheated_padparadscha_sapphire.jpg"
                 alt="GIA gem certification document"
-                className="rounded-sm w-full h-64 object-cover mt-8"
+                className="rounded-sm w-full h-40 sm:h-56 lg:h-64 object-cover lg:mt-8"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Why Invest ───────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-8">
+      {/* ── Why Invest ────────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="section-label mb-3">Investment Case</p>
-            <h2 className={`font-display font-light ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-              Why Precious Gems?
-            </h2>
+          <div className="text-center mb-10 lg:mb-14">
+            <p className="section-label mb-2">Investment Case</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Why Precious Gems?</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {INVESTMENT_POINTS.map(({ Icon, title, text }, idx) => (
-              <div key={title}
-                className={`luxury-card p-8 animate-fade-up`}
-                style={{ animationDelay: `${idx * 0.12}s` }}>
-                <div className="flex items-center gap-4 mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            {INVESTMENT_POINTS.map(({ Icon, title, text }) => (
+              <div key={title} className="luxury-card p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-sm border border-gold-700/40 flex items-center justify-center flex-shrink-0"
                     style={{ background: 'rgba(212,175,55,0.08)' }}>
                     <Icon size={18} className="text-gold-500" />
                   </div>
-                  <h3 className={`font-display text-xl font-medium ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
-                    style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                    {title}
-                  </h3>
+                  <h3 className="text-sm sm:text-base font-bold text-pearl-100">{title}</h3>
                 </div>
-                <p className={`text-sm leading-relaxed ${subText}`}>{text}</p>
+                <p className="text-xs sm:text-sm text-pearl-500 leading-relaxed">{text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Testimonials ─────────────────────────────────────────────────── */}
-      <section className={`py-24 px-6 lg:px-8 border-t ${divider} ${dark ? 'bg-obsidian-900/40' : 'bg-pearl-200/50'}`}>
+      {/* ── Testimonials ──────────────────────────────────────────────────── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-t border-gold-900/25 bg-obsidian-900/40">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="section-label mb-3">Client Voices</p>
-            <h2 className={`font-display font-light ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-              Trusted by Collectors Worldwide
-            </h2>
+          <div className="text-center mb-10 lg:mb-14">
+            <p className="section-label mb-2">Client Voices</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Trusted by Collectors Worldwide</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t, idx) => (
+
+          {/* Mobile: horizontal scroll; sm+: grid */}
+          <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 sm:overflow-visible snap-x snap-mandatory sm:snap-none">
+            {TESTIMONIALS.map((t) => (
               <div key={t.name}
-                className={`luxury-card p-8 flex flex-col animate-fade-up`}
-                style={{ animationDelay: `${idx * 0.15}s` }}>
-                <div className="flex mb-4">
+                className="luxury-card p-5 sm:p-8 flex flex-col flex-none w-[84vw] sm:w-auto snap-start">
+                <div className="flex gap-0.5 mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={13} className="text-gold-500 fill-gold-500" />
+                    <Star key={i} size={12} className="text-gold-500 fill-gold-500" />
                   ))}
                 </div>
-                <p className={`text-sm leading-relaxed italic mb-6 flex-1 ${subText}`}>
+                <p className="text-xs sm:text-sm text-pearl-400 leading-relaxed italic mb-5 flex-1">
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-3">
@@ -518,8 +414,8 @@ export default function GemifyLanding() {
                     {t.initials}
                   </div>
                   <div>
-                    <p className={`text-sm font-semibold ${dark ? 'text-pearl-200' : 'text-obsidian-800'}`}>{t.name}</p>
-                    <p className={`text-xs ${subText}`}>{t.title}</p>
+                    <p className="text-xs sm:text-sm font-bold text-pearl-200">{t.name}</p>
+                    <p className="text-[10px] sm:text-xs text-pearl-500">{t.title}</p>
                   </div>
                 </div>
               </div>
@@ -528,32 +424,29 @@ export default function GemifyLanding() {
         </div>
       </section>
 
-      {/* ── Final CTA ────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-8 text-center relative overflow-hidden">
+      {/* ── Final CTA ─────────────────────────────────────────────────────── */}
+      <section className="py-24 lg:py-32 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-luxury-hero" />
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-3xl opacity-[0.06]"
-            style={{ background: 'radial-gradient(ellipse, #D4AF37, transparent)' }} />
-        </div>
+        <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-3xl opacity-[0.06]"
+          style={{ background: 'radial-gradient(ellipse, #D4AF37, transparent)' }} />
         <div className="relative max-w-2xl mx-auto">
-          <p className="section-label mb-5">Ready to Begin?</p>
-          <h2 className="font-display font-light text-pearl-50 leading-tight mb-6"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+          <p className="section-label mb-4">Ready to Begin?</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pearl-50 leading-tight mb-5">
             Access the Private Collection
           </h2>
-          <p className="text-pearl-400 mb-10 text-base leading-relaxed">
+          <p className="text-sm sm:text-base text-pearl-400 mb-8 leading-relaxed">
             Join an exclusive community of serious gem investors and collectors.
             First access to extraordinary stones before public listing.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/signup" className="btn-gold">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+            <Link href="/signup" className="btn-gold w-full sm:w-auto justify-center py-4 sm:py-3">
               Create Private Account <ArrowRight size={16} />
             </Link>
-            <Link href="/marketplace" className="btn-outline-gold">
+            <Link href="/marketplace" className="btn-outline-gold w-full sm:w-auto justify-center py-4 sm:py-3">
               Browse Collection
             </Link>
           </div>
-          <p className="mt-6 text-[11px] tracking-widest uppercase text-pearl-600">
+          <p className="mt-6 text-[10px] tracking-widest uppercase text-pearl-600">
             No subscription fees · Cancel anytime · 100% Satisfaction Guarantee
           </p>
         </div>

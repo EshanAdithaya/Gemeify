@@ -1,13 +1,11 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import {
   Search, SlidersHorizontal, X, Heart, Star,
-  ChevronDown, Shield, Eye, GitCompare, ArrowRight,
+  ChevronDown, Shield, Eye, GitCompare,
 } from 'lucide-react';
 import { gemsAPI } from '@/lib/api';
-import { useTheme } from '@/context/ThemeContext';
 import { useCompare } from '@/context/CompareContext';
 import { useToast } from '@/context/ToastContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -57,50 +55,57 @@ function normalizeGem(g) {
   };
 }
 
-function FilterSection({ title, options, selected, onChange, dark }) {
-  const divider = dark ? 'border-gold-900/25' : 'border-gold-700/15';
-  const subText = dark ? 'text-pearl-400' : 'text-obsidian-500';
-  const head    = dark ? 'text-pearl-100' : 'text-obsidian-900';
-
+function CheckboxRow({ option, selected, onChange }) {
+  const on = selected.includes(option);
   return (
-    <div className={`py-4 border-b ${divider}`}>
-      <h3 className={`text-[10px] font-bold tracking-widest uppercase mb-3 ${subText}`}>{title}</h3>
-      <div className="space-y-2">
-        {options.map((option) => (
-          <label key={option}
-            className={`flex items-center gap-2.5 cursor-pointer text-sm transition-colors group ${
-              selected.includes(option) ? 'text-gold-400' : `${subText} hover:text-gold-400`
-            }`}>
-            <span className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${
-              selected.includes(option)
-                ? 'border-gold-500 bg-gold-500'
-                : dark ? 'border-pearl-600' : 'border-obsidian-400'
-            }`}>
-              {selected.includes(option) && (
-                <svg viewBox="0 0 10 8" fill="none" className="w-2.5 h-2">
-                  <path d="M1 4l3 3 5-6" stroke="#0A0908" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
-            </span>
-            <input type="checkbox"
-              checked={selected.includes(option)}
-              onChange={() => onChange(
-                selected.includes(option)
-                  ? selected.filter((i) => i !== option)
-                  : [...selected, option]
-              )}
-              className="sr-only"
-            />
-            <span>{option}</span>
-          </label>
-        ))}
+    <label className={`flex items-center gap-3 cursor-pointer text-sm transition-colors py-1 ${on ? 'text-gold-400' : 'text-pearl-500 hover:text-gold-400'}`}>
+      <span className={`w-4 h-4 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${on ? 'border-gold-500 bg-gold-500' : 'border-pearl-600'}`}>
+        {on && (
+          <svg viewBox="0 0 10 8" fill="none" className="w-2.5 h-2">
+            <path d="M1 4l3 3 5-6" stroke="#0A0908" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+      </span>
+      <input type="checkbox" checked={on} onChange={() => onChange(on ? selected.filter((i) => i !== option) : [...selected, option])} className="sr-only" />
+      <span>{option}</span>
+    </label>
+  );
+}
+
+function FilterSection({ title, options, selected, onChange }) {
+  return (
+    <div className="py-4 border-b border-gold-900/25">
+      <h3 className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-3">{title}</h3>
+      <div className="space-y-0.5">
+        {options.map((o) => <CheckboxRow key={o} option={o} selected={selected} onChange={onChange} />)}
       </div>
     </div>
   );
 }
 
+function FilterSidebar({ priceRange, setPriceRange, selectedCategories, setSelectedCategories, selectedCertifications, setSelectedCertifications, selectedCuts, setSelectedCuts, selectedClarity, setSelectedClarity, selectedTreatments, setSelectedTreatments }) {
+  return (
+    <div className="space-y-0">
+      <div className="pb-4 border-b border-gold-900/25">
+        <h3 className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-4">Investment Value</h3>
+        <input type="range" min="0" max="50000" step="1000" value={priceRange[1]}
+          onChange={(e) => setPriceRange([0, parseInt(e.target.value, 10)])}
+          className="w-full accent-gold-500" />
+        <div className="flex justify-between mt-2 text-xs font-bold">
+          <span className="text-pearl-500">${priceRange[0].toLocaleString()}</span>
+          <span className="text-gold-500">${priceRange[1].toLocaleString()}</span>
+        </div>
+      </div>
+      <FilterSection title="Stone Type"    options={FILTERS.categories}    selected={selectedCategories}    onChange={setSelectedCategories} />
+      <FilterSection title="Certification" options={FILTERS.certification}  selected={selectedCertifications} onChange={setSelectedCertifications} />
+      <FilterSection title="Cut"           options={FILTERS.cut}           selected={selectedCuts}           onChange={setSelectedCuts} />
+      <FilterSection title="Clarity"       options={FILTERS.clarity}       selected={selectedClarity}        onChange={setSelectedClarity} />
+      <FilterSection title="Treatment"     options={FILTERS.treatment}     selected={selectedTreatments}     onChange={setSelectedTreatments} />
+    </div>
+  );
+}
+
 function MarketplaceContent() {
-  const { isDarkMode } = useTheme();
   const { toggleCompare, isComparing, canAddMore, recordView } = useCompare();
   const { toast } = useToast();
   const { has: inWishlist, toggle: toggleWishlist } = useWishlist();
@@ -115,12 +120,12 @@ function MarketplaceContent() {
   const [selectedGem, setSelectedGem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [priceRange, setPriceRange]               = useState([0, 50000]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedCertifications, setSelectedCertifications] = useState([]);
-  const [selectedCuts, setSelectedCuts]             = useState([]);
-  const [selectedClarity, setSelectedClarity]       = useState([]);
-  const [selectedTreatments, setSelectedTreatments] = useState([]);
+  const [priceRange, setPriceRange]                             = useState([0, 50000]);
+  const [selectedCategories, setSelectedCategories]             = useState([]);
+  const [selectedCertifications, setSelectedCertifications]     = useState([]);
+  const [selectedCuts, setSelectedCuts]                         = useState([]);
+  const [selectedClarity, setSelectedClarity]                   = useState([]);
+  const [selectedTreatments, setSelectedTreatments]             = useState([]);
 
   useEffect(() => {
     const fetchGems = async () => {
@@ -139,17 +144,19 @@ function MarketplaceContent() {
     fetchGems();
   }, []);
 
+  useEffect(() => {
+    if (filterOpen) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
+  }, [filterOpen]);
+
   const filteredGems = useMemo(() => {
     let f = [...gems];
     if (searchTerm) {
       const t = searchTerm.toLowerCase();
-      f = f.filter((g) =>
-        g.name?.toLowerCase().includes(t) ||
-        g.category?.toLowerCase().includes(t) ||
-        g.description?.toLowerCase().includes(t)
-      );
+      f = f.filter((g) => g.name?.toLowerCase().includes(t) || g.category?.toLowerCase().includes(t) || g.description?.toLowerCase().includes(t));
     }
-    if (selectedCategories.length)    f = f.filter((g) => selectedCategories.includes(g.category));
+    if (selectedCategories.length)     f = f.filter((g) => selectedCategories.includes(g.category));
     f = f.filter((g) => g.price >= priceRange[0] && g.price <= priceRange[1]);
     if (selectedCertifications.length) f = f.filter((g) => selectedCertifications.includes(g.certification));
     if (selectedCuts.length)           f = f.filter((g) => selectedCuts.includes(g.cut));
@@ -165,11 +172,7 @@ function MarketplaceContent() {
     return f;
   }, [gems, searchTerm, selectedSort, priceRange, selectedCategories, selectedCertifications, selectedCuts, selectedClarity, selectedTreatments]);
 
-  const handleGemClick = (gem) => {
-    setSelectedGem(gem);
-    setIsModalOpen(true);
-    recordView(gem);
-  };
+  const handleGemClick = (gem) => { setSelectedGem(gem); setIsModalOpen(true); recordView(gem); };
 
   const handlePurchase = (e, gem) => {
     e.stopPropagation();
@@ -187,102 +190,71 @@ function MarketplaceContent() {
     toast(was ? `Removed ${gem.name} from comparison` : `Added ${gem.name} to comparison`, 'success');
   };
 
-  const dark    = isDarkMode;
-  const subText = dark ? 'text-pearl-400' : 'text-obsidian-500';
-  const divider = dark ? 'border-gold-900/25' : 'border-gold-700/15';
-  const pageBg  = dark ? 'bg-obsidian-950' : 'bg-pearl-100';
+  const filterProps = { priceRange, setPriceRange, selectedCategories, setSelectedCategories, selectedCertifications, setSelectedCertifications, selectedCuts, setSelectedCuts, selectedClarity, setSelectedClarity, selectedTreatments, setSelectedTreatments };
 
   if (error) {
     return (
-      <div className={`min-h-screen ${pageBg} pt-32 flex items-center justify-center px-6`}>
-        <div className="luxury-card p-10 text-center max-w-sm">
-          <p className={`text-sm mb-4 ${subText}`}>{error}</p>
-          <button onClick={() => window.location.reload()} className="btn-gold">Retry</button>
+      <div className="min-h-screen bg-obsidian-950 pt-32 flex items-center justify-center px-4">
+        <div className="luxury-card p-8 sm:p-10 text-center max-w-sm w-full">
+          <p className="text-sm text-pearl-400 mb-4">{error}</p>
+          <button onClick={() => window.location.reload()} className="btn-gold w-full">Retry</button>
         </div>
       </div>
     );
   }
 
-  const sidebar = (
-    <aside className="space-y-0">
-      <div className={`pb-4 border-b ${divider}`}>
-        <h3 className={`text-[10px] font-bold tracking-widest uppercase mb-4 ${subText}`}>Investment Value</h3>
-        <input
-          type="range" min="0" max="50000" step="1000"
-          value={priceRange[1]}
-          onChange={(e) => setPriceRange([0, parseInt(e.target.value, 10)])}
-          className="w-full accent-gold-500"
-        />
-        <div className="flex justify-between mt-2 text-xs font-semibold">
-          <span className={subText}>${priceRange[0].toLocaleString()}</span>
-          <span className="text-gold-500">${priceRange[1].toLocaleString()}</span>
-        </div>
-      </div>
-      <FilterSection title="Stone Type"     options={FILTERS.categories}    selected={selectedCategories}    onChange={setSelectedCategories}    dark={dark} />
-      <FilterSection title="Certification"  options={FILTERS.certification}  selected={selectedCertifications} onChange={setSelectedCertifications} dark={dark} />
-      <FilterSection title="Cut"            options={FILTERS.cut}           selected={selectedCuts}           onChange={setSelectedCuts}           dark={dark} />
-      <FilterSection title="Clarity"        options={FILTERS.clarity}       selected={selectedClarity}        onChange={setSelectedClarity}        dark={dark} />
-      <FilterSection title="Treatment"      options={FILTERS.treatment}     selected={selectedTreatments}     onChange={setSelectedTreatments}     dark={dark} />
-    </aside>
-  );
-
   return (
-    <div className={`min-h-screen ${pageBg} pt-24`}>
-      {/* Header */}
-      <div className={`border-b ${divider} px-6 lg:px-8 pb-8 pt-8`}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <p className="section-label mb-2">Private Marketplace</p>
-            <h1 className={`font-display font-light leading-tight ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+    <div className="min-h-screen bg-obsidian-950 pt-16">
+
+      {/* ── Page header ─────────────────────────────────────────────────── */}
+      <div className="border-b border-gold-900/25 px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+        <div className="max-w-7xl mx-auto">
+          <p className="section-label mb-1.5">Private Marketplace</p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight">
               Investment Gemstones
             </h1>
-          </div>
-          <div className="relative w-full md:w-80">
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${subText}`} />
-            <input
-              type="text"
-              placeholder="Search sapphires, rubies, diamonds…"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full rounded-sm pl-9 pr-4 py-2.5 text-sm focus:outline-none border focus:border-gold-600/60 transition-colors ${
-                dark
-                  ? 'bg-obsidian-900 border-gold-900/30 text-pearl-100 placeholder-pearl-600'
-                  : 'bg-white border-gold-700/20 text-obsidian-900 placeholder-obsidian-400'
-              }`}
-            />
+            {/* Search — full width on mobile */}
+            <div className="relative w-full sm:w-80">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pearl-500" />
+              <input
+                type="text"
+                placeholder="Search sapphires, rubies, diamonds…"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-sm pl-9 pr-4 py-3 sm:py-2.5 text-sm focus:outline-none border border-gold-900/30 bg-obsidian-900 text-pearl-100 placeholder-pearl-600 focus:border-gold-600/60 transition-colors"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex gap-10">
-        {/* Desktop sidebar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 flex gap-8 lg:gap-10">
+
+        {/* ── Desktop sidebar ─────────────────────────────────────────── */}
         <div className="hidden lg:block w-52 flex-shrink-0">
-          <div className="sticky top-28">
+          <div className="sticky top-24">
             <p className="section-label mb-4">Refine</p>
-            {sidebar}
+            <FilterSidebar {...filterProps} />
           </div>
         </div>
 
-        {/* Main */}
+        {/* ── Main content ────────────────────────────────────────────── */}
         <div className="flex-1 min-w-0">
           <RecentlyViewed onSelect={handleGemClick} />
 
-          {/* Sort bar */}
-          <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b ${divider}`}>
-            <p className={`text-sm ${subText}`}>
-              <span className={dark ? 'text-pearl-100' : 'text-obsidian-900'}>{filteredGems.length}</span> gems available
+          {/* Sort + filter bar — sticky on mobile */}
+          <div className="sticky top-16 z-20 bg-obsidian-950/95 backdrop-blur-sm -mx-4 sm:mx-0 px-4 sm:px-0 py-3 border-b border-gold-900/25 flex items-center justify-between gap-3 mb-5">
+            <p className="text-xs text-pearl-500 font-bold">
+              <span className="text-pearl-100">{filteredGems.length}</span> gems
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {/* Sort dropdown */}
               <div className="relative">
                 <select
                   value={selectedSort}
                   onChange={(e) => setSelectedSort(e.target.value)}
-                  className={`appearance-none px-4 py-2 pr-8 text-sm rounded-sm border focus:outline-none focus:border-gold-600/60 transition-colors ${
-                    dark
-                      ? 'bg-obsidian-900 border-gold-900/30 text-pearl-100'
-                      : 'bg-white border-gold-700/20 text-obsidian-900'
-                  }`}
+                  className="appearance-none px-3 py-2 pr-7 text-xs font-bold rounded-sm border border-gold-900/30 bg-obsidian-900 text-pearl-100 focus:outline-none focus:border-gold-600/60 transition-colors"
                 >
                   <option>Featured</option>
                   <option>Price: Low to High</option>
@@ -290,35 +262,38 @@ function MarketplaceContent() {
                   <option>Most Popular</option>
                   <option>Newest</option>
                 </select>
-                <ChevronDown className={`absolute right-2 top-3 h-4 w-4 pointer-events-none ${subText}`} />
+                <ChevronDown className="absolute right-2 top-2.5 h-3 w-3 pointer-events-none text-pearl-500" />
               </div>
+              {/* Filter button — mobile only */}
               <button
                 onClick={() => setFilterOpen(true)}
-                className={`lg:hidden p-2 ${subText} hover:text-gold-400 transition-colors`}
+                className="lg:hidden flex items-center gap-1.5 px-3 py-2 border border-gold-900/30 rounded-sm text-xs font-bold text-pearl-300 hover:text-gold-400 hover:border-gold-700/50 transition-colors"
               >
-                <SlidersHorizontal size={20} />
+                <SlidersHorizontal size={14} /> Filters
               </button>
             </div>
           </div>
 
+          {/* Gem grid */}
           {isLoading ? (
             <GemGridSkeleton count={6} />
           ) : filteredGems.length === 0 ? (
             <div className="luxury-card py-16 text-center">
-              <p className={`text-sm ${subText}`}>No gems match your current filters.</p>
+              <p className="text-sm text-pearl-500">No gems match your current filters.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
               {filteredGems.map((gem) => (
                 <div key={gem.id} onClick={() => handleGemClick(gem)}
                   className="luxury-card overflow-hidden group cursor-pointer">
+                  {/* Image */}
                   <div className="relative">
-                    <div className="relative h-52 overflow-hidden">
+                    <div className="relative h-48 sm:h-52 overflow-hidden">
                       <OptimizedImage
                         src={gem.mainImage}
                         alt={gem.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     </div>
@@ -336,14 +311,11 @@ function MarketplaceContent() {
                       disabled={!isComparing(gem.id) && !canAddMore}
                       aria-label="Compare"
                       className={`absolute bottom-3 left-3 p-2 backdrop-blur-sm rounded-sm transition-colors disabled:opacity-40 ${
-                        isComparing(gem.id)
-                          ? 'bg-gold-500 text-obsidian-950'
-                          : 'bg-obsidian-950/60 text-pearl-300 hover:bg-obsidian-950/80'
+                        isComparing(gem.id) ? 'bg-gold-500 text-obsidian-950' : 'bg-obsidian-950/60 text-pearl-300 hover:bg-obsidian-950/80'
                       }`}>
                       <GitCompare size={14} />
                     </button>
 
-                    {/* Discount */}
                     {gem.discount > 0 && (
                       <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-bold tracking-wider bg-gold-gradient text-obsidian-950 rounded-sm">
                         -{gem.discount}%
@@ -351,65 +323,51 @@ function MarketplaceContent() {
                     )}
                   </div>
 
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-semibold tracking-widest uppercase text-gold-500">
-                        {gem.category}
-                      </span>
+                  {/* Card body */}
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-gold-500">{gem.category}</span>
                       <div className="flex items-center gap-1">
                         <Star className="w-3 h-3 text-gold-500 fill-gold-500" />
-                        <span className={`text-xs ${subText}`}>
-                          {gem.rating ? gem.rating.toFixed(1) : '4.8'}
-                        </span>
+                        <span className="text-xs text-pearl-500">{gem.rating ? gem.rating.toFixed(1) : '4.8'}</span>
                       </div>
                     </div>
 
-                    <h3 className={`font-display text-lg font-medium mb-1 ${dark ? 'text-pearl-100' : 'text-obsidian-900'}`}
-                      style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                      {gem.name}
-                    </h3>
+                    <h3 className="text-base font-bold text-pearl-100 mb-1 leading-snug">{gem.name}</h3>
 
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 mb-4 text-xs">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 mb-3 text-xs">
                       {[['Weight', `${gem.weight} ct`], ['Cut', gem.cut], ['Origin', gem.origin], ['Treatment', gem.treatment]].map(([lbl, val]) => (
                         <div key={lbl}>
-                          <span className={subText}>{lbl}: </span>
-                          <span className={dark ? 'text-pearl-200' : 'text-obsidian-800'}>{val || '—'}</span>
+                          <span className="text-pearl-600">{lbl}: </span>
+                          <span className="text-pearl-300">{val || '—'}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className={`flex items-end justify-between pt-4 border-t ${divider}`}>
+                    <div className="flex items-end justify-between pt-3 border-t border-gold-900/25 mb-3">
                       <div>
-                        <p className={`text-[10px] font-semibold tracking-widest uppercase mb-0.5 ${subText}`}>Price</p>
-                        <p className="font-display text-xl font-semibold text-gold-gradient"
-                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                          ${gem.price.toLocaleString()}
-                        </p>
+                        <p className="text-[9px] font-bold tracking-widest uppercase text-pearl-600 mb-0.5">Price</p>
+                        <p className="text-lg font-bold text-gold-gradient">${gem.price.toLocaleString()}</p>
                       </div>
                       <div className="text-right">
-                        <div className={`flex items-center gap-1 text-[10px] font-semibold tracking-wider mb-1 ${
-                          gem.availability === 'Available' ? 'text-emerald-400' : 'text-amber-400'
-                        }`}>
-                          <Shield size={10} />
-                          {gem.certification}
+                        <div className={`flex items-center gap-1 text-[10px] font-bold tracking-wider mb-0.5 ${gem.availability === 'Available' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                          <Shield size={10} />{gem.certification}
                         </div>
-                        <p className={`text-[10px] ${gem.availability === 'Available' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                        <p className={`text-[10px] font-bold ${gem.availability === 'Available' ? 'text-emerald-400' : 'text-amber-400'}`}>
                           {gem.availability}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex gap-2 mt-4">
-                      <button
-                        onClick={(e) => handlePurchase(e, gem)}
-                        className="flex-1 btn-gold text-xs py-2 rounded-sm">
+                    {/* Action buttons — 44px touch targets */}
+                    <div className="flex gap-2">
+                      <button onClick={(e) => handlePurchase(e, gem)}
+                        className="flex-1 btn-gold text-xs py-2.5">
                         Acquire
                       </button>
-                      <button className={`p-2 rounded-sm border transition-colors ${
-                        dark
-                          ? 'border-gold-900/30 text-pearl-400 hover:text-gold-400 hover:border-gold-600/40'
-                          : 'border-gold-700/20 text-obsidian-500 hover:text-gold-700 hover:border-gold-600/40'
-                      }`}>
+                      <button onClick={(e) => { e.stopPropagation(); handleGemClick(gem); }}
+                        aria-label="View details"
+                        className="p-2.5 rounded-sm border border-gold-900/30 text-pearl-400 hover:text-gold-400 hover:border-gold-600/40 transition-colors">
                         <Eye size={16} />
                       </button>
                     </div>
@@ -421,21 +379,31 @@ function MarketplaceContent() {
         </div>
       </div>
 
-      {/* Mobile filter drawer */}
-      {filterOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-obsidian-950/70 backdrop-blur-sm" onClick={() => setFilterOpen(false)} />
-          <div className={`absolute inset-y-0 right-0 w-72 p-6 overflow-y-auto ${dark ? 'bg-obsidian-950' : 'bg-pearl-100'}`}>
-            <div className={`flex justify-between items-center mb-6 pb-4 border-b ${divider}`}>
-              <p className="section-label">Refine</p>
-              <button onClick={() => setFilterOpen(false)} className={subText}>
-                <X size={18} />
-              </button>
-            </div>
-            {sidebar}
+      {/* ── Mobile filter — bottom sheet ────────────────────────────────── */}
+      <div className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${filterOpen ? 'visible' : 'invisible'}`}>
+        <div className={`absolute inset-0 bg-obsidian-950/70 backdrop-blur-sm transition-opacity duration-300 ${filterOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setFilterOpen(false)} />
+        <div className={`absolute inset-x-0 bottom-0 bg-obsidian-950 border-t border-gold-900/30 rounded-t-xl max-h-[80vh] overflow-y-auto transition-transform duration-300 ${filterOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+          {/* Handle bar */}
+          <div className="flex justify-center pt-3 pb-1">
+            <div className="w-10 h-1 rounded-full bg-pearl-700" />
+          </div>
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gold-900/25">
+            <p className="section-label">Refine Results</p>
+            <button onClick={() => setFilterOpen(false)} className="p-1.5 text-pearl-500 hover:text-gold-400 transition-colors">
+              <X size={18} />
+            </button>
+          </div>
+          <div className="px-5 pb-8">
+            <FilterSidebar {...filterProps} />
+          </div>
+          <div className="sticky bottom-0 bg-obsidian-950 border-t border-gold-900/25 p-4">
+            <button onClick={() => setFilterOpen(false)} className="btn-gold w-full py-3">
+              Show {filteredGems.length} Gems
+            </button>
           </div>
         </div>
-      )}
+      </div>
 
       {selectedGem && (
         <GemDetailModal gem={selectedGem} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

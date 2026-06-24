@@ -4,12 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, User, ArrowRight, CheckCircle } from 'lucide-react';
-import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { authAPI } from '@/lib/api';
 
 export default function SignupPage() {
-  const { isDarkMode } = useTheme();
   const { user, login } = useAuth();
   const router = useRouter();
 
@@ -45,15 +43,7 @@ export default function SignupPage() {
     }
   };
 
-  const dark    = isDarkMode;
-  const subText = dark ? 'text-pearl-400' : 'text-obsidian-500';
-  const divider = dark ? 'border-gold-900/25' : 'border-gold-700/15';
-
-  const inputCls = `w-full pl-10 pr-4 py-3 text-sm rounded-sm border focus:outline-none focus:border-gold-600/60 transition-colors ${
-    dark
-      ? 'bg-obsidian-900 border-gold-900/30 text-pearl-100 placeholder-pearl-600'
-      : 'bg-white border-gold-700/20 text-obsidian-900 placeholder-obsidian-400'
-  }`;
+  const inputCls = 'w-full pl-10 pr-4 py-3.5 sm:py-3 text-sm rounded-sm border focus:outline-none focus:border-gold-600/60 transition-colors bg-obsidian-900 border-gold-900/30 text-pearl-100 placeholder-pearl-600';
 
   const PERKS = [
     'First access to rare, uncatalogued gems',
@@ -62,7 +52,7 @@ export default function SignupPage() {
   ];
 
   return (
-    <div className={`min-h-screen flex items-center justify-center px-4 py-24 ${dark ? 'bg-obsidian-950' : 'bg-pearl-100'}`}>
+    <div className="min-h-[100svh] flex items-center justify-center px-4 py-24 bg-obsidian-950">
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-[0.04] pointer-events-none"
         style={{ background: 'radial-gradient(ellipse, #D4AF37, transparent)' }} />
 
@@ -86,30 +76,24 @@ export default function SignupPage() {
                 </linearGradient>
               </defs>
             </svg>
-            <span className="font-display text-2xl font-semibold text-gold-gradient tracking-widest-xl"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-              GEMIFY
-            </span>
+            <span className="text-2xl font-bold text-gold-gradient tracking-widest">GEMIFY</span>
           </Link>
         </div>
 
         <div className="luxury-card p-8">
           <p className="section-label text-center mb-2">Private Membership</p>
-          <h1 className={`font-display text-2xl font-light text-center mb-1 ${dark ? 'text-pearl-50' : 'text-obsidian-900'}`}
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-            Request Access
-          </h1>
-          <p className={`text-xs text-center mb-6 ${subText}`}>
+          <h1 className="text-2xl font-bold text-pearl-50 text-center mb-1">Request Access</h1>
+          <p className="text-xs text-center mb-6 text-pearl-400">
             Join an exclusive community of gem investors
           </p>
 
           {/* Perks */}
-          <div className={`rounded-sm p-4 mb-6 ${dark ? 'bg-obsidian-900/60' : 'bg-pearl-200/50'}`}>
+          <div className="rounded-sm p-4 mb-6 bg-obsidian-900/60">
             <ul className="space-y-2">
               {PERKS.map((p) => (
                 <li key={p} className="flex items-center gap-2">
                   <CheckCircle size={13} className="text-gold-500 flex-shrink-0" />
-                  <span className={`text-xs ${subText}`}>{p}</span>
+                  <span className="text-xs text-pearl-400">{p}</span>
                 </li>
               ))}
             </ul>
@@ -125,9 +109,9 @@ export default function SignupPage() {
             <div className="grid grid-cols-2 gap-3">
               {[['firstName', 'First Name', setFirstName, firstName], ['lastName', 'Last Name', setLastName, lastName]].map(([id, label, setter, val]) => (
                 <div key={id}>
-                  <label className={`block text-[10px] font-bold tracking-widest uppercase mb-1.5 ${subText}`}>{label}</label>
+                  <label className="block text-[10px] font-bold tracking-widest uppercase mb-1.5 text-pearl-500">{label}</label>
                   <div className="relative">
-                    <User className={`absolute left-3 top-3.5 h-4 w-4 ${subText}`} />
+                    <User className="absolute left-3 top-3.5 h-4 w-4 text-pearl-500" />
                     <input
                       type="text"
                       value={val}
@@ -142,9 +126,9 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className={`block text-[10px] font-bold tracking-widest uppercase mb-1.5 ${subText}`}>Email Address</label>
+              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1.5 text-pearl-500">Email Address</label>
               <div className="relative">
-                <Mail className={`absolute left-3 top-3.5 h-4 w-4 ${subText}`} />
+                <Mail className="absolute left-3 top-3.5 h-4 w-4 text-pearl-500" />
                 <input
                   type="email"
                   value={email}
@@ -158,9 +142,9 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className={`block text-[10px] font-bold tracking-widest uppercase mb-1.5 ${subText}`}>Password</label>
+              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1.5 text-pearl-500">Password</label>
               <div className="relative">
-                <Lock className={`absolute left-3 top-3.5 h-4 w-4 ${subText}`} />
+                <Lock className="absolute left-3 top-3.5 h-4 w-4 text-pearl-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -174,7 +158,7 @@ export default function SignupPage() {
                 <button type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={isLoading}
-                  className={`absolute right-3 top-3.5 transition-colors ${subText} hover:text-gold-400`}
+                  className="absolute right-3 top-3.5 transition-colors text-pearl-500 hover:text-gold-400"
                   aria-label="Toggle password visibility">
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -190,8 +174,8 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <div className={`mt-6 pt-6 border-t ${divider} text-center`}>
-            <p className={`text-xs ${subText}`}>
+          <div className="mt-6 pt-6 border-t border-gold-900/25 text-center">
+            <p className="text-xs text-pearl-400">
               Already a member?{' '}
               <Link href="/login" className="text-gold-500 hover:text-gold-300 font-semibold transition-colors">
                 Sign In
@@ -200,7 +184,7 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <p className={`text-center text-[10px] mt-6 ${subText}`}>
+        <p className="text-center text-[10px] mt-6 text-pearl-600">
           By creating an account you agree to our Terms of Service & Privacy Policy
         </p>
       </div>
