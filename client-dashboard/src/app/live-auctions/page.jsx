@@ -1,82 +1,84 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Gavel, Eye, Heart, ArrowUp, Timer, Trophy, AlertCircle, DollarSign, Users } from 'lucide-react';
+import { Gavel, Eye, Timer, Trophy, AlertCircle, Users, ArrowUp, X } from 'lucide-react';
 import { auctionsAPI } from '@/lib/api';
-import { useTheme } from '@/context/ThemeContext';
+import { useToast } from '@/context/ToastContext';
 import Protected from '@/components/Protected';
+import OptimizedImage from '@/components/OptimizedImage';
+import { Skeleton } from '@/components/Skeleton';
 
-const PLACEHOLDER =
-  'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80';
+const PLACEHOLDER = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80';
 
-function formatTimeRemaining(endTime) {
+function formatTime(endTime) {
   const diff = new Date(endTime) - new Date();
   if (diff <= 0) return 'Ended';
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  if (minutes > 0) return `${minutes}m ${seconds}s`;
-  return `${seconds}s`;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  if (d > 0) return `${d}d ${h}h`;
+  if (h > 0) return `${h}h ${m}m`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
 }
 
 function LiveAuctionsContent() {
-  const { isDarkMode } = useTheme();
-  const [auctions, setAuctions] = useState([]);
-  const [selectedAuction, setSelectedAuction] = useState(null);
-  const [bidAmount, setBidAmount] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [placingBid, setPlacingBid] = useState(false);
+  const { toast } = useToast();
+  const [auctions, setAuctions]           = useState([]);
+  const [selectedAuction, setSelected]    = useState(null);
+  const [bidAmount, setBidAmount]         = useState('');
+  const [loading, setLoading]             = useState(true);
+  const [error, setError]                 = useState(null);
+  const [placingBid, setPlacingBid]       = useState(false);
+  const [tick, setTick]                   = useState(0);
 
-  const fetchLiveAuctions = useCallback(async () => {
+  const fetch = useCallback(async () => {
     try {
       const res = await auctionsAPI.getLive();
       setAuctions(res.data.auctions || res.data?.data || []);
       setError(null);
-    } catch (err) {
-      console.error('Error fetching live auctions:', err);
-      setError('Failed to load live auctions');
+    } catch {
+      setError('Unable to load live auctions');
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchLiveAuctions();
-    const interval = setInterval(fetchLiveAuctions, 30000);
-    return () => clearInterval(interval);
-  }, [fetchLiveAuctions]);
+    fetch();
+    const poll = setInterval(fetch, 30000);
+    const clock = setInterval(() => setTick((t) => t + 1), 1000);
+    return () => { clearInterval(poll); clearInterval(clock); };
+  }, [fetch]);
 
   const placeBid = async (auctionId) => {
-    if (!bidAmount || Number.isNaN(Number(bidAmount))) {
-      alert('Please enter a valid bid amount');
+    if (!bidAmount || isNaN(Number(bidAmount))) {
+      toast('Please enter a valid bid amount', 'error');
       return;
     }
+    setPlacingBid(true);
     try {
-      setPlacingBid(true);
       await auctionsAPI.placeBid(auctionId, { amount: parseFloat(bidAmount) });
-      await fetchLiveAuctions();
+      await fetch();
       setBidAmount('');
-      setSelectedAuction(null);
-      alert('Bid placed successfully!');
+      setSelected(null);
+      toast('Bid placed successfully', 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to place bid');
+      toast(err.response?.data?.message || 'Failed to place bid', 'error');
     } finally {
       setPlacingBid(false);
     }
   };
 
-  const pageBg = isDarkMode ? 'bg-gradient-to-br from-slate-900 to-slate-800' : 'bg-gradient-to-br from-gray-50 to-white';
-
   if (loading) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${pageBg}`}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-500 mx-auto mb-4" />
-          <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Loading live auctions...</p>
+      <div className="min-h-screen bg-obsidian-950 pt-28 px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="h-10 w-48 shimmer bg-obsidian-800 rounded-sm mb-10" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+            {[0,1,2].map((i) => <Skeleton key={i} className="h-80 w-full" />)}
+          </div>
         </div>
       </div>
     );
@@ -84,220 +86,202 @@ function LiveAuctionsContent() {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${pageBg}`}>
+      <div className="min-h-screen bg-obsidian-950 flex items-center justify-center">
         <div className="text-center">
-          <AlertCircle className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-red-400' : 'text-red-500'}`} />
-          <p className={`text-lg ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-          >
-            Retry
-          </button>
+          <AlertCircle size={32} className="text-red-400 mx-auto mb-4" />
+          <p className="text-pearl-400 mb-4">{error}</p>
+          <button onClick={() => { setLoading(true); fetch(); }} className="btn-gold">Retry</button>
         </div>
       </div>
     );
   }
 
-  const card = isDarkMode ? 'bg-slate-800/50' : 'bg-white shadow-lg';
-  const muted = isDarkMode ? 'text-gray-400' : 'text-gray-600';
-
   return (
-    <div className={`min-h-screen ${pageBg} pt-24 transition-colors duration-300`}>
-      <div className="px-4 sm:px-6 lg:px-8 mb-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <main className="min-h-screen bg-obsidian-950 pt-28 pb-16 px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Header */}
+        <header className="flex items-start justify-between mb-10">
           <div>
-            <h1 className={`text-3xl md:text-4xl font-bold mb-2 flex items-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              <Gavel className="w-8 h-8 mr-3 text-purple-500" />
+            <p className="section-label mb-1">Private Auction House</p>
+            <h1 className="font-display text-4xl font-light text-pearl-50"
+              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
               Live Auctions
             </h1>
-            <p className={muted}>Real-time bidding on premium gemstones</p>
+            <p className="text-sm text-pearl-500 mt-2">Real-time bidding on investment-grade gemstones</p>
           </div>
-          <div className={`px-4 py-2 rounded-full ${isDarkMode ? 'bg-red-500/20 text-red-400' : 'bg-red-100 text-red-600'}`}>
-            <div className="flex items-center">
-              <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse" />
-              <span className="text-sm font-medium">{auctions.length} Live</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="max-w-7xl mx-auto">
-          {auctions.length === 0 ? (
-            <div className={`text-center py-16 ${isDarkMode ? 'bg-slate-800/50' : 'bg-white'} rounded-xl`}>
-              <Gavel className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-              <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>No Live Auctions</h3>
-              <p className={muted}>Check back soon for upcoming auctions</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {auctions.map((auction) => {
-                const nextBid = (Number(auction.currentBid) || 0) + (Number(auction.minimumBidIncrement) || 100);
-                return (
-                  <div key={auction.id} className={`${card} rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300`}>
-                    <div className="relative">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={auction.gem?.mainImage || auction.gem?.images?.[0] || PLACEHOLDER}
-                        alt={auction.title}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="absolute top-4 left-4 px-3 py-1 bg-red-500 text-white text-sm rounded-full flex items-center">
-                        <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse" />
-                        LIVE
-                      </div>
-                      <div className="absolute top-4 right-4 flex space-x-2">
-                        <button className="p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
-                          <Heart size={20} className="text-white" />
-                        </button>
-                        <button className="p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
-                          <Eye size={20} className="text-white" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-purple-400 text-sm font-medium">{auction.gem?.category?.name || 'Gemstone'}</span>
-                        <div className="flex items-center text-sm text-gray-400">
-                          <Users size={16} className="mr-1" />
-                          {auction.uniqueBidders || 0}
-                        </div>
-                      </div>
-
-                      <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{auction.title}</h3>
-                      <p className={`text-sm mb-4 ${muted}`}>
-                        {auction.description ? `${auction.description.substring(0, 100)}...` : ''}
-                      </p>
-
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className={`p-3 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-gray-50'}`}>
-                          <div className={`text-sm ${muted}`}>Current Bid</div>
-                          <div className={`text-lg font-bold flex items-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                            <DollarSign size={18} className="mr-1" />
-                            {Number(auction.currentBid || 0).toLocaleString()}
-                          </div>
-                        </div>
-                        <div className={`p-3 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-gray-50'}`}>
-                          <div className={`text-sm ${muted}`}>Time Left</div>
-                          <div className={`text-lg font-bold flex items-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                            <Timer size={18} className="mr-1" />
-                            {formatTimeRemaining(auction.endTime)}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-                        {[
-                          ['Weight', auction.gem?.weight ? `${auction.gem.weight} ct` : '—'],
-                          ['Origin', auction.gem?.origin || '—'],
-                          ['Cut', auction.gem?.cut || '—'],
-                          ['Clarity', auction.gem?.clarity || '—'],
-                        ].map(([label, value]) => (
-                          <div key={label}>
-                            <span className={muted}>{label}:</span>
-                            <span className={`ml-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{value}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm ${muted}`}>Next Bid: ${nextBid.toLocaleString()}</span>
-                          <span className={`text-sm ${muted}`}>{auction.totalBids || 0} bids</span>
-                        </div>
-
-                        {selectedAuction === auction.id ? (
-                          <div className="space-y-3">
-                            <input
-                              type="number"
-                              value={bidAmount}
-                              onChange={(e) => setBidAmount(e.target.value)}
-                              placeholder={`Min: $${nextBid.toLocaleString()}`}
-                              className={`w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-purple-500 ${
-                                isDarkMode ? 'bg-slate-700 text-white border-slate-600' : 'bg-white text-gray-900 border-gray-300'
-                              }`}
-                            />
-                            <div className="flex space-x-2">
-                              <button
-                                onClick={() => placeBid(auction.id)}
-                                disabled={placingBid}
-                                className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center justify-center"
-                              >
-                                {placingBid ? (
-                                  <>
-                                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2" />
-                                    Placing...
-                                  </>
-                                ) : (
-                                  <>
-                                    <ArrowUp size={16} className="mr-2" />
-                                    Place Bid
-                                  </>
-                                )}
-                              </button>
-                              <button
-                                onClick={() => setSelectedAuction(null)}
-                                className={`px-4 py-2 rounded-lg transition-colors ${
-                                  isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                                }`}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex space-x-2">
-                            <button
-                              onClick={() => {
-                                setSelectedAuction(auction.id);
-                                setBidAmount(String(nextBid));
-                              }}
-                              className="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors flex items-center justify-center"
-                            >
-                              <Gavel size={16} className="mr-2" />
-                              Bid Now
-                            </button>
-                            <button
-                              className={`px-4 py-2 rounded-lg transition-colors ${
-                                isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                              }`}
-                            >
-                              <Eye size={16} />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-
-                      {auction.reservePrice ? (
-                        <div
-                          className={`mt-3 text-sm flex items-center ${
-                            auction.currentBid >= auction.reservePrice ? 'text-green-500' : 'text-yellow-500'
-                          }`}
-                        >
-                          {auction.currentBid >= auction.reservePrice ? (
-                            <>
-                              <Trophy size={16} className="mr-2" />
-                              Reserve Met
-                            </>
-                          ) : (
-                            <>
-                              <AlertCircle size={16} className="mr-2" />
-                              Reserve Not Met
-                            </>
-                          )}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                );
-              })}
+          {auctions.length > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 border border-red-500/30 rounded-sm"
+              style={{ background: 'rgba(239,68,68,0.08)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-[11px] font-bold tracking-widest uppercase text-red-400">{auctions.length} Live</span>
             </div>
           )}
-        </div>
+        </header>
+
+        {auctions.length === 0 ? (
+          <div className="luxury-card p-16 text-center">
+            <Gavel size={32} className="text-gold-700 mx-auto mb-4" />
+            <p className="font-display text-xl font-light text-pearl-300 mb-2"
+              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              No Active Auctions
+            </p>
+            <p className="text-sm text-pearl-600">Private auction events are announced to verified members.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+            {auctions.map((auction) => {
+              const nextBid    = (Number(auction.currentBid) || 0) + (Number(auction.minimumBidIncrement) || 100);
+              const reserveMet = auction.reservePrice && auction.currentBid >= auction.reservePrice;
+              const isSelected = selectedAuction === auction.id;
+
+              return (
+                <article key={auction.id} className="luxury-card overflow-hidden group">
+                  {/* Image */}
+                  <div className="relative h-52 overflow-hidden">
+                    <OptimizedImage
+                      src={auction.gem?.mainImage || auction.gem?.images?.[0] || PLACEHOLDER}
+                      alt={auction.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 to-transparent" />
+
+                    {/* LIVE badge */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 border border-red-500/40 rounded-sm"
+                      style={{ background: 'rgba(239,68,68,0.15)', backdropFilter: 'blur(8px)' }}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-red-400">Live</span>
+                    </div>
+
+                    {/* Bidders */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-gold-900/30 rounded-sm"
+                      style={{ background: 'rgba(14,12,11,0.7)', backdropFilter: 'blur(8px)' }}>
+                      <Users size={11} className="text-pearl-500" />
+                      <span className="text-[10px] text-pearl-400">{auction.uniqueBidders || 0}</span>
+                    </div>
+
+                    {/* Timer overlay */}
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-gold-900/30 rounded-sm"
+                      style={{ background: 'rgba(14,12,11,0.75)', backdropFilter: 'blur(8px)' }}>
+                      <Timer size={11} className="text-gold-600" />
+                      <span className="text-[11px] font-mono font-bold text-pearl-200">{formatTime(auction.endTime)}</span>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5">
+                    {auction.gem?.category?.name && (
+                      <p className="section-label mb-1.5">{auction.gem.category.name}</p>
+                    )}
+                    <h3 className="font-display text-xl font-medium text-pearl-50 mb-1"
+                      style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                      {auction.title}
+                    </h3>
+                    {auction.description && (
+                      <p className="text-xs text-pearl-500 mb-4 line-clamp-2 leading-relaxed">
+                        {auction.description}
+                      </p>
+                    )}
+
+                    {/* Bid / Time grid */}
+                    <div className="grid grid-cols-2 gap-2.5 mb-4">
+                      <div className="luxury-card p-3">
+                        <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Current Bid</p>
+                        <p className="font-display text-lg font-semibold text-gold-gradient"
+                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                          ${Number(auction.currentBid || 0).toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="luxury-card p-3">
+                        <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Total Bids</p>
+                        <p className="font-display text-lg font-semibold text-pearl-100"
+                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                          {auction.totalBids || 0}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Gem specs */}
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 mb-4 text-xs">
+                      {[
+                        ['Weight',  auction.gem?.weight ? `${auction.gem.weight} ct` : '—'],
+                        ['Origin',  auction.gem?.origin  || '—'],
+                        ['Cut',     auction.gem?.cut      || '—'],
+                        ['Clarity', auction.gem?.clarity  || '—'],
+                      ].map(([l, v]) => (
+                        <div key={l} className="flex gap-1.5">
+                          <span className="text-pearl-600">{l}:</span>
+                          <span className="text-pearl-300">{v}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Reserve status */}
+                    {auction.reservePrice && (
+                      <div className={`flex items-center gap-1.5 text-[11px] font-semibold mb-3 ${reserveMet ? 'text-emerald-400' : 'text-amber-500'}`}>
+                        <Trophy size={12} />
+                        {reserveMet ? 'Reserve Price Met' : 'Reserve Not Yet Met'}
+                      </div>
+                    )}
+
+                    {/* Bid interface */}
+                    {isSelected ? (
+                      <div className="space-y-2.5">
+                        <input
+                          type="number"
+                          value={bidAmount}
+                          onChange={(e) => setBidAmount(e.target.value)}
+                          placeholder={`Min $${nextBid.toLocaleString()}`}
+                          className="w-full px-3 py-2 bg-obsidian-900 border border-gold-900/30 rounded-sm text-sm text-pearl-100 placeholder:text-pearl-700 focus:outline-none focus:border-gold-700/60 transition-colors"
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => placeBid(auction.id)}
+                            disabled={placingBid}
+                            className="flex-1 btn-gold py-2 flex items-center justify-center gap-1.5 text-xs disabled:opacity-50"
+                          >
+                            <ArrowUp size={12} />
+                            {placingBid ? 'Placing…' : 'Place Bid'}
+                          </button>
+                          <button
+                            onClick={() => setSelected(null)}
+                            className="px-3 py-2 border border-gold-900/30 text-pearl-500 hover:text-pearl-300 rounded-sm transition-colors"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => { setSelected(auction.id); setBidAmount(String(nextBid)); }}
+                          className="flex-1 btn-gold py-2 text-xs flex items-center justify-center gap-1.5"
+                        >
+                          <Gavel size={12} /> Bid Now
+                        </button>
+                        <button
+                          className="px-3 py-2 btn-outline-gold text-xs"
+                          title="Watch"
+                          aria-label="Watch auction"
+                        >
+                          <Eye size={14} />
+                        </button>
+                      </div>
+                    )}
+
+                    <p className="text-center text-[10px] text-pearl-700 mt-2">
+                      Next bid: ${nextBid.toLocaleString()}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </div>
-    </div>
+    </main>
   );
 }
 
