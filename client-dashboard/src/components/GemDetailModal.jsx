@@ -132,8 +132,7 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
                 </button>
               </div>
 
-              <h2 className="font-display text-3xl font-light text-pearl-50 mb-2"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <h2 className="text-2xl sm:text-3xl font-bold text-pearl-50 mb-2">
                 {gem.name}
               </h2>
 
@@ -149,8 +148,7 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
               )}
 
               {/* Price */}
-              <p className="font-display text-3xl font-semibold text-gold-gradient mb-1"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <p className="text-2xl sm:text-3xl font-bold text-gold-gradient mb-1">
                 ${price.toLocaleString()}
               </p>
               <p className={`text-[10px] font-bold tracking-widest uppercase mb-5 ${available ? 'text-emerald-400' : 'text-amber-500'}`}>

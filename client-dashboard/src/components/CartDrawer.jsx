@@ -52,8 +52,7 @@ export default function CartDrawer() {
               <ShoppingBag size={26} className="text-gold-700" />
             </div>
             <div>
-              <p className="font-display text-lg font-light text-pearl-200 mb-1"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <p className="text-lg font-bold text-pearl-200 mb-1">
                 Your cart is empty
               </p>
               <p className="text-pearl-500 text-sm">Discover exceptional gems in our collection</p>
@@ -78,8 +77,7 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-pearl-100 text-sm font-medium truncate mb-0.5">{item.name}</p>
-                    <p className="font-display text-base text-gold-gradient font-semibold"
-                      style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                    <p className="text-base text-gold-gradient font-bold">
                       ${item.price.toLocaleString()}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
@@ -117,8 +115,7 @@ export default function CartDrawer() {
               <div className="flex justify-between items-end mb-5">
                 <div>
                   <p className="text-[10px] font-semibold tracking-widest uppercase text-pearl-500 mb-0.5">Subtotal</p>
-                  <p className="font-display text-2xl font-semibold text-gold-gradient"
-                    style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                  <p className="text-2xl font-bold text-gold-gradient">
                     ${subtotal.toLocaleString()}
                   </p>
                 </div>

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
-import { useTheme } from '@/context/ThemeContext';
 
 const COL_DISCOVER = [
   { label: 'Collections',    href: '/collections'  },
@@ -30,37 +29,22 @@ const CONTACT = [
 ];
 
 export default function Footer() {
-  const { isDarkMode } = useTheme();
-  const [email, setEmail] = useState('');
+  const [email, setEmail]         = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail('');
-    }
+    if (email.trim()) { setSubscribed(true); setEmail(''); }
   };
 
-  const dark = isDarkMode;
-
-  const bg     = dark ? 'bg-obsidian-950'       : 'bg-obsidian-900';
-  const border = dark ? 'border-gold-900/25'     : 'border-gold-800/20';
-  const muted  = dark ? 'text-pearl-500'         : 'text-pearl-400';
-  const body   = dark ? 'text-pearl-300'         : 'text-pearl-200';
-  const head   = dark ? 'text-pearl-100'         : 'text-pearl-50';
-
   return (
-    <footer className={`${bg} border-t ${border}`}>
+    <footer className="bg-obsidian-950 border-t border-gold-900/25">
       {/* Newsletter strip */}
-      <div className={`border-b ${border} py-10 px-6`}>
+      <div className="border-b border-gold-900/25 py-10 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p className="section-label mb-1">Private Newsletter</p>
-            <h3 className={`font-display text-2xl md:text-3xl font-light italic ${head}`}
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-              First access to rare acquisitions
-            </h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-pearl-100">First access to rare acquisitions</h3>
           </div>
           {subscribed ? (
             <p className="text-gold-500 text-sm font-semibold tracking-wider">
@@ -89,7 +73,7 @@ export default function Footer() {
       </div>
 
       {/* Main columns */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Brand column */}
@@ -115,12 +99,9 @@ export default function Footer() {
                   </linearGradient>
                 </defs>
               </svg>
-              <span className="font-display text-xl tracking-widest-xl font-semibold text-gold-gradient"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
-                GEMIFY
-              </span>
+              <span className="text-lg font-bold tracking-widest text-gold-gradient">GEMIFY</span>
             </Link>
-            <p className={`text-sm leading-relaxed ${muted}`}>
+            <p className="text-sm text-pearl-500 leading-relaxed">
               A curated vault of investment-grade certified gemstones, personally
               selected by master gemologists. Trusted by collectors in Geneva,
               Dubai, and Singapore.
@@ -128,7 +109,7 @@ export default function Footer() {
             <div className="flex gap-4">
               {[Twitter, Instagram, Linkedin].map((Icon, i) => (
                 <a key={i} href="#" aria-label="Social link"
-                  className={`transition-colors ${muted} hover:text-gold-500`}>
+                  className="text-pearl-500 hover:text-gold-500 transition-colors">
                   <Icon size={17} />
                 </a>
               ))}
@@ -142,7 +123,7 @@ export default function Footer() {
               {COL_DISCOVER.map((l) => (
                 <li key={l.label}>
                   <Link href={l.href}
-                    className={`text-sm link-underline transition-colors ${body} hover:text-gold-400`}>
+                    className="text-sm text-pearl-300 link-underline hover:text-gold-400 transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -157,7 +138,7 @@ export default function Footer() {
               {COL_SERVICES.map((l) => (
                 <li key={l.label}>
                   <Link href={l.href}
-                    className={`text-sm link-underline transition-colors ${body} hover:text-gold-400`}>
+                    className="text-sm text-pearl-300 link-underline hover:text-gold-400 transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -172,12 +153,12 @@ export default function Footer() {
               {CONTACT.map(({ Icon, text, href }) =>
                 href ? (
                   <a key={text} href={href}
-                    className={`flex items-start gap-3 text-sm transition-colors ${body} hover:text-gold-400`}>
+                    className="flex items-start gap-3 text-sm text-pearl-300 hover:text-gold-400 transition-colors">
                     <Icon size={15} className="text-gold-600 mt-0.5 flex-shrink-0" />
                     <span>{text}</span>
                   </a>
                 ) : (
-                  <div key={text} className={`flex items-start gap-3 text-sm ${muted}`}>
+                  <div key={text} className="flex items-start gap-3 text-sm text-pearl-500">
                     <Icon size={15} className="text-gold-600 mt-0.5 flex-shrink-0" />
                     <span>{text}</span>
                   </div>
@@ -188,7 +169,7 @@ export default function Footer() {
         </div>
 
         {/* Certification badges */}
-        <div className={`mt-12 pt-8 border-t ${border}`}>
+        <div className="mt-12 pt-8 border-t border-gold-900/25">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
             <div>
               <p className="section-label mb-3">Certified By</p>
@@ -196,11 +177,7 @@ export default function Footer() {
                 {CERTIFICATIONS.map((cert) => (
                   <span
                     key={cert}
-                    className={`px-3 py-1 text-[11px] font-bold tracking-widest border rounded-sm ${
-                      dark
-                        ? 'border-gold-800/50 text-pearl-400'
-                        : 'border-gold-700/40 text-pearl-300'
-                    }`}
+                    className="px-3 py-1 text-[11px] font-bold tracking-widest border rounded-sm border-gold-800/50 text-pearl-400"
                   >
                     {cert}
                   </span>
@@ -208,14 +185,12 @@ export default function Footer() {
               </div>
             </div>
             <div className="text-right">
-              <p className={`text-[11px] font-semibold tracking-wider mb-1 ${muted}`}>
+              <p className="text-[11px] font-semibold tracking-wider mb-1 text-pearl-500">
                 SECURE TRANSACTIONS
               </p>
               <div className="flex gap-2 items-center justify-end">
                 {['SSL', 'PCI DSS', '256-BIT'].map((b) => (
-                  <span key={b} className={`px-2 py-0.5 text-[10px] font-bold tracking-widest border rounded-sm ${
-                    dark ? 'border-obsidian-700 text-pearl-500' : 'border-obsidian-600 text-pearl-400'
-                  }`}>{b}</span>
+                  <span key={b} className="px-2 py-0.5 text-[10px] font-bold tracking-widest border rounded-sm border-obsidian-700 text-pearl-500">{b}</span>
                 ))}
               </div>
             </div>
@@ -223,14 +198,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className={`mt-8 pt-6 border-t ${border} flex flex-col sm:flex-row justify-between items-center gap-3`}>
-          <p className={`text-xs ${muted}`}>
+        <div className="mt-8 pt-6 border-t border-gold-900/25 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-pearl-500">
             © {new Date().getFullYear()} Gemify. All rights reserved. Investment grade gemstones for discerning collectors.
           </p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms', 'Cookie Policy'].map((l) => (
               <a key={l} href="#"
-                className={`text-xs transition-colors ${muted} hover:text-gold-500`}>
+                className="text-xs text-pearl-500 transition-colors hover:text-gold-500">
                 {l}
               </a>
             ))}

@@ -25,8 +25,7 @@ export default function Preloader() {
       </div>
 
       {/* Brand name */}
-      <p className="font-display text-xl font-semibold text-gold-gradient tracking-widest-xl mb-6"
-        style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+      <p className="text-xl font-bold text-gold-gradient tracking-widest mb-6">
         GEMIFY
       </p>
 

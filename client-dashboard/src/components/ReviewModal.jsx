@@ -48,8 +48,7 @@ export default function ReviewModal({ gem, onClose, onDone }) {
         <div className="flex items-start justify-between mb-6">
           <div>
             <p className="section-label mb-1">Share Your Experience</p>
-            <h2 className="font-display text-2xl font-light text-pearl-50"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            <h2 className="text-xl font-bold text-pearl-50">
               Review {gem.name}
             </h2>
           </div>

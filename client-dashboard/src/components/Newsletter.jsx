@@ -31,8 +31,7 @@ export default function Newsletter() {
   return (
     <div className="luxury-card p-8 md:p-10 text-center">
       <p className="section-label mb-3">Private Intelligence</p>
-      <h3 className="font-display text-2xl md:text-3xl font-light text-pearl-100 mb-3"
-        style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+      <h3 className="text-2xl md:text-3xl font-bold text-pearl-100 mb-3">
         Gem insights, in your inbox
       </h3>
       <p className="text-pearl-400 text-sm max-w-md mx-auto mb-7">

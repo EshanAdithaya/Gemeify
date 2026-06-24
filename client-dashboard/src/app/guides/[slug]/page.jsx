@@ -75,12 +75,10 @@ export default function GuidePage({ params }) {
             style={{ background: 'rgba(212,175,55,0.06)' }}>
             {guide.category}
           </span>
-          <h1 className="font-display text-4xl md:text-5xl font-light text-pearl-50 leading-tight mt-3 mb-4"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 leading-tight mt-3 mb-4">
             {guide.title}
           </h1>
-          <p className="text-pearl-400 text-lg leading-relaxed mb-5"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: '1.15rem' }}>
+          <p className="text-pearl-400 text-base sm:text-lg leading-relaxed mb-5">
             {guide.excerpt}
           </p>
           <div className="flex items-center gap-3 text-[11px] font-semibold tracking-wider uppercase text-pearl-600">
@@ -96,8 +94,7 @@ export default function GuidePage({ params }) {
         <div className="space-y-10">
           {guide.sections.map((s, i) => (
             <section key={s.heading}>
-              <h2 className="font-display text-2xl font-medium text-pearl-100 mb-3"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <h2 className="text-xl sm:text-2xl font-bold text-pearl-100 mb-3">
                 {s.heading}
               </h2>
               <p className="text-pearl-300 leading-relaxed text-base">{s.body}</p>
@@ -112,8 +109,7 @@ export default function GuidePage({ params }) {
         <div className="mt-14 luxury-card p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
           <div>
             <p className="section-label mb-1">Ready to Acquire?</p>
-            <h3 className="font-display text-xl font-medium text-pearl-100"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            <h3 className="text-lg sm:text-xl font-bold text-pearl-100">
               Browse Investment-Grade Gems
             </h3>
             <p className="text-sm text-pearl-500 mt-1">Fully certified with provenance documentation.</p>

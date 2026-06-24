@@ -116,8 +116,7 @@ export default function CompareTray() {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <p className="font-display text-base font-medium text-pearl-100 text-left"
-                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                        <p className="text-sm font-bold text-pearl-100 text-left">
                           {g.name}
                         </p>
                       </th>

@@ -17,8 +17,7 @@ export default function Error({ error, reset }) {
           <AlertTriangle size={24} className="text-gold-600" />
         </div>
         <p className="section-label mb-2">Unexpected Error</p>
-        <h1 className="font-display text-3xl font-light text-pearl-100 mb-3"
-          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+        <h1 className="text-3xl font-bold text-pearl-100 mb-3">
           Something Went Wrong
         </h1>
         <p className="text-pearl-500 text-sm mb-8 leading-relaxed">

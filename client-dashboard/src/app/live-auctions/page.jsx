@@ -104,8 +104,7 @@ function LiveAuctionsContent() {
         <header className="flex items-start justify-between mb-10">
           <div>
             <p className="section-label mb-1">Private Auction House</p>
-            <h1 className="font-display text-4xl font-light text-pearl-50"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            <h1 className="text-3xl sm:text-4xl font-bold text-pearl-50">
               Live Auctions
             </h1>
             <p className="text-sm text-pearl-500 mt-2">Real-time bidding on investment-grade gemstones</p>
@@ -122,8 +121,7 @@ function LiveAuctionsContent() {
         {auctions.length === 0 ? (
           <div className="luxury-card p-16 text-center">
             <Gavel size={32} className="text-gold-700 mx-auto mb-4" />
-            <p className="font-display text-xl font-light text-pearl-300 mb-2"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            <p className="text-xl font-bold text-pearl-300 mb-2">
               No Active Auctions
             </p>
             <p className="text-sm text-pearl-600">Private auction events are announced to verified members.</p>
@@ -175,8 +173,7 @@ function LiveAuctionsContent() {
                     {auction.gem?.category?.name && (
                       <p className="section-label mb-1.5">{auction.gem.category.name}</p>
                     )}
-                    <h3 className="font-display text-xl font-medium text-pearl-50 mb-1"
-                      style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                    <h3 className="text-base font-bold text-pearl-50 mb-1">
                       {auction.title}
                     </h3>
                     {auction.description && (
@@ -189,15 +186,13 @@ function LiveAuctionsContent() {
                     <div className="grid grid-cols-2 gap-2.5 mb-4">
                       <div className="luxury-card p-3">
                         <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Current Bid</p>
-                        <p className="font-display text-lg font-semibold text-gold-gradient"
-                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                        <p className="text-lg font-bold text-gold-gradient">
                           ${Number(auction.currentBid || 0).toLocaleString()}
                         </p>
                       </div>
                       <div className="luxury-card p-3">
                         <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Total Bids</p>
-                        <p className="font-display text-lg font-semibold text-pearl-100"
-                          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+                        <p className="text-lg font-bold text-pearl-100">
                           {auction.totalBids || 0}
                         </p>
                       </div>

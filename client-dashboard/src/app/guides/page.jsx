@@ -40,8 +40,7 @@ export default function GuidesPage() {
         {/* Header */}
         <header className="text-center mb-16 animate-fade-up">
           <p className="section-label mb-3">Expert Knowledge</p>
-          <h1 className="font-display font-light text-pearl-50 mb-4"
-            style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 mb-4">
             Gem Investment Guides
           </h1>
           <p className="text-pearl-400 max-w-2xl mx-auto text-base leading-relaxed">
@@ -63,8 +62,7 @@ export default function GuidesPage() {
                 style={{ background: 'rgba(212,175,55,0.08)' }}>
                 {g.category}
               </span>
-              <h2 className="font-display text-xl font-medium text-pearl-100 mb-2 group-hover:text-gold-400 transition-colors"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <h2 className="text-lg font-bold text-pearl-100 mb-2 group-hover:text-gold-400 transition-colors">
                 {g.title}
               </h2>
               <p className="text-pearl-500 text-sm leading-relaxed flex-1 mb-5">{g.excerpt}</p>

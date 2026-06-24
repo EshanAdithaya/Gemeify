@@ -14,8 +14,7 @@ export default function BannedMessage() {
           <ShieldOff size={22} className="text-red-400" />
         </div>
         <p className="section-label mb-1 text-red-500">Account Restricted</p>
-        <h1 className="font-display text-3xl font-light text-pearl-100 mb-3"
-          style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+        <h1 className="text-3xl font-bold text-pearl-100 mb-3">
           Access Suspended
         </h1>
         <p className="text-sm text-pearl-400 mb-8 leading-relaxed">

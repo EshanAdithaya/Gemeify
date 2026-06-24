@@ -186,8 +186,7 @@ export default async function GemPage({ params }) {
             {gem.category?.name && (
               <p className="section-label mb-2">{gem.category.name}</p>
             )}
-            <h1 className="font-display text-4xl md:text-5xl font-light text-pearl-50 leading-tight mb-4"
-              style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 leading-tight mb-4">
               {gem.name}
             </h1>
 
@@ -207,8 +206,7 @@ export default async function GemPage({ params }) {
             {/* Price */}
             <div className="mb-2">
               <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-600 mb-1">Investment Price</p>
-              <p className="font-display text-4xl font-semibold text-gold-gradient"
-                style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)' }}>
+              <p className="text-3xl sm:text-4xl font-bold text-gold-gradient">
                 ${price.toLocaleString()}
               </p>
             </div>
@@ -265,8 +263,7 @@ export default async function GemPage({ params }) {
                   <span className="section-label">Provenance</span>
                   <div className="flex-1 h-px bg-gold-900/25" />
                 </div>
-                <p className="text-pearl-300 leading-relaxed text-base whitespace-pre-line"
-                  style={{ fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: '1.05rem' }}>
+                <p className="text-pearl-300 leading-relaxed text-base whitespace-pre-line">
                   {gem.description}
                 </p>
               </section>
