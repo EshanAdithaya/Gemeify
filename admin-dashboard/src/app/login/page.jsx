@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Gem, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -27,7 +28,16 @@ export default function AdminLoginPage() {
       await login(email, password);
       router.push('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Login failed');
+      const status = err?.response?.status;
+      if (status === 401) {
+        setError('The email or password you entered is incorrect. Please try again.');
+      } else if (status === 403) {
+        setError('This account does not have administrator access.');
+      } else if (status === 429) {
+        setError('Too many failed attempts. Please wait a few minutes before trying again.');
+      } else {
+        setError('We could not sign you in right now. Please try again shortly.');
+      }
     } finally {
       setLoading(false);
     }
@@ -67,7 +77,15 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-slate-300">Password</label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-brand-400 hover:text-brand-300 transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
