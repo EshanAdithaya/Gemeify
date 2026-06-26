@@ -203,11 +203,15 @@ export default function Footer() {
             © {new Date().getFullYear()} Gemify. All rights reserved. Investment grade gemstones for discerning collectors.
           </p>
           <div className="flex gap-6">
-            {['Privacy Policy', 'Terms', 'Cookie Policy'].map((l) => (
-              <a key={l} href="#"
+            {[
+              { label: 'Privacy Policy', href: '/privacy-policy' },
+              { label: 'Terms',          href: '/terms'          },
+              { label: 'Cookie Policy',  href: '/cookie-policy'  },
+            ].map((l) => (
+              <Link key={l.label} href={l.href}
                 className="text-xs text-slate-500 transition-colors hover:text-royal-600">
-                {l}
-              </a>
+                {l.label}
+              </Link>
             ))}
           </div>
         </div>
