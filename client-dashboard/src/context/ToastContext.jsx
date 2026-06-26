@@ -11,10 +11,28 @@ const ICONS = {
   info:    Info,
 };
 
-const ACCENTS = {
-  success: 'border-emerald-500/40 text-emerald-300',
-  error:   'border-red-500/40 text-red-300',
-  info:    'border-gold-700/40 text-gold-400',
+const STYLES = {
+  success: {
+    border: 'border-emerald-200',
+    bg:     'bg-emerald-50',
+    icon:   'text-emerald-600',
+    text:   'text-emerald-900',
+    close:  'text-emerald-400 hover:text-emerald-700',
+  },
+  error: {
+    border: 'border-red-200',
+    bg:     'bg-red-50',
+    icon:   'text-red-500',
+    text:   'text-red-800',
+    close:  'text-red-300 hover:text-red-600',
+  },
+  info: {
+    border: 'border-royal-200',
+    bg:     'bg-royal-50',
+    icon:   'text-royal-600',
+    text:   'text-royal-900',
+    close:  'text-royal-300 hover:text-royal-600',
+  },
 };
 
 let idCounter = 0;
@@ -27,7 +45,7 @@ export function ToastProvider({ children }) {
   }, []);
 
   const toast = useCallback(
-    (message, type = 'success', duration = 3200) => {
+    (message, type = 'success', duration = 4000) => {
       const id = ++idCounter;
       setToasts((prev) => [...prev, { id, message, type }]);
       if (duration) setTimeout(() => dismiss(id), duration);
@@ -41,24 +59,21 @@ export function ToastProvider({ children }) {
       {children}
       <div className="fixed top-24 right-4 z-[100] flex flex-col gap-2 w-80 max-w-[calc(100vw-2rem)]">
         {toasts.map((t) => {
-          const Icon = ICONS[t.type] || Info;
+          const Icon  = ICONS[t.type] || Info;
+          const style = STYLES[t.type] || STYLES.info;
           return (
             <div
               key={t.id}
-              role="status"
-              className={`flex items-start gap-3 border px-4 py-3 shadow-luxury rounded-sm ${ACCENTS[t.type] || ACCENTS.info}`}
-              style={{
-                background: 'rgba(14,12,11,0.96)',
-                backdropFilter: 'blur(12px)',
-                animation: 'fade-up 0.25s ease both',
-              }}
+              role="alert"
+              className={`flex items-start gap-3 border px-4 py-3 rounded-lg shadow-card ${style.border} ${style.bg}`}
+              style={{ animation: 'fade-up 0.25s ease both' }}
             >
-              <Icon size={16} className="mt-0.5 shrink-0" />
-              <p className="flex-1 text-sm text-pearl-200">{t.message}</p>
+              <Icon size={16} className={`mt-0.5 shrink-0 ${style.icon}`} />
+              <p className={`flex-1 text-sm font-medium ${style.text}`}>{t.message}</p>
               <button
                 onClick={() => dismiss(t.id)}
                 aria-label="Dismiss"
-                className="text-pearl-600 hover:text-pearl-300 transition-colors"
+                className={`transition-colors ${style.close}`}
               >
                 <X size={14} />
               </button>

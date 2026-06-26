@@ -56,8 +56,8 @@ export default function Navbar() {
   };
 
   const navBg = scrolled
-    ? 'bg-obsidian-950/96 backdrop-blur-xl border-b border-gold-900/25 shadow-nav'
-    : 'bg-transparent';
+    ? 'bg-white/96 backdrop-blur-xl border-b border-slate-200 shadow-nav'
+    : 'bg-white/80 backdrop-blur-sm border-b border-slate-100';
 
   return (
     <>
@@ -72,10 +72,10 @@ export default function Navbar() {
                 <polygon points="14,6 22,10.5 22,19.5 14,22 6,19.5 6,10.5" fill="url(#gNf)" opacity="0.25"/>
                 <defs>
                   <linearGradient id="gN" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#C9A84C"/><stop offset="50%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#B8962E"/>
+                    <stop offset="0%" stopColor="#1E40AF"/><stop offset="50%" stopColor="#2563EB"/><stop offset="100%" stopColor="#3B82F6"/>
                   </linearGradient>
                   <linearGradient id="gNf" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#C9A84C"/>
+                    <stop offset="0%" stopColor="#2563EB"/><stop offset="100%" stopColor="#1E40AF"/>
                   </linearGradient>
                 </defs>
               </svg>
@@ -86,7 +86,7 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-8">
               {NAV_LINKS.map((item) => (
                 <Link key={item.href} href={item.href}
-                  className="link-underline text-[11px] font-bold tracking-[0.15em] uppercase text-pearl-400 hover:text-gold-400 transition-colors">
+                  className="link-underline text-[11px] font-bold tracking-[0.15em] uppercase text-slate-500 hover:text-royal-600 transition-colors">
                   {item.label}
                 </Link>
               ))}
@@ -98,16 +98,16 @@ export default function Navbar() {
               {/* Currency — desktop only */}
               <div className="relative hidden md:block">
                 <button onClick={() => setCurrencyOpen(!currencyOpen)}
-                  className="flex items-center gap-1 px-2 py-2 text-[11px] font-bold tracking-wider uppercase text-pearl-500 hover:text-gold-400 transition-colors"
+                  className="flex items-center gap-1 px-2 py-2 text-[11px] font-bold tracking-wider uppercase text-slate-500 hover:text-royal-600 transition-colors"
                   aria-label="Select currency">
                   <Globe size={13} /><span>{currency}</span>
                   <ChevronDown size={11} className={`transition-transform ${currencyOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {currencyOpen && (
-                  <div className="absolute right-0 mt-1 w-20 bg-obsidian-900 border border-gold-900/40 py-1 z-50 rounded-sm shadow-luxury">
+                  <div className="absolute right-0 mt-1 w-20 bg-white border border-slate-200 py-1 z-50 rounded-lg shadow-card">
                     {CURRENCIES.map((c) => (
                       <button key={c} onClick={() => { setCurrency(c); setCurrencyOpen(false); }}
-                        className={`w-full text-left px-3 py-1.5 text-[11px] font-bold tracking-wider transition-colors ${c === currency ? 'text-gold-500' : 'text-pearl-500 hover:text-gold-400'}`}>
+                        className={`w-full text-left px-3 py-1.5 text-[11px] font-bold tracking-wider transition-colors ${c === currency ? 'text-royal-600' : 'text-slate-500 hover:text-royal-600 hover:bg-slate-50'}`}>
                         {c}
                       </button>
                     ))}
@@ -116,25 +116,25 @@ export default function Navbar() {
               </div>
 
               {/* Search */}
-              <button onClick={() => setSearchOpen(true)} className="p-2.5 text-pearl-500 hover:text-gold-400 transition-colors" aria-label="Search">
+              <button onClick={() => setSearchOpen(true)} className="p-2.5 text-slate-500 hover:text-royal-600 transition-colors" aria-label="Search">
                 <Search size={17} />
               </button>
 
               {/* Wishlist */}
-              <Link href="/wishlist" className="relative p-2.5 text-pearl-500 hover:text-gold-400 transition-colors" aria-label="Wishlist">
+              <Link href="/wishlist" className="relative p-2.5 text-slate-500 hover:text-royal-600 transition-colors" aria-label="Wishlist">
                 <Heart size={17} />
                 {wishlistCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-gold-500 text-obsidian-950 text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute top-1.5 right-1.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-royal-600 text-white text-[9px] font-bold flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
               {/* Cart */}
-              <button onClick={() => setCartOpen(true)} className="relative p-2.5 text-pearl-500 hover:text-gold-400 transition-colors" aria-label="Cart">
+              <button onClick={() => setCartOpen(true)} className="relative p-2.5 text-slate-500 hover:text-royal-600 transition-colors" aria-label="Cart">
                 <ShoppingBag size={17} />
                 {cartCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-gold-500 text-obsidian-950 text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute top-1.5 right-1.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-royal-600 text-white text-[9px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -144,23 +144,23 @@ export default function Navbar() {
               {user ? (
                 <div className="relative hidden sm:block ml-1" ref={userRef}>
                   <button onClick={() => setUserOpen(!userOpen)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 border border-gold-900/40 text-pearl-300 hover:border-gold-600/60 hover:text-gold-400 transition-all rounded-sm">
+                    className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-700 hover:border-royal-400 hover:text-royal-700 transition-all rounded-md bg-white">
                     <User size={14} />
                     <span className="text-[11px] font-bold tracking-wider uppercase hidden md:block">{user.firstName || 'Account'}</span>
                     <ChevronDown size={11} className={`transition-transform ${userOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {userOpen && (
-                    <div className="absolute right-0 mt-1.5 w-52 bg-obsidian-900 border border-gold-900/40 py-1.5 z-50 rounded-sm shadow-luxury">
-                      <div className="px-4 py-2 border-b border-gold-900/25 text-[10px] font-bold tracking-widest uppercase text-pearl-600">{user.email}</div>
+                    <div className="absolute right-0 mt-1.5 w-52 bg-white border border-slate-200 py-1.5 z-50 rounded-lg shadow-card">
+                      <div className="px-4 py-2 border-b border-slate-100 text-[10px] font-bold tracking-widest uppercase text-slate-400">{user.email}</div>
                       {[{ href: '/account/orders', Icon: Package, label: 'My Orders' }, { href: '/wishlist', Icon: Heart, label: 'Wishlist' }].map(({ href, Icon, label }) => (
                         <Link key={href} href={href} onClick={() => setUserOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-pearl-300 hover:text-gold-400 hover:bg-obsidian-800 transition-colors">
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:text-royal-700 hover:bg-slate-50 transition-colors">
                           <Icon size={14} />{label}
                         </Link>
                       ))}
-                      <div className="border-t border-gold-900/25 mt-1" />
+                      <div className="border-t border-slate-100 mt-1" />
                       <button onClick={() => { logout(); setUserOpen(false); router.push('/login'); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-pearl-300 hover:text-red-400 hover:bg-obsidian-800 transition-colors">
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors">
                         <LogOut size={14} />Sign Out
                       </button>
                     </div>
@@ -168,65 +168,63 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link href="/login"
-                  className="hidden sm:flex items-center gap-1.5 ml-1 px-3 py-1.5 border border-gold-700/60 text-gold-400 hover:bg-gold-500/10 text-[11px] font-bold tracking-wider uppercase transition-all rounded-sm">
-                  Private Access
+                  className="hidden sm:flex items-center gap-1.5 ml-1 px-3 py-1.5 bg-royal-600 text-white hover:bg-royal-700 text-[11px] font-bold tracking-wider uppercase transition-all rounded-md">
+                  Sign In
                 </Link>
               )}
 
               {/* Hamburger — mobile */}
               <button onClick={() => setMenuOpen(!menuOpen)}
-                className="lg:hidden p-2.5 ml-0.5 text-pearl-400 hover:text-gold-400 transition-colors" aria-label="Menu">
+                className="lg:hidden p-2.5 ml-0.5 text-slate-500 hover:text-royal-600 transition-colors" aria-label="Menu">
                 {menuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
         </div>
-        {/* Bottom accent */}
-        <div className="h-px bg-gradient-to-r from-transparent via-gold-700/30 to-transparent" />
       </nav>
 
       {/* ── Search overlay ── */}
       {searchOpen && (
         <div className="fixed inset-0 z-[60] flex items-start justify-center pt-20 px-4" onClick={() => setSearchOpen(false)}>
-          <div className="absolute inset-0 bg-obsidian-950/85 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" />
           <form onSubmit={handleSearch} onClick={(e) => e.stopPropagation()} className="relative w-full max-w-xl">
             <input ref={searchRef} type="text" value={searchVal} onChange={(e) => setSearchVal(e.target.value)}
               placeholder="Search sapphires, rubies, diamonds…"
-              className="w-full bg-obsidian-900 border border-gold-700/40 text-pearl-100 placeholder-pearl-600 px-5 py-4 pr-12 text-base rounded-sm focus:outline-none focus:border-gold-500/70 font-medium" />
-            <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gold-500 hover:text-gold-400"><Search size={20} /></button>
+              className="w-full bg-white border border-slate-300 text-slate-900 placeholder-slate-400 px-5 py-4 pr-12 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500/40 focus:border-royal-500 font-medium shadow-card" />
+            <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-royal-600 hover:text-royal-800"><Search size={20} /></button>
           </form>
         </div>
       )}
 
       {/* ── Mobile drawer ── */}
       <div className={`fixed inset-0 z-[55] lg:hidden transition-all duration-300 ${menuOpen ? 'visible' : 'invisible'}`}>
-        <div className={`absolute inset-0 bg-obsidian-950/70 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0'}`}
+        <div className={`absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setMenuOpen(false)} />
-        <div className={`absolute inset-y-0 right-0 w-[280px] bg-obsidian-950 border-l border-gold-900/25 flex flex-col transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`absolute inset-y-0 right-0 w-[280px] bg-white border-l border-slate-200 flex flex-col transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           {/* Drawer header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gold-900/25">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
             <span className="text-sm font-bold tracking-[0.2em] uppercase text-gold-gradient">GEMIFY</span>
-            <button onClick={() => setMenuOpen(false)} className="p-1.5 text-pearl-500 hover:text-gold-400 transition-colors"><X size={18} /></button>
+            <button onClick={() => setMenuOpen(false)} className="p-1.5 text-slate-400 hover:text-royal-600 transition-colors"><X size={18} /></button>
           </div>
 
           {/* Nav links */}
           <nav className="flex flex-col px-5 py-4 gap-0.5 flex-1">
             {NAV_LINKS.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)}
-                className="flex items-center py-3.5 text-[12px] font-bold tracking-[0.12em] uppercase text-pearl-300 hover:text-gold-400 border-b border-obsidian-800 last:border-0 transition-colors">
+                className="flex items-center py-3.5 text-[12px] font-bold tracking-[0.12em] uppercase text-slate-600 hover:text-royal-700 border-b border-slate-100 last:border-0 transition-colors">
                 {item.label}
               </Link>
             ))}
           </nav>
 
           {/* Currency + CTA */}
-          <div className="px-5 py-4 border-t border-gold-900/25 space-y-4">
+          <div className="px-5 py-4 border-t border-slate-100 space-y-4">
             <div>
-              <p className="text-[9px] font-bold tracking-widest uppercase text-pearl-700 mb-2">Currency</p>
+              <p className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-2">Currency</p>
               <div className="flex gap-1.5 flex-wrap">
                 {CURRENCIES.map((c) => (
                   <button key={c} onClick={() => setCurrency(c)}
-                    className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-sm border transition-colors ${c === currency ? 'border-gold-500 text-gold-500 bg-gold-500/10' : 'border-obsidian-700 text-pearl-500 hover:border-gold-800 hover:text-pearl-300'}`}>
+                    className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border transition-colors ${c === currency ? 'border-royal-500 text-royal-600 bg-royal-50' : 'border-slate-200 text-slate-500 hover:border-royal-400 hover:text-royal-600'}`}>
                     {c}
                   </button>
                 ))}
@@ -235,7 +233,7 @@ export default function Navbar() {
             {user ? (
               <div className="space-y-2">
                 <Link href="/account/orders" onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-2.5 py-2.5 text-sm text-pearl-300 hover:text-gold-400 transition-colors">
+                  className="flex items-center gap-2.5 py-2.5 text-sm text-slate-600 hover:text-royal-700 transition-colors">
                   <Package size={14} /> My Orders
                 </Link>
                 <button onClick={() => { logout(); setMenuOpen(false); router.push('/login'); }}
@@ -243,7 +241,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Link href="/login" onClick={() => setMenuOpen(false)} className="btn-gold w-full text-center py-3 text-xs">
-                Private Access
+                Sign In
               </Link>
             )}
           </div>

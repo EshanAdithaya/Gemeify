@@ -16,11 +16,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background: #0E0C0B;
-  color: #FAF9F6;
+  background: #FFFFFF;
+  color: #0F172A;
 }
 
-/* ── Force Inter for all display/heading text (no Cormorant) ─────────── */
+/* ── Headings ─────────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6,
 .font-display,
 [class*="font-display"] {
@@ -29,7 +29,6 @@ h1, h2, h3, h4, h5, h6,
   letter-spacing: -0.02em;
 }
 
-/* Override any inline Cormorant style */
 [style*="cormorant"],
 [style*="Cormorant"] {
   font-family: var(--font-inter, ui-sans-serif, sans-serif) !important;
@@ -41,40 +40,36 @@ h1, h2, h3, h4, h5, h6,
   box-sizing: border-box;
 }
 
-/* ── Gold selection highlight ─────────────────────────────────────────── */
+/* ── Selection highlight ──────────────────────────────────────────────── */
 ::selection {
-  background: rgba(212, 175, 55, 0.30);
-  color: #FAF9F6;
+  background: rgba(37, 99, 235, 0.18);
+  color: #0F172A;
 }
 
-/* ── Luxury slim scrollbar ────────────────────────────────────────────── */
+/* ── Slim scrollbar ───────────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: #0E0C0B; }
-::-webkit-scrollbar-thumb  { background: rgba(212,175,55,0.35); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(212,175,55,0.60); }
+::-webkit-scrollbar-track  { background: #F1F5F9; }
+::-webkit-scrollbar-thumb  { background: rgba(37,99,235,0.30); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(37,99,235,0.55); }
 
 /* ── Utility classes ──────────────────────────────────────────────────── */
 .text-shadow-lg {
-  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  text-shadow: 0 2px 12px rgba(15,23,42,0.18);
 }
 
-.text-shadow-gold {
-  text-shadow: 0 0 20px rgba(212,175,55,0.4);
-}
-
-/* Gold gradient text helper */
+/* Blue gradient text helper */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #C9A84C 0%, #D4AF37 50%, #F2CB3C 75%, #B8962E 100%);
+  background: linear-gradient(135deg, #1E40AF 0%, #2563EB 50%, #3B82F6 75%, #1D4ED8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Thin gold rule */
+/* Thin blue rule */
 .gold-rule {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.35), transparent);
 }
 
 /* ── Shimmer skeleton ─────────────────────────────────────────────────── */
@@ -90,7 +85,7 @@ h1, h2, h3, h4, h5, h6,
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 175, 55, 0.06),
+    rgba(37, 99, 235, 0.06),
     transparent
   );
   animation: shimmer 1.8s infinite;
@@ -99,60 +94,81 @@ h1, h2, h3, h4, h5, h6,
   100% { transform: translateX(100%); }
 }
 
-/* ── Luxury card ──────────────────────────────────────────────────────── */
+/* ── Premium card ─────────────────────────────────────────────────────── */
 .luxury-card {
-  background: rgba(24, 22, 20, 0.9);
-  border: 1px solid rgba(212, 175, 55, 0.12);
-  border-radius: 4px;
+  background: #FFFFFF;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(15,23,42,0.07);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .luxury-card:hover {
-  border-color: rgba(212, 175, 55, 0.35);
-  box-shadow: 0 16px 56px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,175,55,0.18);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 8px 40px rgba(15,23,42,0.13), 0 0 0 1px rgba(37,99,235,0.15);
 }
 
-/* ── Gold button ──────────────────────────────────────────────────────── */
+/* Light card variant (same on light theme) */
+.luxury-card-light {
+  background: #FFFFFF;
+  border: 1px solid rgba(37, 99, 235, 0.10);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(15,23,42,0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.luxury-card-light:hover {
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 8px 36px rgba(15,23,42,0.12), 0 0 0 1px rgba(37,99,235,0.18);
+}
+
+/* ── Primary blue button ──────────────────────────────────────────────── */
 .btn-gold {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, #C9A84C 0%, #D4AF37 50%, #B8962E 100%);
-  color: #0A0908;
+  background: linear-gradient(135deg, #1E40AF 0%, #2563EB 60%, #3B82F6 100%);
+  color: #FFFFFF;
   font-family: var(--font-inter, sans-serif);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 2px;
-  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 6px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  border: none;
 }
 .btn-gold:hover {
-  opacity: 0.9;
-  box-shadow: 0 4px 24px rgba(212,175,55,0.35);
+  opacity: 0.92;
+  box-shadow: 0 6px 28px rgba(37,99,235,0.38);
+  transform: translateY(-1px);
+}
+.btn-gold:active {
+  transform: translateY(0);
 }
 
+/* Outline blue button */
 .btn-outline-gold {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 2rem;
-  border: 1px solid rgba(212, 175, 55, 0.60);
-  color: #D4AF37;
+  border: 1.5px solid rgba(37, 99, 235, 0.55);
+  color: #2563EB;
   font-family: var(--font-inter, sans-serif);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 2px;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  border-radius: 6px;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   background: transparent;
 }
 .btn-outline-gold:hover {
-  background: rgba(212, 175, 55, 0.08);
-  border-color: rgba(212, 175, 55, 0.90);
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.85);
+  box-shadow: 0 2px 12px rgba(37,99,235,0.14);
 }
 
 /* ── Section label ────────────────────────────────────────────────────── */
@@ -162,7 +178,7 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #D4AF37;
+  color: #2563EB;
   display: block;
 }
 
@@ -176,15 +192,15 @@ h1, h2, h3, h4, h5, h6,
   bottom: -2px;
   left: 0;
   width: 0;
-  height: 1px;
-  background: #D4AF37;
+  height: 1.5px;
+  background: #2563EB;
   transition: width 0.3s ease;
 }
 .link-underline:hover::after {
   width: 100%;
 }
 
-/* ── Line clamp (supplement Tailwind's built-in for older compat) ─────── */
+/* ── Line clamp ───────────────────────────────────────────────────────── */
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -198,19 +214,7 @@ h1, h2, h3, h4, h5, h6,
   -webkit-line-clamp: 3;
 }
 
-/* ── Light-mode luxury card (for pages with isDarkMode branching) ──────── */
-.luxury-card-light {
-  background: rgba(250, 249, 246, 0.97);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  border-radius: 4px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-.luxury-card-light:hover {
-  border-color: rgba(212, 175, 55, 0.40);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.10), 0 0 0 1px rgba(212,175,55,0.20);
-}
-
-/* ── Pulse dot (reusable for live indicators) ─────────────────────────── */
+/* ── Pulse dot ────────────────────────────────────────────────────────── */
 @keyframes ping-gold {
   75%, 100% { transform: scale(2); opacity: 0; }
 }

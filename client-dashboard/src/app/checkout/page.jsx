@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { Events } from '@/lib/analytics';
 import OptimizedImage from '@/components/OptimizedImage';
+import { friendlyError } from '@/lib/errorMessages';
 
 const FIELDS = [
   ['firstName', 'First Name',                      true,  false],
@@ -29,7 +30,7 @@ const PAYMENT_OPTIONS = [
   { value: 'paypal',         label: 'PayPal',            sub: 'Secure digital payment' },
 ];
 
-const inputCls = 'w-full px-4 py-2.5 bg-obsidian-900 text-pearl-100 border border-gold-900/30 rounded-sm text-sm placeholder:text-pearl-700 focus:outline-none focus:border-gold-700/60 transition-colors';
+const inputCls = 'w-full px-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-md text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-royal-500/30 focus:border-royal-500 transition-colors';
 
 export default function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
@@ -63,8 +64,7 @@ export default function CheckoutPage() {
       clear();
       setConfirmation(order);
     } catch (err) {
-      const msg = err.response?.data?.message || 'Could not place order. Please try again.';
-      toast(Array.isArray(msg) ? msg[0] : msg, 'error');
+      toast(friendlyError(err, 'We could not place your order right now. Please try again or contact support.'), 'error');
     } finally {
       setSubmitting(false);
     }
@@ -75,13 +75,12 @@ export default function CheckoutPage() {
     return (
       <Shell>
         <div className="luxury-card p-12 text-center max-w-md mx-auto">
-          <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-gold-900/30 rounded-sm"
-            style={{ background: 'rgba(212,175,55,0.06)' }}>
-            <Lock size={22} className="text-gold-600" />
+          <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center rounded-full bg-royal-50 border border-royal-100">
+            <Lock size={22} className="text-royal-600" />
           </div>
-          <p className="section-label mb-1">Private Access Required</p>
-          <h1 className="text-2xl font-bold text-pearl-50 mb-3">Sign In to Continue</h1>
-          <p className="text-sm text-pearl-500 mb-6">You need an account to acquire gems.</p>
+          <p className="section-label mb-1">Sign In Required</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-3">Sign In to Continue</h1>
+          <p className="text-sm text-slate-500 mb-6">You need an account to complete your purchase.</p>
           <Link href="/login" className="btn-gold inline-flex items-center gap-2">
             Sign In <ArrowRight size={14} />
           </Link>
@@ -95,11 +94,13 @@ export default function CheckoutPage() {
     return (
       <Shell>
         <div className="luxury-card p-12 text-center max-w-md mx-auto">
-          <CheckCircle2 size={44} className="text-emerald-400 mx-auto mb-5" />
+          <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+            <CheckCircle2 size={32} className="text-emerald-500" />
+          </div>
           <p className="section-label mb-1">Order Confirmed</p>
-          <h1 className="text-3xl font-bold text-pearl-50 mb-3">Thank You</h1>
-          <p className="text-sm text-pearl-400 mb-2">Your acquisition has been recorded.</p>
-          <p className="font-mono text-sm text-gold-500 mb-7">{confirmation.orderNumber}</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-3">Thank You!</h1>
+          <p className="text-sm text-slate-500 mb-2">Your order has been received and is being processed.</p>
+          <p className="font-mono text-sm text-royal-600 bg-royal-50 border border-royal-100 rounded-md px-3 py-2 inline-block mb-7">{confirmation.orderNumber}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/account/orders" className="btn-gold w-full sm:w-auto justify-center">View Orders</Link>
             <Link href="/marketplace" className="btn-outline-gold w-full sm:w-auto justify-center">Browse More</Link>
@@ -114,10 +115,11 @@ export default function CheckoutPage() {
     return (
       <Shell>
         <div className="luxury-card p-12 text-center max-w-md mx-auto">
-          <ShoppingBag size={32} className="text-gold-700 mx-auto mb-4" />
-          <p className="text-xl font-bold text-pearl-50 mb-3">Your Cart is Empty</p>
+          <ShoppingBag size={32} className="text-slate-400 mx-auto mb-4" />
+          <p className="text-xl font-bold text-slate-800 mb-3">Your Cart is Empty</p>
+          <p className="text-sm text-slate-500 mb-6">Add some gems to your cart before checking out.</p>
           <Link href="/marketplace" className="btn-gold inline-flex items-center gap-2">
-            Browse the Collection <ArrowRight size={14} />
+            Browse Collection <ArrowRight size={14} />
           </Link>
         </div>
       </Shell>
@@ -128,8 +130,8 @@ export default function CheckoutPage() {
   return (
     <Shell>
       <header className="mb-10">
-        <p className="section-label mb-1">Secure Acquisition</p>
-        <h1 className="text-3xl sm:text-4xl font-bold text-pearl-50">Checkout</h1>
+        <p className="section-label mb-1">Secure Checkout</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Complete Your Order</h1>
       </header>
 
       <div className="grid lg:grid-cols-3 gap-8">
@@ -138,14 +140,14 @@ export default function CheckoutPage() {
 
           {/* Shipping */}
           <div className="luxury-card p-6">
-            <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-5 flex items-center gap-2">
-              <Shield size={12} className="text-gold-600" /> Shipping Details
+            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-5 flex items-center gap-2">
+              <Shield size={12} className="text-royal-600" /> Shipping Details
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {FIELDS.map(([k, label, req, fullRow]) => (
                 <div key={k} className={fullRow ? 'sm:col-span-2' : ''}>
-                  <label className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1.5 block">
-                    {label}{req ? '' : ''}
+                  <label className="text-[10px] font-bold tracking-wider uppercase text-slate-500 mb-1.5 block">
+                    {label}
                   </label>
                   <input
                     className={inputCls}
@@ -161,17 +163,17 @@ export default function CheckoutPage() {
 
           {/* Payment */}
           <div className="luxury-card p-6">
-            <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-5 flex items-center gap-2">
-              <Lock size={12} className="text-gold-600" /> Payment Method
+            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-5 flex items-center gap-2">
+              <Lock size={12} className="text-royal-600" /> Payment Method
             </p>
             <div className="space-y-2.5">
               {PAYMENT_OPTIONS.map(({ value, label, sub }) => (
                 <label
                   key={value}
-                  className={`flex items-center gap-4 px-4 py-3 border rounded-sm cursor-pointer transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 border rounded-lg cursor-pointer transition-colors ${
                     paymentMethod === value
-                      ? 'border-gold-700/60 bg-gold-500/5'
-                      : 'border-gold-900/20 hover:border-gold-900/40'
+                      ? 'border-royal-400 bg-royal-50'
+                      : 'border-slate-200 hover:border-royal-300 hover:bg-slate-50'
                   }`}
                 >
                   <input
@@ -180,16 +182,16 @@ export default function CheckoutPage() {
                     value={value}
                     checked={paymentMethod === value}
                     onChange={() => setPaymentMethod(value)}
-                    className="accent-amber-500"
+                    className="accent-blue-600"
                   />
                   <div>
-                    <p className="text-sm font-medium text-pearl-100">{label}</p>
-                    <p className="text-[11px] text-pearl-600">{sub}</p>
+                    <p className="text-sm font-medium text-slate-800">{label}</p>
+                    <p className="text-[11px] text-slate-500">{sub}</p>
                   </div>
                 </label>
               ))}
             </div>
-            <p className="text-[10px] text-pearl-600 mt-4 flex items-center gap-1.5">
+            <p className="text-[10px] text-slate-400 mt-4 flex items-center gap-1.5">
               <Lock size={10} /> Payment is confirmed after order review. All transactions are encrypted.
             </p>
           </div>
@@ -200,42 +202,42 @@ export default function CheckoutPage() {
             className="btn-gold w-full py-4 text-sm flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Lock size={14} />
-            {submitting ? 'Processing…' : `Complete Acquisition · $${subtotal.toLocaleString()}`}
+            {submitting ? 'Processing your order…' : `Place Order · $${subtotal.toLocaleString()}`}
           </button>
         </form>
 
         {/* ── Summary ── */}
         <div className="space-y-4">
           <div className="luxury-card p-5">
-            <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-4">Order Summary</p>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-4">Order Summary</p>
             <div className="space-y-3 mb-4">
               {items.map((i) => (
                 <div key={i.id} className="flex gap-3 items-center">
-                  <div className="relative w-14 h-14 rounded-sm overflow-hidden border border-gold-900/20 shrink-0">
+                  <div className="relative w-14 h-14 rounded-md overflow-hidden border border-slate-100 shrink-0">
                     <OptimizedImage src={i.mainImage} alt={i.name} fill sizes="56px" className="object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-pearl-100 truncate">{i.name}</p>
-                    <p className="text-[11px] text-pearl-600 mt-0.5">Qty {i.quantity}</p>
+                    <p className="text-sm text-slate-800 truncate">{i.name}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Qty {i.quantity}</p>
                   </div>
-                  <span className="text-sm font-medium text-pearl-200 whitespace-nowrap">
+                  <span className="text-sm font-semibold text-slate-700 whitespace-nowrap">
                     ${(i.price * i.quantity).toLocaleString()}
                   </span>
                 </div>
               ))}
             </div>
-            <div className="border-t border-gold-900/20 pt-4 flex justify-between items-baseline">
-              <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-600">Total</p>
-              <p className="text-2xl font-bold text-gold-gradient">${subtotal.toLocaleString()}</p>
+            <div className="border-t border-slate-100 pt-4 flex justify-between items-baseline">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Total</p>
+              <p className="text-2xl font-bold text-slate-900">${subtotal.toLocaleString()}</p>
             </div>
           </div>
 
-          {/* Trust */}
+          {/* Trust badges */}
           <div className="luxury-card p-4">
             {['Insured Global Shipping', 'Discreet Packaging', '256-Bit Encryption', 'GIA Documentation Included'].map((t) => (
               <div key={t} className="flex items-center gap-2.5 py-1.5">
-                <Shield size={11} className="text-gold-600 flex-shrink-0" />
-                <span className="text-[11px] text-pearl-400">{t}</span>
+                <Shield size={11} className="text-royal-500 flex-shrink-0" />
+                <span className="text-[11px] text-slate-500">{t}</span>
               </div>
             ))}
           </div>
@@ -247,7 +249,7 @@ export default function CheckoutPage() {
 
 function Shell({ children }) {
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-slate-50 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">{children}</div>
     </main>
   );
