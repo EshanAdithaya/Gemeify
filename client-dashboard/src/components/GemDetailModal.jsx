@@ -48,27 +48,27 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
     <div className="fixed inset-0 z-[80] overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-obsidian-950/85 backdrop-blur-sm"
+        className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative w-full max-w-5xl luxury-card overflow-hidden shadow-luxury">
+        <div className="relative w-full max-w-5xl luxury-card overflow-hidden shadow-card">
 
           {/* Close */}
           <button
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-4 right-4 z-20 p-2 border border-gold-900/30 text-pearl-500 hover:text-gold-400 hover:border-gold-700/50 transition-colors rounded-sm"
-            style={{ background: 'rgba(14,12,11,0.8)' }}
+            className="absolute top-4 right-4 z-20 p-2 border border-slate-200 text-slate-500 hover:text-royal-500 hover:border-gold-700/50 transition-colors rounded-sm"
+            style={{ background: 'rgba(15,23,42,0.5)' }}
           >
             <X size={16} />
           </button>
 
           <div className="flex flex-col lg:flex-row">
             {/* ── Image column ── */}
-            <div className="lg:w-1/2 relative bg-obsidian-900">
+            <div className="lg:w-1/2 relative bg-slate-50">
               <div className="relative h-[320px] lg:h-[520px]">
                 <OptimizedImage
                   src={allImages[imgIdx] || null}
@@ -82,8 +82,8 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
 
                 {/* Certification watermark */}
                 {gem.certificationLab && (
-                  <div className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-widest uppercase border border-gold-500/40 text-gold-400"
-                    style={{ background: 'rgba(14,12,11,0.75)', backdropFilter: 'blur(8px)' }}>
+                  <div className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-widest uppercase border border-gold-500/40 text-royal-500"
+                    style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)' }}>
                     {gem.certificationLab} Certified
                   </div>
                 )}
@@ -92,13 +92,13 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
                 {allImages.length > 1 && (
                   <>
                     <button onClick={prev}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 border border-gold-900/40 text-pearl-300 hover:text-gold-400 transition-colors rounded-sm"
-                      style={{ background: 'rgba(14,12,11,0.7)' }}>
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 border border-slate-200 text-slate-600 hover:text-royal-500 transition-colors rounded-sm"
+                      style={{ background: 'rgba(255,255,255,0.92)' }}>
                       <ChevronLeft size={16} />
                     </button>
                     <button onClick={next}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 border border-gold-900/40 text-pearl-300 hover:text-gold-400 transition-colors rounded-sm"
-                      style={{ background: 'rgba(14,12,11,0.7)' }}>
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 border border-slate-200 text-slate-600 hover:text-royal-500 transition-colors rounded-sm"
+                      style={{ background: 'rgba(255,255,255,0.92)' }}>
                       <ChevronRight size={16} />
                     </button>
                     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
@@ -124,15 +124,15 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
                   aria-label={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
                   className={`p-1.5 border rounded-sm transition-colors flex-shrink-0 ml-3 ${
                     inWishlist
-                      ? 'border-gold-700/50 text-gold-400'
-                      : 'border-gold-900/30 text-pearl-600 hover:text-gold-400 hover:border-gold-700/40'
+                      ? 'border-gold-700/50 text-royal-500'
+                      : 'border-slate-200 text-slate-400 hover:text-royal-500 hover:border-royal-300'
                   }`}
                 >
                   <Heart size={15} className={inWishlist ? 'fill-gold-500/50' : ''} />
                 </button>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-bold text-pearl-50 mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
                 {gem.name}
               </h2>
 
@@ -141,9 +141,9 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
                 <div className="flex items-center gap-1.5 mb-4">
                   {[1,2,3,4,5].map((n) => (
                     <Star key={n} size={12}
-                      className={n <= Math.round(gem.rating) ? 'text-gold-500 fill-gold-500' : 'text-pearl-700'} />
+                      className={n <= Math.round(gem.rating) ? 'text-royal-600 fill-gold-500' : 'text-slate-300'} />
                   ))}
-                  <span className="text-xs text-pearl-500 ml-1">{Number(gem.rating).toFixed(1)}</span>
+                  <span className="text-xs text-slate-500 ml-1">{Number(gem.rating).toFixed(1)}</span>
                 </div>
               )}
 
@@ -159,24 +159,24 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
               <div className="grid grid-cols-2 gap-2 mb-5">
                 {specs.map(([l, v]) => (
                   <div key={l}>
-                    <p className="text-[9px] font-bold tracking-wider uppercase text-pearl-600 mb-0.5">{l}</p>
-                    <p className="text-sm text-pearl-100">{v}</p>
+                    <p className="text-[9px] font-bold tracking-wider uppercase text-slate-400 mb-0.5">{l}</p>
+                    <p className="text-sm text-slate-800">{v}</p>
                   </div>
                 ))}
               </div>
 
               {/* Certification */}
               {gem.certificationLab && (
-                <div className="flex items-center gap-2 mb-5 px-3 py-2 border border-gold-900/20 rounded-sm"
-                  style={{ background: 'rgba(212,175,55,0.04)' }}>
-                  <Shield size={13} className="text-gold-600 flex-shrink-0" />
-                  <p className="text-xs text-pearl-300">{gem.certificationLab} Certified{gem.certificationNumber ? ` · #${gem.certificationNumber}` : ''}</p>
+                <div className="flex items-center gap-2 mb-5 px-3 py-2 border border-slate-200 rounded-sm"
+                  style={{ background: 'rgba(37,99,235,0.04)' }}>
+                  <Shield size={13} className="text-royal-700 flex-shrink-0" />
+                  <p className="text-xs text-slate-600">{gem.certificationLab} Certified{gem.certificationNumber ? ` · #${gem.certificationNumber}` : ''}</p>
                 </div>
               )}
 
               {/* Description */}
               {gem.description && (
-                <p className="text-sm text-pearl-400 leading-relaxed mb-5 line-clamp-3">{gem.description}</p>
+                <p className="text-sm text-slate-500 leading-relaxed mb-5 line-clamp-3">{gem.description}</p>
               )}
 
               {/* CTAs */}
@@ -198,11 +198,11 @@ export default function GemDetailModal({ gem, isOpen, onClose }) {
               </div>
 
               {/* Trust */}
-              <div className="flex gap-4 mt-5 pt-4 border-t border-gold-900/15">
+              <div className="flex gap-4 mt-5 pt-4 border-t border-slate-100">
                 {['Insured Shipping', 'Authenticity Guaranteed'].map((t) => (
                   <div key={t} className="flex items-center gap-1.5">
-                    <Shield size={11} className="text-gold-700 flex-shrink-0" />
-                    <span className="text-[10px] text-pearl-600">{t}</span>
+                    <Shield size={11} className="text-royal-700 flex-shrink-0" />
+                    <span className="text-[10px] text-slate-400">{t}</span>
                   </div>
                 ))}
               </div>

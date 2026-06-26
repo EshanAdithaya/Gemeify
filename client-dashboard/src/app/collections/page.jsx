@@ -15,13 +15,13 @@ function CollectionsContent() {
   const [subscribed, setSubscribed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-obsidian-950 pt-24 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white pt-24 pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
 
         {/* Decorative gem mark */}
         <div className="flex justify-center mb-10">
-          <div className="w-20 h-20 rounded-sm border border-gold-700/40 flex items-center justify-center"
-            style={{ background: 'rgba(212,175,55,0.06)' }}>
+          <div className="w-20 h-20 rounded-sm border border-royal-300 flex items-center justify-center"
+            style={{ background: 'rgba(37,99,235,0.05)' }}>
             <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
               <polygon points="20,3 37,12 37,28 20,37 3,28 3,12"
                 fill="none" stroke="url(#gCol)" strokeWidth="1.5"/>
@@ -42,13 +42,13 @@ function CollectionsContent() {
         </div>
 
         <p className="section-label mb-4">Private Collections</p>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pearl-50 leading-tight mb-5">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-5">
           Something Extraordinary
           <br />
           <span className="text-gold-gradient">Is Being Curated</span>
         </h1>
 
-        <p className="text-base sm:text-lg text-pearl-400 max-w-xl mx-auto mb-14 sm:mb-16 leading-relaxed">
+        <p className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto mb-14 sm:mb-16 leading-relaxed">
           Our gemologists are assembling a world-class private collection experience.
           Gain first access to rare specimens before they reach the open marketplace.
         </p>
@@ -57,23 +57,23 @@ function CollectionsContent() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-12 sm:mb-16">
           {FEATURES.map(({ Icon, title, text }) => (
             <div key={title} className="luxury-card p-6 sm:p-8 flex flex-col items-center text-center">
-              <div className="w-11 h-11 rounded-sm border border-gold-700/40 flex items-center justify-center mb-4"
-                style={{ background: 'rgba(212,175,55,0.08)' }}>
-                <Icon size={20} className="text-gold-500" />
+              <div className="w-11 h-11 rounded-sm border border-royal-300 flex items-center justify-center mb-4"
+                style={{ background: 'rgba(37,99,235,0.06)' }}>
+                <Icon size={20} className="text-royal-600" />
               </div>
-              <h3 className="text-sm sm:text-base font-bold text-pearl-100 mb-2">{title}</h3>
-              <p className="text-xs sm:text-sm text-pearl-400 leading-relaxed">{text}</p>
+              <h3 className="text-sm sm:text-base font-bold text-slate-800 mb-2">{title}</h3>
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{text}</p>
             </div>
           ))}
         </div>
 
         {/* Notify form */}
         <div className="luxury-card p-8 sm:p-10 max-w-lg mx-auto">
-          <h2 className="text-xl sm:text-2xl font-bold text-pearl-100 mb-2">First Access</h2>
-          <p className="text-sm text-pearl-400 mb-6">Be notified the moment collections launch.</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-2">First Access</h2>
+          <p className="text-sm text-slate-500 mb-6">Be notified the moment collections launch.</p>
 
           {subscribed ? (
-            <p className="text-gold-500 font-bold tracking-wide">You are on the list. We will be in touch.</p>
+            <p className="text-royal-600 font-bold tracking-wide">You are on the list. We will be in touch.</p>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); if (email.trim()) setSubscribed(true); }}
               className="flex flex-col sm:flex-row gap-0">
@@ -83,7 +83,7 @@ function CollectionsContent() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your private email"
-                className="flex-1 bg-transparent border border-gold-800/40 text-pearl-100 placeholder-pearl-600 px-4 py-3 text-sm focus:outline-none focus:border-gold-600/70 sm:rounded-l-sm sm:rounded-r-none rounded-sm sm:mb-0 mb-2"
+                className="flex-1 bg-transparent border border-slate-200 text-slate-800 placeholder-slate-400 px-4 py-3 text-sm focus:outline-none focus:border-royal-500 sm:rounded-l-sm sm:rounded-r-none rounded-sm sm:mb-0 mb-2"
               />
               <button type="submit" className="btn-gold sm:rounded-l-none justify-center">
                 Notify Me <ArrowRight size={14} />
@@ -92,7 +92,7 @@ function CollectionsContent() {
           )}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gold-900/25 flex items-center justify-center gap-3">
+        <div className="mt-12 pt-8 border-t border-slate-200 flex items-center justify-center gap-3">
           {[0,1,2].map((i) => (
             <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold-500"
               style={{ opacity: 0.5 + i * 0.2 }} />

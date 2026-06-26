@@ -47,12 +47,12 @@ export default function CategoriesPage() {
           {categories.map((c) => (
             <Card key={c.id} className="p-5">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-lg bg-brand-500/10 text-brand-400">
+                <div className="p-3 rounded-lg bg-blue-50 text-blue-600">
                   <Tags className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{c.name}</h3>
-                  {c.description && <p className="text-sm text-slate-400 line-clamp-2">{c.description}</p>}
+                  <h3 className="font-semibold text-slate-900">{c.name}</h3>
+                  {c.description && <p className="text-sm text-slate-500 line-clamp-2">{c.description}</p>}
                 </div>
               </div>
             </Card>

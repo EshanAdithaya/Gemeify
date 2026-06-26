@@ -29,8 +29,8 @@ export default function CompareTray() {
       {/* Sticky tray */}
       <div className="fixed bottom-0 inset-x-0 z-40 px-4 pb-4 pointer-events-none">
         <div
-          className="pointer-events-auto max-w-3xl mx-auto shadow-luxury border border-gold-900/30 backdrop-blur-xl p-3 flex items-center gap-3 rounded-sm"
-          style={{ background: 'rgba(14,12,11,0.95)' }}
+          className="pointer-events-auto max-w-3xl mx-auto shadow-card border border-slate-200 backdrop-blur-xl p-3 flex items-center gap-3 rounded-sm"
+          style={{ background: 'rgba(255,255,255,0.97)' }}
         >
           <div className="flex -space-x-2 flex-1 overflow-hidden">
             {compareList.map((g) => (
@@ -47,7 +47,7 @@ export default function CompareTray() {
                 <button
                   onClick={() => removeFromCompare(g.id)}
                   aria-label={`Remove ${g.name}`}
-                  className="absolute -top-1 -right-1 w-4 h-4 bg-obsidian-900 border border-gold-900/40 text-pearl-400 hover:text-red-400 rounded-full flex items-center justify-center transition-colors"
+                  className="absolute -top-1 -right-1 w-4 h-4 bg-slate-50 border border-slate-200 text-slate-500 hover:text-red-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <X size={9} />
                 </button>
@@ -65,7 +65,7 @@ export default function CompareTray() {
           <button
             onClick={clearCompare}
             aria-label="Clear comparison"
-            className="p-1.5 text-pearl-600 hover:text-red-400 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-red-400 transition-colors"
           >
             <Trash2 size={16} />
           </button>
@@ -75,17 +75,17 @@ export default function CompareTray() {
       {/* Comparison modal */}
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-obsidian-950/85 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setOpen(false)}
         >
           <div
-            className="luxury-card w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col shadow-luxury"
+            className="luxury-card w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col shadow-card"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gold-900/25">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
               <div className="flex items-center gap-3">
-                <GitCompare size={16} className="text-gold-500" />
+                <GitCompare size={16} className="text-royal-600" />
                 <div>
                   <p className="section-label mb-0">Comparison</p>
                 </div>
@@ -93,7 +93,7 @@ export default function CompareTray() {
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close comparison"
-                className="p-1.5 text-pearl-600 hover:text-gold-400 transition-colors"
+                className="p-1.5 text-slate-400 hover:text-royal-500 transition-colors"
               >
                 <X size={18} />
               </button>
@@ -107,7 +107,7 @@ export default function CompareTray() {
                     <th className="text-left pb-4 pr-6 w-32"></th>
                     {compareList.map((g) => (
                       <th key={g.id} className="pb-4 px-3 align-bottom min-w-[160px]">
-                        <div className="w-full h-28 rounded-sm overflow-hidden border border-gold-900/20 mb-3">
+                        <div className="w-full h-28 rounded-sm overflow-hidden border border-slate-200 mb-3">
                           <OptimizedImage
                             src={g.mainImage}
                             alt={g.name}
@@ -116,7 +116,7 @@ export default function CompareTray() {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <p className="text-sm font-bold text-pearl-100 text-left">
+                        <p className="text-sm font-bold text-slate-800 text-left">
                           {g.name}
                         </p>
                       </th>
@@ -125,10 +125,10 @@ export default function CompareTray() {
                 </thead>
                 <tbody>
                   {ATTRIBUTES.map(([label, accessor], i) => (
-                    <tr key={label} className={`border-t border-gold-900/15 ${i % 2 === 0 ? 'bg-gold-950/5' : ''}`}>
-                      <td className="py-2.5 pr-6 text-[10px] font-bold tracking-wider uppercase text-pearl-600">{label}</td>
+                    <tr key={label} className={`border-t border-slate-100 ${i % 2 === 0 ? 'bg-gold-950/5' : ''}`}>
+                      <td className="py-2.5 pr-6 text-[10px] font-bold tracking-wider uppercase text-slate-400">{label}</td>
                       {compareList.map((g) => (
-                        <td key={g.id} className="py-2.5 px-3 text-center text-sm text-pearl-200">{accessor(g)}</td>
+                        <td key={g.id} className="py-2.5 px-3 text-center text-sm text-slate-700">{accessor(g)}</td>
                       ))}
                     </tr>
                   ))}

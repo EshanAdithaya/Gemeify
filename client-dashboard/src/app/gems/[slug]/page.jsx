@@ -112,7 +112,7 @@ export default async function GemPage({ params }) {
   ].filter(Boolean);
 
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <JsonLd data={productLd} />
       <JsonLd data={breadcrumbLd} />
 
@@ -120,18 +120,18 @@ export default async function GemPage({ params }) {
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase mb-10" aria-label="Breadcrumb">
-          <Link href="/" className="text-pearl-600 hover:text-gold-400 transition-colors">Home</Link>
-          <ChevronRight size={12} className="text-pearl-700" />
-          <Link href="/marketplace" className="text-pearl-600 hover:text-gold-400 transition-colors">Marketplace</Link>
-          <ChevronRight size={12} className="text-pearl-700" />
-          <span className="text-gold-500">{gem.name}</span>
+          <Link href="/" className="text-slate-400 hover:text-royal-500 transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-slate-300" />
+          <Link href="/marketplace" className="text-slate-400 hover:text-royal-500 transition-colors">Marketplace</Link>
+          <ChevronRight size={12} className="text-slate-300" />
+          <span className="text-royal-600">{gem.name}</span>
         </nav>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
 
           {/* Image Column */}
           <div className="space-y-3">
-            <div className="relative aspect-square rounded-sm overflow-hidden border border-gold-900/30"
+            <div className="relative aspect-square rounded-sm overflow-hidden border border-slate-200"
               style={{ background: 'rgba(24,22,20,0.8)' }}>
               <OptimizedImage
                 src={mainImg}
@@ -143,14 +143,14 @@ export default async function GemPage({ params }) {
               />
               {/* Certification watermark */}
               {gem.certificationLab && (
-                <div className="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase border border-gold-500/40 text-gold-400"
-                  style={{ background: 'rgba(14,12,11,0.75)', backdropFilter: 'blur(8px)' }}>
+                <div className="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase border border-gold-500/40 text-royal-500"
+                  style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)' }}>
                   {CERT_LOGOS[gem.certificationLab] || gem.certificationLab} Certified
                 </div>
               )}
               {!available && (
-                <div className="absolute inset-0 bg-obsidian-950/60 flex items-center justify-center">
-                  <span className="text-[11px] font-bold tracking-widest uppercase text-pearl-400 border border-pearl-700/40 px-4 py-2"
+                <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+                  <span className="text-[11px] font-bold tracking-widest uppercase text-slate-500 border border-pearl-700/40 px-4 py-2"
                     style={{ backdropFilter: 'blur(8px)' }}>
                     Sold / Unavailable
                   </span>
@@ -162,7 +162,7 @@ export default async function GemPage({ params }) {
             {images.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {images.slice(1, 5).map((img, i) => (
-                  <div key={i} className="relative w-20 h-20 flex-shrink-0 rounded-sm overflow-hidden border border-gold-900/20 hover:border-gold-700/40 transition-colors">
+                  <div key={i} className="relative w-20 h-20 flex-shrink-0 rounded-sm overflow-hidden border border-slate-200 hover:border-royal-300 transition-colors">
                     <OptimizedImage src={img} alt={`${gem.name} view ${i + 2}`} fill sizes="80px" className="object-cover" />
                   </div>
                 ))}
@@ -170,12 +170,12 @@ export default async function GemPage({ params }) {
             )}
 
             {/* Trust strip */}
-            <div className="flex items-center justify-around py-3 border border-gold-900/20 rounded-sm"
-              style={{ background: 'rgba(212,175,55,0.03)' }}>
+            <div className="flex items-center justify-around py-3 border border-slate-200 rounded-sm"
+              style={{ background: 'rgba(37,99,235,0.03)' }}>
               {['GIA Certified', 'Insured Shipping', 'Authenticity Guaranteed'].map((t) => (
                 <div key={t} className="flex items-center gap-1.5">
-                  <Shield size={11} className="text-gold-600" />
-                  <span className="text-[10px] font-semibold tracking-wider uppercase text-pearl-500">{t}</span>
+                  <Shield size={11} className="text-royal-700" />
+                  <span className="text-[10px] font-semibold tracking-wider uppercase text-slate-500">{t}</span>
                 </div>
               ))}
             </div>
@@ -186,7 +186,7 @@ export default async function GemPage({ params }) {
             {gem.category?.name && (
               <p className="section-label mb-2">{gem.category.name}</p>
             )}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 leading-tight mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
               {gem.name}
             </h1>
 
@@ -196,16 +196,16 @@ export default async function GemPage({ params }) {
                 <div className="flex gap-0.5">
                   {[1,2,3,4,5].map((n) => (
                     <Star key={n} size={13}
-                      className={n <= Math.round(rating) ? 'text-gold-500 fill-gold-500' : 'text-pearl-700'} />
+                      className={n <= Math.round(rating) ? 'text-royal-600 fill-gold-500' : 'text-slate-300'} />
                   ))}
                 </div>
-                <span className="text-xs text-pearl-400">{rating.toFixed(1)} ({gem.totalReviews} reviews)</span>
+                <span className="text-xs text-slate-500">{rating.toFixed(1)} ({gem.totalReviews} reviews)</span>
               </div>
             )}
 
             {/* Price */}
             <div className="mb-2">
-              <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-600 mb-1">Investment Price</p>
+              <p className="text-[10px] font-bold tracking-widest uppercase text-slate-400 mb-1">Investment Price</p>
               <p className="text-3xl sm:text-4xl font-bold text-gold-gradient">
                 ${price.toLocaleString()}
               </p>
@@ -220,21 +220,21 @@ export default async function GemPage({ params }) {
             <div className="grid grid-cols-2 gap-2.5 mb-6">
               {specs.map(({ Icon, label, value }) => (
                 <div key={label} className="luxury-card px-4 py-3">
-                  <Icon size={14} className="text-gold-600 mb-1.5" />
-                  <p className="text-[10px] font-semibold tracking-wider uppercase text-pearl-600 mb-0.5">{label}</p>
-                  <p className="text-sm font-medium text-pearl-100">{value}</p>
+                  <Icon size={14} className="text-royal-700 mb-1.5" />
+                  <p className="text-[10px] font-semibold tracking-wider uppercase text-slate-400 mb-0.5">{label}</p>
+                  <p className="text-sm font-medium text-slate-800">{value}</p>
                 </div>
               ))}
             </div>
 
             {/* Certification */}
             {gem.certificationLab && (
-              <div className="flex items-center gap-3 px-4 py-3 border border-gold-800/30 rounded-sm mb-6"
-                style={{ background: 'rgba(212,175,55,0.04)' }}>
-                <Shield size={18} className="text-gold-500 flex-shrink-0" />
+              <div className="flex items-center gap-3 px-4 py-3 border border-slate-300/30 rounded-sm mb-6"
+                style={{ background: 'rgba(37,99,235,0.04)' }}>
+                <Shield size={18} className="text-royal-600 flex-shrink-0" />
                 <div>
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500">Certification</p>
-                  <p className="text-sm text-pearl-100 font-medium">
+                  <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Certification</p>
+                  <p className="text-sm text-slate-800 font-medium">
                     {gem.certificationLab} Certified
                     {gem.certificationNumber ? ` · #${gem.certificationNumber}` : ''}
                   </p>
@@ -246,8 +246,8 @@ export default async function GemPage({ params }) {
             <GemActions gem={gem} available={available} />
 
             {/* Private Consultation */}
-            <p className="text-center text-[10px] tracking-wider uppercase text-pearl-600 mt-4">
-              Questions? <Link href="/about#contact" className="text-gold-500 hover:text-gold-400 transition-colors underline underline-offset-2">Request a Private Consultation</Link>
+            <p className="text-center text-[10px] tracking-wider uppercase text-slate-400 mt-4">
+              Questions? <Link href="/about#contact" className="text-royal-600 hover:text-royal-500 transition-colors underline underline-offset-2">Request a Private Consultation</Link>
             </p>
           </div>
         </div>
@@ -263,7 +263,7 @@ export default async function GemPage({ params }) {
                   <span className="section-label">Provenance</span>
                   <div className="flex-1 h-px bg-gold-900/25" />
                 </div>
-                <p className="text-pearl-300 leading-relaxed text-base whitespace-pre-line">
+                <p className="text-slate-600 leading-relaxed text-base whitespace-pre-line">
                   {gem.description}
                 </p>
               </section>
@@ -279,15 +279,15 @@ export default async function GemPage({ params }) {
                 <table className="w-full text-sm">
                   <tbody>
                     {extraSpecs.map(({ label, value }) => (
-                      <tr key={label} className="border-b border-gold-900/15 last:border-0">
-                        <td className="py-2.5 pr-6 text-[11px] font-bold tracking-wider uppercase text-pearl-600 w-36">{label}</td>
-                        <td className="py-2.5 text-pearl-200">{value}</td>
+                      <tr key={label} className="border-b border-slate-100 last:border-0">
+                        <td className="py-2.5 pr-6 text-[11px] font-bold tracking-wider uppercase text-slate-400 w-36">{label}</td>
+                        <td className="py-2.5 text-slate-700">{value}</td>
                       </tr>
                     ))}
                     {gem.shop?.name && (
-                      <tr className="border-b border-gold-900/15 last:border-0">
-                        <td className="py-2.5 pr-6 text-[11px] font-bold tracking-wider uppercase text-pearl-600 w-36">Dealer</td>
-                        <td className="py-2.5 text-pearl-200">{gem.shop.name}</td>
+                      <tr className="border-b border-slate-100 last:border-0">
+                        <td className="py-2.5 pr-6 text-[11px] font-bold tracking-wider uppercase text-slate-400 w-36">Dealer</td>
+                        <td className="py-2.5 text-slate-700">{gem.shop.name}</td>
                       </tr>
                     )}
                   </tbody>
@@ -307,8 +307,8 @@ export default async function GemPage({ params }) {
                   'Insured and fully documented for estate transfer',
                   'Global resale liquidity through our certified dealer network',
                 ].map((note) => (
-                  <li key={note} className="flex items-start gap-2 text-xs text-pearl-400 leading-relaxed">
-                    <span className="text-gold-600 mt-0.5 flex-shrink-0">◆</span>
+                  <li key={note} className="flex items-start gap-2 text-xs text-slate-500 leading-relaxed">
+                    <span className="text-royal-700 mt-0.5 flex-shrink-0">◆</span>
                     {note}
                   </li>
                 ))}
@@ -320,8 +320,8 @@ export default async function GemPage({ params }) {
               <div className="space-y-2.5">
                 {['Certified Natural', 'Conflict Free', 'Fully Insured', 'Discreet Packaging'].map((badge) => (
                   <div key={badge} className="flex items-center gap-2.5">
-                    <Shield size={12} className="text-gold-600 flex-shrink-0" />
-                    <span className="text-xs text-pearl-300">{badge}</span>
+                    <Shield size={12} className="text-royal-700 flex-shrink-0" />
+                    <span className="text-xs text-slate-600">{badge}</span>
                   </div>
                 ))}
               </div>
@@ -330,9 +330,9 @@ export default async function GemPage({ params }) {
         </div>
 
         {/* Back link */}
-        <div className="mt-12 pt-8 border-t border-gold-900/20">
+        <div className="mt-12 pt-8 border-t border-slate-200">
           <Link href="/marketplace"
-            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-pearl-600 hover:text-gold-400 transition-colors">
+            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-slate-400 hover:text-royal-500 transition-colors">
             ← Back to the Collection
           </Link>
         </div>

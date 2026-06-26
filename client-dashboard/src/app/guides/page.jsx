@@ -33,17 +33,17 @@ const collectionLd = {
 
 export default function GuidesPage() {
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-28 pb-20 px-6 lg:px-8">
+    <main className="min-h-screen bg-white pt-28 pb-20 px-6 lg:px-8">
       <JsonLd data={collectionLd} />
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
         <header className="text-center mb-16 animate-fade-up">
           <p className="section-label mb-3">Expert Knowledge</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Gem Investment Guides
           </h1>
-          <p className="text-pearl-400 max-w-2xl mx-auto text-base leading-relaxed">
+          <p className="text-slate-500 max-w-2xl mx-auto text-base leading-relaxed">
             Everything you need to invest with confidence — written by FGA-certified gemologists
             who grade stones professionally.
           </p>
@@ -58,19 +58,19 @@ export default function GuidesPage() {
               className="luxury-card group flex flex-col p-7 animate-fade-up"
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
-              <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 mb-4 self-start border border-gold-700/40 text-gold-500"
-                style={{ background: 'rgba(212,175,55,0.08)' }}>
+              <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 mb-4 self-start border border-royal-300 text-royal-600"
+                style={{ background: 'rgba(37,99,235,0.06)' }}>
                 {g.category}
               </span>
-              <h2 className="text-lg font-bold text-pearl-100 mb-2 group-hover:text-gold-400 transition-colors">
+              <h2 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-royal-500 transition-colors">
                 {g.title}
               </h2>
-              <p className="text-pearl-500 text-sm leading-relaxed flex-1 mb-5">{g.excerpt}</p>
+              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-5">{g.excerpt}</p>
               <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-1.5 text-pearl-500">
+                <span className="flex items-center gap-1.5 text-slate-500">
                   <Clock size={12} /> {g.readingTime} min read
                 </span>
-                <span className="flex items-center gap-1.5 text-gold-500 group-hover:text-gold-300 font-semibold tracking-wider uppercase transition-all">
+                <span className="flex items-center gap-1.5 text-royal-600 group-hover:text-royal-700 font-semibold tracking-wider uppercase transition-all">
                   Read Guide <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>

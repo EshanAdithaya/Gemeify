@@ -2,7 +2,7 @@
 
 export function Skeleton({ className = '' }) {
   return (
-    <div className={`shimmer rounded-sm bg-obsidian-800 ${className}`} />
+    <div className={`shimmer rounded-sm bg-slate-100 ${className}`} />
   );
 }
 

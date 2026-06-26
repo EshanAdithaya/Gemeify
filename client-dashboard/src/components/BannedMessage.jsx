@@ -7,17 +7,17 @@ export default function BannedMessage() {
   const { logout } = useAuth();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-obsidian-950 px-6">
+    <div className="min-h-screen flex items-center justify-center bg-white px-6">
       <div className="luxury-card max-w-md w-full p-10 text-center">
         <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-red-500/30 rounded-sm"
           style={{ background: 'rgba(239,68,68,0.08)' }}>
           <ShieldOff size={22} className="text-red-400" />
         </div>
         <p className="section-label mb-1 text-red-500">Account Restricted</p>
-        <h1 className="text-3xl font-bold text-pearl-100 mb-3">
+        <h1 className="text-3xl font-bold text-slate-800 mb-3">
           Access Suspended
         </h1>
-        <p className="text-sm text-pearl-400 mb-8 leading-relaxed">
+        <p className="text-sm text-slate-500 mb-8 leading-relaxed">
           Your account has been suspended. Please contact our private client desk for assistance.
         </p>
         <div className="flex flex-col gap-3">

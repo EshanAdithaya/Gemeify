@@ -6,7 +6,7 @@ const VARIANTS = {
   primary:   'btn-gold',
   secondary: 'btn-outline-gold',
   outline:   'btn-outline-gold',
-  ghost:     'text-gold-500 hover:text-gold-400 hover:bg-gold-500/8 px-3 py-2 rounded-sm transition-colors',
+  ghost:     'text-royal-600 hover:text-royal-500 hover:bg-royal-50 px-3 py-2 rounded-sm transition-colors',
   danger:    'bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold tracking-widest uppercase px-4 py-2 rounded-sm transition-colors',
 };
 

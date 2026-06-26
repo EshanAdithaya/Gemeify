@@ -98,12 +98,12 @@ const TRUST_TAGS = ['GIA Certified', 'AML Compliant', 'Fully Insured', 'Free Glo
 
 export default function GemifyLanding() {
   return (
-    <div className="min-h-screen bg-obsidian-950 text-pearl-100">
+    <div className="min-h-screen bg-white text-slate-800">
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
         {/* Gold ambient glow — hidden on mobile to save paint cost */}
-        <div className="absolute inset-0 bg-luxury-hero" />
+        <div className="absolute inset-0 bg-light-hero" />
         <div className="hidden sm:block absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.04]"
           style={{ background: 'radial-gradient(circle, #D4AF37, transparent)' }} />
 
@@ -118,20 +118,20 @@ export default function GemifyLanding() {
           </p>
 
           {/* Headline — bold Inter, mobile-first sizing */}
-          <h1 className="font-bold leading-[1.08] mb-6 text-pearl-50 animate-fade-up"
+          <h1 className="font-bold leading-[1.08] mb-6 text-slate-900 animate-fade-up"
             style={{ animationDelay: '0.1s', fontSize: 'clamp(2.2rem, 8vw, 5.5rem)' }}>
             The World&apos;s Finest
             <br />
             <span className="text-gold-gradient">Investment Gemstones</span>
             <br />
-            <span className="text-pearl-400 font-bold"
+            <span className="text-slate-500 font-bold"
               style={{ fontSize: 'clamp(1.3rem, 4vw, 3rem)' }}>
               For the Discerning Few
             </span>
           </h1>
 
           {/* Sub-copy */}
-          <p className="text-base sm:text-lg text-pearl-400 max-w-xl leading-relaxed mb-8 animate-fade-up"
+          <p className="text-base sm:text-lg text-slate-500 max-w-xl leading-relaxed mb-8 animate-fade-up"
             style={{ animationDelay: '0.2s' }}>
             Curated sapphires, rubies, emeralds, and diamonds — each personally
             selected and certified by our master gemologists. Trusted by private
@@ -152,8 +152,8 @@ export default function GemifyLanding() {
           {/* Trust micro-line — wraps naturally on mobile */}
           <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 animate-fade-up" style={{ animationDelay: '0.4s' }}>
             {TRUST_TAGS.map((t) => (
-              <span key={t} className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-pearl-500">
-                <CheckCircle size={11} className="text-gold-500 flex-shrink-0" />
+              <span key={t} className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-slate-500">
+                <CheckCircle size={11} className="text-royal-600 flex-shrink-0" />
                 {t}
               </span>
             ))}
@@ -161,13 +161,13 @@ export default function GemifyLanding() {
         </div>
 
         {/* Stats bar — 2 columns on mobile, 4 on md */}
-        <div className="relative border-t border-gold-900/25 py-8">
+        <div className="relative border-t border-slate-200 py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {HERO_STATS.map(({ value, label }) => (
                 <div key={label} className="text-center py-2">
                   <p className="text-2xl sm:text-3xl font-bold text-gold-gradient">{value}</p>
-                  <p className="text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-pearl-500 mt-1">{label}</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-slate-500 mt-1">{label}</p>
                 </div>
               ))}
             </div>
@@ -181,12 +181,12 @@ export default function GemifyLanding() {
           <div className="flex items-end justify-between mb-10 lg:mb-14">
             <div>
               <p className="section-label mb-2">Featured Acquisitions</p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
                 Exceptional Gems
               </h2>
             </div>
             <Link href="/marketplace"
-              className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-gold-500 hover:text-gold-300 transition-colors flex-shrink-0 ml-4">
+              className="flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase text-royal-600 hover:text-royal-700 transition-colors flex-shrink-0 ml-4">
               View All <ArrowRight size={13} />
             </Link>
           </div>
@@ -204,36 +204,36 @@ export default function GemifyLanding() {
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-obsidian-950 rounded-sm">
+                  <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-slate-900 rounded-sm">
                     {gem.badge}
                   </span>
-                  <span className="absolute top-3 right-3 px-2 py-1 text-[10px] font-bold tracking-wider border border-gold-700/60 text-gold-400 bg-obsidian-900/70 backdrop-blur-sm rounded-sm">
+                  <span className="absolute top-3 right-3 px-2 py-1 text-[10px] font-bold tracking-wider border border-royal-400 text-royal-500 bg-slate-50/70 backdrop-blur-sm rounded-sm">
                     {gem.certification}
                   </span>
-                  <p className="absolute bottom-3 left-3 text-[10px] font-bold tracking-widest uppercase text-pearl-400">
+                  <p className="absolute bottom-3 left-3 text-[10px] font-bold tracking-widest uppercase text-slate-500">
                     {gem.origin}
                   </p>
                 </div>
 
                 <div className="flex-1 p-4 sm:p-6 flex flex-col">
-                  <h3 className="text-base sm:text-lg font-bold text-pearl-100 mb-1 leading-snug">{gem.name}</h3>
-                  <p className="text-xs text-pearl-500 mb-3">{gem.description}</p>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-1 leading-snug">{gem.name}</h3>
+                  <p className="text-xs text-slate-500 mb-3">{gem.description}</p>
 
                   <div className="space-y-1 mb-4">
                     {gem.highlights.map((h) => (
                       <div key={h} className="flex items-center gap-2">
-                        <CheckCircle size={12} className="text-gold-500 flex-shrink-0" />
-                        <span className="text-xs text-pearl-500">{h}</span>
+                        <CheckCircle size={12} className="text-royal-600 flex-shrink-0" />
+                        <span className="text-xs text-slate-500">{h}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-auto pt-3 border-t border-gold-900/25 flex items-end justify-between">
+                  <div className="mt-auto pt-3 border-t border-slate-200 flex items-end justify-between">
                     <div>
-                      <p className="text-[9px] font-bold tracking-widest uppercase text-pearl-600 mb-0.5">Price</p>
+                      <p className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Price</p>
                       <p className="text-xl font-bold text-gold-gradient">${gem.price}</p>
                     </div>
-                    <span className="flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-gold-500 group-hover:text-gold-300 transition-colors">
+                    <span className="flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-royal-600 group-hover:text-royal-700 transition-colors">
                       Acquire <ArrowRight size={12} />
                     </span>
                   </div>
@@ -245,11 +245,11 @@ export default function GemifyLanding() {
       </section>
 
       {/* ── Categories ────────────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-gold-900/25 bg-obsidian-900/40">
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-slate-200 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 lg:mb-14">
             <p className="section-label mb-2">Browse By Stone</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Investment Categories</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">Investment Categories</h2>
           </div>
 
           {/* 2 columns on mobile, 4 on lg */}
@@ -266,9 +266,9 @@ export default function GemifyLanding() {
                 <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/40 to-transparent opacity-80" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5">
                   <p className="section-label mb-0.5">{cat.count} stones</p>
-                  <h3 className="text-sm sm:text-lg font-bold text-pearl-50 leading-tight mb-0.5">{cat.name}</h3>
-                  <p className="text-[10px] sm:text-xs text-pearl-400 mb-2 hidden sm:block">{cat.sub}</p>
-                  <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gold-400 group-hover:text-gold-300 transition-colors">
+                  <h3 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight mb-0.5">{cat.name}</h3>
+                  <p className="text-[10px] sm:text-xs text-slate-500 mb-2 hidden sm:block">{cat.sub}</p>
+                  <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-royal-500 group-hover:text-royal-700 transition-colors">
                     Explore <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
@@ -283,19 +283,19 @@ export default function GemifyLanding() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 lg:mb-14">
             <p className="section-label mb-2">Our Promise</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">The Gemeify Standard</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">The Gemeify Standard</h2>
           </div>
 
           {/* 1 col mobile → 2 col sm → 4 col lg */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {TRUST_FEATURES.map(({ Icon, title, desc }) => (
               <div key={title} className="luxury-card p-6 sm:p-8 flex flex-col items-center text-center">
-                <div className="w-11 h-11 rounded-sm border border-gold-700/40 flex items-center justify-center mb-4"
-                  style={{ background: 'rgba(212,175,55,0.08)' }}>
-                  <Icon size={20} className="text-gold-500" />
+                <div className="w-11 h-11 rounded-sm border border-royal-300 flex items-center justify-center mb-4"
+                  style={{ background: 'rgba(37,99,235,0.06)' }}>
+                  <Icon size={20} className="text-royal-600" />
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-pearl-100 mb-2">{title}</h3>
-                <p className="text-xs sm:text-sm text-pearl-500 leading-relaxed">{desc}</p>
+                <h3 className="text-sm sm:text-base font-bold text-slate-800 mb-2">{title}</h3>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -303,17 +303,17 @@ export default function GemifyLanding() {
       </section>
 
       {/* ── Expert Section ────────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-gold-900/25 bg-obsidian-900/40">
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-slate-200 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           {/* Stack on mobile, side-by-side on lg */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
               <p className="section-label mb-4">Expert Guidance</p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight mb-5">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight mb-5">
                 Your Personal<br />
                 <span className="text-gold-gradient">Investment Advisor</span>
               </h2>
-              <p className="text-sm sm:text-base text-pearl-400 leading-relaxed mb-7">
+              <p className="text-sm sm:text-base text-slate-500 leading-relaxed mb-7">
                 Our team of FGA-certified gemologists brings decades of market
                 expertise. We provide detailed stone analysis, investment-potential
                 assessments, and personalised acquisition strategies — treating
@@ -326,10 +326,10 @@ export default function GemifyLanding() {
                   ['Portfolio Strategy', 'Bespoke advice on gem allocation within your wider investment portfolio.'],
                 ].map(([title, desc]) => (
                   <li key={title} className="flex gap-3">
-                    <CheckCircle size={16} className="text-gold-500 mt-0.5 flex-shrink-0" />
+                    <CheckCircle size={16} className="text-royal-600 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-bold text-pearl-200 mb-0.5">{title}</p>
-                      <p className="text-xs sm:text-sm text-pearl-500">{desc}</p>
+                      <p className="text-sm font-bold text-slate-700 mb-0.5">{title}</p>
+                      <p className="text-xs sm:text-sm text-slate-500">{desc}</p>
                     </div>
                   </li>
                 ))}
@@ -368,19 +368,19 @@ export default function GemifyLanding() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 lg:mb-14">
             <p className="section-label mb-2">Investment Case</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Why Precious Gems?</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">Why Precious Gems?</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {INVESTMENT_POINTS.map(({ Icon, title, text }) => (
               <div key={title} className="luxury-card p-6 sm:p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-sm border border-gold-700/40 flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(212,175,55,0.08)' }}>
-                    <Icon size={18} className="text-gold-500" />
+                  <div className="w-10 h-10 rounded-sm border border-royal-300 flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(37,99,235,0.06)' }}>
+                    <Icon size={18} className="text-royal-600" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-pearl-100">{title}</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-800">{title}</h3>
                 </div>
-                <p className="text-xs sm:text-sm text-pearl-500 leading-relaxed">{text}</p>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{text}</p>
               </div>
             ))}
           </div>
@@ -388,11 +388,11 @@ export default function GemifyLanding() {
       </section>
 
       {/* ── Testimonials ──────────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-t border-gold-900/25 bg-obsidian-900/40">
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-200 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 lg:mb-14">
             <p className="section-label mb-2">Client Voices</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50">Trusted by Collectors Worldwide</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">Trusted by Collectors Worldwide</h2>
           </div>
 
           {/* Mobile: horizontal scroll; sm+: grid */}
@@ -402,20 +402,20 @@ export default function GemifyLanding() {
                 className="luxury-card p-5 sm:p-8 flex flex-col flex-none w-[84vw] sm:w-auto snap-start">
                 <div className="flex gap-0.5 mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={12} className="text-gold-500 fill-gold-500" />
+                    <Star key={i} size={12} className="text-royal-600 fill-gold-500" />
                   ))}
                 </div>
-                <p className="text-xs sm:text-sm text-pearl-400 leading-relaxed italic mb-5 flex-1">
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed italic mb-5 flex-1">
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full border border-gold-700/50 flex items-center justify-center text-xs font-bold text-gold-500 flex-shrink-0"
-                    style={{ background: 'rgba(212,175,55,0.08)' }}>
+                  <div className="w-9 h-9 rounded-full border border-gold-700/50 flex items-center justify-center text-xs font-bold text-royal-600 flex-shrink-0"
+                    style={{ background: 'rgba(37,99,235,0.06)' }}>
                     {t.initials}
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm font-bold text-pearl-200">{t.name}</p>
-                    <p className="text-[10px] sm:text-xs text-pearl-500">{t.title}</p>
+                    <p className="text-xs sm:text-sm font-bold text-slate-700">{t.name}</p>
+                    <p className="text-[10px] sm:text-xs text-slate-500">{t.title}</p>
                   </div>
                 </div>
               </div>
@@ -426,15 +426,15 @@ export default function GemifyLanding() {
 
       {/* ── Final CTA ─────────────────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-luxury-hero" />
+        <div className="absolute inset-0 bg-light-hero" />
         <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-3xl opacity-[0.06]"
           style={{ background: 'radial-gradient(ellipse, #D4AF37, transparent)' }} />
         <div className="relative max-w-2xl mx-auto">
           <p className="section-label mb-4">Ready to Begin?</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pearl-50 leading-tight mb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-5">
             Access the Private Collection
           </h2>
-          <p className="text-sm sm:text-base text-pearl-400 mb-8 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-500 mb-8 leading-relaxed">
             Join an exclusive community of serious gem investors and collectors.
             First access to extraordinary stones before public listing.
           </p>
@@ -446,7 +446,7 @@ export default function GemifyLanding() {
               Browse Collection
             </Link>
           </div>
-          <p className="mt-6 text-[10px] tracking-widest uppercase text-pearl-600">
+          <p className="mt-6 text-[10px] tracking-widest uppercase text-slate-400">
             No subscription fees · Cancel anytime · 100% Satisfaction Guarantee
           </p>
         </div>

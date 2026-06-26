@@ -17,21 +17,23 @@ export default function Sidebar({ open, onClose }) {
 
   return (
     <>
-      {open && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={onClose} />}
+      {open && <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={onClose} />}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 border-r border-slate-800 transform transition-transform lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 transform transition-transform lg:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <Gem className="w-6 h-6 text-brand-400" />
-            <span className="text-lg font-bold bg-gradient-to-r from-brand-400 to-pink-500 bg-clip-text text-transparent">
-              Gemify Admin
+            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+              <Gem className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-lg font-bold text-slate-900">
+              Gemify
             </span>
           </Link>
-          <button onClick={onClose} className="lg:hidden text-slate-400 hover:text-white">
+          <button onClick={onClose} className="lg:hidden text-slate-400 hover:text-slate-700">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -45,10 +47,12 @@ export default function Sidebar({ open, onClose }) {
                 href={href}
                 onClick={onClose}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active ? 'bg-brand-500/15 text-brand-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  active
+                    ? 'bg-blue-50 text-blue-700 border border-blue-100'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-slate-400'}`} />
                 {label}
               </Link>
             );

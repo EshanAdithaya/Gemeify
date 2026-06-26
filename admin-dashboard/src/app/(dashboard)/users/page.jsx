@@ -77,7 +77,7 @@ export default function UsersPage() {
           placeholder="Search by name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white"
         />
         <Search className="absolute left-3 top-2.5 w-5 h-5 text-slate-500" />
       </div>
@@ -93,7 +93,7 @@ export default function UsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-slate-400 border-b border-slate-800">
+                <tr className="text-left text-slate-500 border-b border-slate-200 bg-slate-50">
                   <th className="px-5 py-3 font-medium">Name</th>
                   <th className="px-5 py-3 font-medium">Email</th>
                   <th className="px-5 py-3 font-medium">Role</th>
@@ -105,11 +105,11 @@ export default function UsersPage() {
                 {filtered.map((u) => {
                   const banned = u.status === 'banned';
                   return (
-                    <tr key={u.id} className="border-b border-slate-800/50 last:border-0">
-                      <td className="px-5 py-3 text-white whitespace-nowrap">
+                    <tr key={u.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                      <td className="px-5 py-3 text-slate-900 font-medium whitespace-nowrap">
                         {u.firstName} {u.lastName}
                       </td>
-                      <td className="px-5 py-3 text-slate-400">{u.email}</td>
+                      <td className="px-5 py-3 text-slate-500">{u.email}</td>
                       <td className="px-5 py-3">
                         <Badge value={u.role} />
                       </td>

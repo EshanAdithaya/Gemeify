@@ -16,7 +16,7 @@ const STATUS_STYLES = {
   shipped:    'border-indigo-500/40 text-indigo-400 bg-indigo-500/8',
   delivered:  'border-emerald-500/40 text-emerald-400 bg-emerald-500/8',
   cancelled:  'border-red-500/40 text-red-400 bg-red-500/8',
-  refunded:   'border-pearl-600/40 text-pearl-400 bg-pearl-500/8',
+  refunded:   'border-pearl-600/40 text-slate-500 bg-pearl-500/8',
 };
 
 const CANCELLABLE = ['pending', 'confirmed'];
@@ -73,19 +73,19 @@ export default function OrdersPage() {
   };
 
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white pt-24 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <header className="flex items-center gap-3 mb-8 pb-6 border-b border-gold-900/25">
-          <Package size={20} className="text-gold-500 flex-shrink-0" />
+        <header className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200">
+          <Package size={20} className="text-royal-600 flex-shrink-0" />
           <div>
             <p className="section-label mb-0.5">Account</p>
-            <h1 className="text-2xl sm:text-3xl font-bold text-pearl-50">My Orders</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">My Orders</h1>
           </div>
         </header>
 
         {!user && !authLoading ? (
           <div className="luxury-card p-10 sm:p-12 text-center">
-            <p className="text-sm text-pearl-400 mb-5">Sign in to view your orders.</p>
+            <p className="text-sm text-slate-500 mb-5">Sign in to view your orders.</p>
             <Link href="/login" className="btn-gold">Sign In <ArrowRight size={14} /></Link>
           </div>
         ) : loading ? (
@@ -94,9 +94,9 @@ export default function OrdersPage() {
           </div>
         ) : orders.length === 0 ? (
           <div className="luxury-card p-12 text-center">
-            <Package size={32} className="text-gold-700 mx-auto mb-4" />
-            <p className="text-lg font-bold text-pearl-50 mb-2">No orders yet</p>
-            <p className="text-sm text-pearl-400 mb-6">Your acquisition history will appear here.</p>
+            <Package size={32} className="text-royal-700 mx-auto mb-4" />
+            <p className="text-lg font-bold text-slate-900 mb-2">No orders yet</p>
+            <p className="text-sm text-slate-500 mb-6">Your acquisition history will appear here.</p>
             <Link href="/marketplace" className="btn-gold">
               Browse Gems <ArrowRight size={14} />
             </Link>
@@ -112,8 +112,8 @@ export default function OrdersPage() {
                     className="w-full px-6 py-4 flex items-center justify-between text-left"
                   >
                     <div>
-                      <p className="font-mono text-sm font-bold text-pearl-100">{order.orderNumber}</p>
-                      <p className="text-xs mt-0.5 text-pearl-500">
+                      <p className="font-mono text-sm font-bold text-slate-800">{order.orderNumber}</p>
+                      <p className="text-xs mt-0.5 text-slate-500">
                         {new Date(order.createdAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })}
                       </p>
                     </div>
@@ -122,20 +122,20 @@ export default function OrdersPage() {
                         {order.status}
                       </span>
                       <span className="text-base font-bold text-gold-gradient">${Number(order.total).toLocaleString()}</span>
-                      {detail ? <ChevronUp size={16} className="text-pearl-500" /> : <ChevronDown size={16} className="text-pearl-500" />}
+                      {detail ? <ChevronUp size={16} className="text-slate-500" /> : <ChevronDown size={16} className="text-slate-500" />}
                     </div>
                   </button>
 
                   {detail && (
-                    <div className="px-4 sm:px-6 pb-5 border-t border-gold-900/25">
+                    <div className="px-4 sm:px-6 pb-5 border-t border-slate-200">
                       <div className="space-y-3 mt-4">
                         {(detail.items || []).map((it) => (
-                          <div key={it.id} className="flex items-center justify-between gap-3 py-2 border-b border-gold-900/25 last:border-0">
+                          <div key={it.id} className="flex items-center justify-between gap-3 py-2 border-b border-slate-200 last:border-0">
                             <div className="min-w-0">
-                              <p className="text-sm font-bold text-pearl-100 truncate">
+                              <p className="text-sm font-bold text-slate-800 truncate">
                                 {it.gemSnapshot?.name || it.gem?.name || 'Gem'}
                               </p>
-                              <p className="text-xs mt-0.5 text-pearl-500">
+                              <p className="text-xs mt-0.5 text-slate-500">
                                 Qty {it.quantity} · ${Number(it.unitPrice).toLocaleString()}
                               </p>
                             </div>

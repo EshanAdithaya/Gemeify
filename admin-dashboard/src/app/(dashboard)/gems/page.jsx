@@ -144,11 +144,11 @@ export default function GemsPage() {
                           alt={g.name}
                           className="w-10 h-10 rounded-lg object-cover bg-slate-700"
                         />
-                        <span className="text-white font-medium">{g.name}</span>
+                        <span className="text-slate-900 font-medium">{g.name}</span>
                       </div>
                     </td>
                     <td className="px-5 py-3 text-slate-400">{g.category?.name || '—'}</td>
-                    <td className="px-5 py-3 text-white">${Number(g.price || 0).toLocaleString()}</td>
+                    <td className="px-5 py-3 text-slate-900">${Number(g.price || 0).toLocaleString()}</td>
                     <td className="px-5 py-3 text-slate-400">{g.weight ? `${g.weight} ct` : '—'}</td>
                     <td className="px-5 py-3 text-slate-400">{g.certificationLab || '—'}</td>
                     <td className="px-5 py-3">

@@ -73,9 +73,9 @@ function LiveAuctionsContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-obsidian-950 pt-28 px-6 lg:px-8">
+      <div className="min-h-screen bg-white pt-28 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="h-10 w-48 shimmer bg-obsidian-800 rounded-sm mb-10" />
+          <div className="h-10 w-48 shimmer bg-slate-100 rounded-sm mb-10" />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {[0,1,2].map((i) => <Skeleton key={i} className="h-80 w-full" />)}
           </div>
@@ -86,10 +86,10 @@ function LiveAuctionsContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-obsidian-950 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <AlertCircle size={32} className="text-red-400 mx-auto mb-4" />
-          <p className="text-pearl-400 mb-4">{error}</p>
+          <p className="text-slate-500 mb-4">{error}</p>
           <button onClick={() => { setLoading(true); fetch(); }} className="btn-gold">Retry</button>
         </div>
       </div>
@@ -97,17 +97,17 @@ function LiveAuctionsContent() {
   }
 
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-28 pb-16 px-6 lg:px-8">
+    <main className="min-h-screen bg-white pt-28 pb-16 px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <header className="flex items-start justify-between mb-10">
           <div>
             <p className="section-label mb-1">Private Auction House</p>
-            <h1 className="text-3xl sm:text-4xl font-bold text-pearl-50">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
               Live Auctions
             </h1>
-            <p className="text-sm text-pearl-500 mt-2">Real-time bidding on investment-grade gemstones</p>
+            <p className="text-sm text-slate-500 mt-2">Real-time bidding on investment-grade gemstones</p>
           </div>
           {auctions.length > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 border border-red-500/30 rounded-sm"
@@ -120,11 +120,11 @@ function LiveAuctionsContent() {
 
         {auctions.length === 0 ? (
           <div className="luxury-card p-16 text-center">
-            <Gavel size={32} className="text-gold-700 mx-auto mb-4" />
-            <p className="text-xl font-bold text-pearl-300 mb-2">
+            <Gavel size={32} className="text-royal-700 mx-auto mb-4" />
+            <p className="text-xl font-bold text-slate-600 mb-2">
               No Active Auctions
             </p>
-            <p className="text-sm text-pearl-600">Private auction events are announced to verified members.</p>
+            <p className="text-sm text-slate-400">Private auction events are announced to verified members.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -154,17 +154,17 @@ function LiveAuctionsContent() {
                     </div>
 
                     {/* Bidders */}
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-gold-900/30 rounded-sm"
-                      style={{ background: 'rgba(14,12,11,0.7)', backdropFilter: 'blur(8px)' }}>
-                      <Users size={11} className="text-pearl-500" />
-                      <span className="text-[10px] text-pearl-400">{auction.uniqueBidders || 0}</span>
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-slate-200 rounded-sm"
+                      style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)' }}>
+                      <Users size={11} className="text-slate-500" />
+                      <span className="text-[10px] text-slate-500">{auction.uniqueBidders || 0}</span>
                     </div>
 
                     {/* Timer overlay */}
-                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-gold-900/30 rounded-sm"
-                      style={{ background: 'rgba(14,12,11,0.75)', backdropFilter: 'blur(8px)' }}>
-                      <Timer size={11} className="text-gold-600" />
-                      <span className="text-[11px] font-mono font-bold text-pearl-200">{formatTime(auction.endTime)}</span>
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 border border-slate-200 rounded-sm"
+                      style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)' }}>
+                      <Timer size={11} className="text-royal-700" />
+                      <span className="text-[11px] font-mono font-bold text-slate-700">{formatTime(auction.endTime)}</span>
                     </div>
                   </div>
 
@@ -173,11 +173,11 @@ function LiveAuctionsContent() {
                     {auction.gem?.category?.name && (
                       <p className="section-label mb-1.5">{auction.gem.category.name}</p>
                     )}
-                    <h3 className="text-base font-bold text-pearl-50 mb-1">
+                    <h3 className="text-base font-bold text-slate-900 mb-1">
                       {auction.title}
                     </h3>
                     {auction.description && (
-                      <p className="text-xs text-pearl-500 mb-4 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
                         {auction.description}
                       </p>
                     )}
@@ -185,14 +185,14 @@ function LiveAuctionsContent() {
                     {/* Bid / Time grid */}
                     <div className="grid grid-cols-2 gap-2.5 mb-4">
                       <div className="luxury-card p-3">
-                        <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Current Bid</p>
+                        <p className="text-[10px] font-bold tracking-wider uppercase text-slate-400 mb-1">Current Bid</p>
                         <p className="text-lg font-bold text-gold-gradient">
                           ${Number(auction.currentBid || 0).toLocaleString()}
                         </p>
                       </div>
                       <div className="luxury-card p-3">
-                        <p className="text-[10px] font-bold tracking-wider uppercase text-pearl-600 mb-1">Total Bids</p>
-                        <p className="text-lg font-bold text-pearl-100">
+                        <p className="text-[10px] font-bold tracking-wider uppercase text-slate-400 mb-1">Total Bids</p>
+                        <p className="text-lg font-bold text-slate-800">
                           {auction.totalBids || 0}
                         </p>
                       </div>
@@ -207,8 +207,8 @@ function LiveAuctionsContent() {
                         ['Clarity', auction.gem?.clarity  || '—'],
                       ].map(([l, v]) => (
                         <div key={l} className="flex gap-1.5">
-                          <span className="text-pearl-600">{l}:</span>
-                          <span className="text-pearl-300">{v}</span>
+                          <span className="text-slate-400">{l}:</span>
+                          <span className="text-slate-600">{v}</span>
                         </div>
                       ))}
                     </div>
@@ -229,7 +229,7 @@ function LiveAuctionsContent() {
                           value={bidAmount}
                           onChange={(e) => setBidAmount(e.target.value)}
                           placeholder={`Min $${nextBid.toLocaleString()}`}
-                          className="w-full px-3 py-2 bg-obsidian-900 border border-gold-900/30 rounded-sm text-sm text-pearl-100 placeholder:text-pearl-700 focus:outline-none focus:border-gold-700/60 transition-colors"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-sm text-slate-800 placeholder:text-slate-300 focus:outline-none focus:border-royal-400 transition-colors"
                         />
                         <div className="flex gap-2">
                           <button
@@ -242,7 +242,7 @@ function LiveAuctionsContent() {
                           </button>
                           <button
                             onClick={() => setSelected(null)}
-                            className="px-3 py-2 border border-gold-900/30 text-pearl-500 hover:text-pearl-300 rounded-sm transition-colors"
+                            className="px-3 py-2 border border-slate-200 text-slate-500 hover:text-slate-600 rounded-sm transition-colors"
                           >
                             <X size={14} />
                           </button>
@@ -266,7 +266,7 @@ function LiveAuctionsContent() {
                       </div>
                     )}
 
-                    <p className="text-center text-[10px] text-pearl-700 mt-2">
+                    <p className="text-center text-[10px] text-slate-300 mt-2">
                       Next bid: ${nextBid.toLocaleString()}
                     </p>
                   </div>

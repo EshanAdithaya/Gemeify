@@ -23,12 +23,12 @@ function formatTimeRemaining(endTime) {
 function EmptyState({ Icon, title, text }) {
   return (
     <div className="luxury-card py-16 sm:py-20 flex flex-col items-center text-center">
-      <div className="w-16 h-16 rounded-sm border border-gold-700/30 flex items-center justify-center mb-5"
-        style={{ background: 'rgba(212,175,55,0.06)' }}>
-        <Icon className="w-8 h-8 text-gold-600" />
+      <div className="w-16 h-16 rounded-sm border border-royal-200 flex items-center justify-center mb-5"
+        style={{ background: 'rgba(37,99,235,0.05)' }}>
+        <Icon className="w-8 h-8 text-royal-700" />
       </div>
-      <h3 className="text-lg font-bold text-pearl-100 mb-2">{title}</h3>
-      <p className="text-sm text-pearl-500">{text}</p>
+      <h3 className="text-lg font-bold text-slate-800 mb-2">{title}</h3>
+      <p className="text-sm text-slate-500">{text}</p>
     </div>
   );
 }
@@ -71,13 +71,13 @@ function AuctionsContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-obsidian-950 pt-16 sm:pt-20">
+    <div className="min-h-screen bg-white pt-16 sm:pt-20">
       {/* Header */}
-      <div className="border-b border-gold-900/25 px-4 sm:px-6 lg:px-8 pb-8 pt-8">
+      <div className="border-b border-slate-200 px-4 sm:px-6 lg:px-8 pb-8 pt-8">
         <div className="max-w-7xl mx-auto">
           <p className="section-label mb-2">Private Auction House</p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-pearl-50 leading-tight">Gem Auctions</h1>
-          <p className="mt-3 max-w-xl text-sm sm:text-base text-pearl-400">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">Gem Auctions</h1>
+          <p className="mt-3 max-w-xl text-sm sm:text-base text-slate-500">
             Bid on the world&apos;s most exceptional certified gemstones.
             Every lot authenticated by leading gemological laboratories.
           </p>
@@ -91,12 +91,12 @@ function AuctionsContent() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {STATS.map(({ Icon, label, value }) => (
               <div key={label} className="luxury-card p-5 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-sm border border-gold-700/30 flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(212,175,55,0.08)' }}>
-                  <Icon size={18} className="text-gold-500" />
+                <div className="w-10 h-10 rounded-sm border border-royal-200 flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(37,99,235,0.06)' }}>
+                  <Icon size={18} className="text-royal-600" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500">{label}</p>
+                  <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{label}</p>
                   <p className="text-2xl font-bold text-gold-gradient">{value}</p>
                 </div>
               </div>
@@ -104,13 +104,13 @@ function AuctionsContent() {
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-0 border-b border-gold-900/25 overflow-x-auto">
+          <div className="flex gap-0 border-b border-slate-200 overflow-x-auto">
             {[['live','Live Auctions'], ['upcoming','Upcoming'], ['past','Past Results']].map(([key, label]) => (
               <button key={key} onClick={() => setActiveTab(key)}
                 className={`px-5 py-3 text-[11px] font-semibold tracking-widest uppercase border-b-2 -mb-px transition-colors ${
                   activeTab === key
-                    ? 'border-gold-500 text-gold-500'
-                    : 'border-transparent text-pearl-400 hover:text-gold-400'
+                    ? 'border-gold-500 text-royal-600'
+                    : 'border-transparent text-slate-500 hover:text-royal-500'
                 }`}>
                 {label}
               </button>
@@ -119,14 +119,14 @@ function AuctionsContent() {
 
           {loading && (
             <div className="flex justify-center py-24">
-              <div className="w-10 h-10 border-2 border-gold-700/30 border-t-gold-500 rounded-full animate-spin" />
+              <div className="w-10 h-10 border-2 border-royal-200 border-t-gold-500 rounded-full animate-spin" />
             </div>
           )}
 
           {error && (
             <div className="luxury-card p-10 flex flex-col items-center text-center">
               <AlertCircle className="w-10 h-10 text-red-400 mb-4" />
-              <p className="text-sm text-pearl-400 mb-4">{error}</p>
+              <p className="text-sm text-slate-500 mb-4">{error}</p>
               <button onClick={fetchAuctions} className="btn-gold">Retry</button>
             </div>
           )}
@@ -135,7 +135,7 @@ function AuctionsContent() {
           {activeTab === 'live' && !loading && !error && (
             <div>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-pearl-50">Live Auctions</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Live Auctions</h2>
                 <Link href="/live-auctions" className="btn-gold text-sm">
                   View All <ArrowRight size={14} />
                 </Link>
@@ -160,24 +160,24 @@ function AuctionsContent() {
                         </div>
                       </div>
                       <div className="p-5">
-                        <h3 className="text-base font-bold text-pearl-100 mb-3 leading-snug">{auction.title}</h3>
-                        <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-gold-900/25">
+                        <h3 className="text-base font-bold text-slate-800 mb-3 leading-snug">{auction.title}</h3>
+                        <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-slate-200">
                           <div>
-                            <p className="text-[10px] font-bold tracking-widest uppercase mb-0.5 text-pearl-500">Current Bid</p>
+                            <p className="text-[10px] font-bold tracking-widest uppercase mb-0.5 text-slate-500">Current Bid</p>
                             <p className="text-xl font-bold text-gold-gradient">${Number(auction.currentBid || 0).toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] font-bold tracking-widest uppercase mb-0.5 text-pearl-500">Time Left</p>
-                            <p className="font-bold text-pearl-100 flex items-center gap-1.5">
-                              <Clock size={14} className="text-gold-500" />
+                            <p className="text-[10px] font-bold tracking-widest uppercase mb-0.5 text-slate-500">Time Left</p>
+                            <p className="font-bold text-slate-800 flex items-center gap-1.5">
+                              <Clock size={14} className="text-royal-600" />
                               {formatTimeRemaining(auction.endTime)}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <p className="text-[11px] text-pearl-500">{auction.totalBids || 0} bids placed</p>
+                          <p className="text-[11px] text-slate-500">{auction.totalBids || 0} bids placed</p>
                           <Link href="/live-auctions"
-                            className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-gold-500 hover:text-gold-300 transition-colors">
+                            className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-royal-600 hover:text-royal-700 transition-colors">
                             Bid Now <ArrowRight size={12} />
                           </Link>
                         </div>
@@ -192,7 +192,7 @@ function AuctionsContent() {
           {/* Upcoming */}
           {activeTab === 'upcoming' && !loading && !error && (
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-pearl-50 mb-6">Upcoming Auctions</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-6">Upcoming Auctions</h2>
               {upcomingAuctions.length === 0 ? (
                 <EmptyState Icon={Calendar} title="No Upcoming Auctions" text="New auctions will be announced soon" />
               ) : (
@@ -206,27 +206,27 @@ function AuctionsContent() {
                           alt={auction.title}
                           className="w-full h-48 object-cover"
                         />
-                        <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-obsidian-950 rounded-sm">
+                        <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-gold-gradient text-slate-900 rounded-sm">
                           {auction.status === 'draft' ? 'Draft' : 'Scheduled'}
                         </span>
                       </div>
                       <div className="p-5">
-                        <h3 className="text-base font-bold text-pearl-100 mb-3 leading-snug">{auction.title}</h3>
+                        <h3 className="text-base font-bold text-slate-800 mb-3 leading-snug">{auction.title}</h3>
                         <div className="grid grid-cols-2 gap-3 mb-4">
                           <div>
-                            <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500">Starting Bid</p>
-                            <p className="font-bold text-pearl-100">${Number(auction.startingPrice || 0).toLocaleString()}</p>
+                            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Starting Bid</p>
+                            <p className="font-bold text-slate-800">${Number(auction.startingPrice || 0).toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] font-bold tracking-widest uppercase text-pearl-500">Start Date</p>
-                            <p className="font-bold text-pearl-100">
+                            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Start Date</p>
+                            <p className="font-bold text-slate-800">
                               {auction.startTime ? new Date(auction.startTime).toLocaleDateString() : '—'}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <p className="text-[11px] text-pearl-500">{auction.gem?.category?.name || 'Gemstone'}</p>
-                          <span className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-gold-500">
+                          <p className="text-[11px] text-slate-500">{auction.gem?.category?.name || 'Gemstone'}</p>
+                          <span className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-royal-600">
                             View Details <ArrowRight size={12} />
                           </span>
                         </div>
@@ -240,7 +240,7 @@ function AuctionsContent() {
 
           {activeTab === 'past' && !loading && !error && (
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-pearl-50 mb-6">Past Results</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-6">Past Results</h2>
               <EmptyState Icon={History} title="Coming Soon" text="Past auction results will be available here" />
             </div>
           )}

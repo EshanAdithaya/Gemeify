@@ -69,8 +69,8 @@ export default function AuctionsPage() {
               <tbody>
                 {auctions.map((a) => (
                   <tr key={a.id} className="border-b border-slate-800/50 last:border-0">
-                    <td className="px-5 py-3 text-white">{a.title}</td>
-                    <td className="px-5 py-3 text-white">${Number(a.currentBid || 0).toLocaleString()}</td>
+                    <td className="px-5 py-3 text-slate-900 font-medium">{a.title}</td>
+                    <td className="px-5 py-3 text-slate-900">${Number(a.currentBid || 0).toLocaleString()}</td>
                     <td className="px-5 py-3 text-slate-400">{a.totalBids || 0}</td>
                     <td className="px-5 py-3">
                       <Badge value={a.status} />

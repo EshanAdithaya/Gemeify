@@ -57,7 +57,7 @@ export default function GemActions({ gem, available }) {
           onClick={() => toggle(gem)}
           aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           className={`flex-1 btn-outline-gold py-2.5 flex items-center justify-center gap-2 text-sm ${
-            inWishlist ? 'border-gold-500/60 text-gold-400' : ''
+            inWishlist ? 'border-gold-500/60 text-royal-500' : ''
           }`}
         >
           <Heart size={15} className={inWishlist ? 'fill-gold-500/60' : ''} />

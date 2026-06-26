@@ -21,7 +21,7 @@ export default function CartDrawer() {
 
       {/* Panel */}
       <aside
-        className={`fixed top-0 right-0 z-[70] h-full w-full max-w-sm bg-white border-l border-slate-200 shadow-luxury transition-transform duration-300 flex flex-col ${
+        className={`fixed top-0 right-0 z-[70] h-full w-full max-w-sm bg-white border-l border-slate-200 shadow-card transition-transform duration-300 flex flex-col ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"

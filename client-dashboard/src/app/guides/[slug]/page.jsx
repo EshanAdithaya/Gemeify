@@ -54,7 +54,7 @@ export default function GuidePage({ params }) {
   };
 
   return (
-    <main className="min-h-screen bg-obsidian-950 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <JsonLd data={articleLd} />
       <JsonLd data={breadcrumbLd} />
 
@@ -62,27 +62,27 @@ export default function GuidePage({ params }) {
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase mb-10" aria-label="Breadcrumb">
-          <Link href="/" className="text-pearl-600 hover:text-gold-400 transition-colors">Home</Link>
-          <ChevronRight size={12} className="text-pearl-700" />
-          <Link href="/guides" className="text-pearl-600 hover:text-gold-400 transition-colors">Guides</Link>
-          <ChevronRight size={12} className="text-pearl-700" />
-          <span className="text-gold-500 truncate max-w-[180px]">{guide.title}</span>
+          <Link href="/" className="text-slate-400 hover:text-royal-500 transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-slate-300" />
+          <Link href="/guides" className="text-slate-400 hover:text-royal-500 transition-colors">Guides</Link>
+          <ChevronRight size={12} className="text-slate-300" />
+          <span className="text-royal-600 truncate max-w-[180px]">{guide.title}</span>
         </nav>
 
         {/* Article header */}
         <header className="mb-10">
-          <span className="inline-block px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-gold-700/40 text-gold-500 rounded-sm mb-4"
-            style={{ background: 'rgba(212,175,55,0.06)' }}>
+          <span className="inline-block px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-royal-300 text-royal-600 rounded-sm mb-4"
+            style={{ background: 'rgba(37,99,235,0.05)' }}>
             {guide.category}
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-pearl-50 leading-tight mt-3 mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mt-3 mb-4">
             {guide.title}
           </h1>
-          <p className="text-pearl-400 text-base sm:text-lg leading-relaxed mb-5">
+          <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-5">
             {guide.excerpt}
           </p>
-          <div className="flex items-center gap-3 text-[11px] font-semibold tracking-wider uppercase text-pearl-600">
-            <Clock size={12} className="text-gold-700" />
+          <div className="flex items-center gap-3 text-[11px] font-semibold tracking-wider uppercase text-slate-400">
+            <Clock size={12} className="text-royal-700" />
             <span>{guide.readingTime} min read</span>
             <span className="text-pearl-800">·</span>
             <span>Updated {new Date(guide.updated).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
@@ -94,10 +94,10 @@ export default function GuidePage({ params }) {
         <div className="space-y-10">
           {guide.sections.map((s, i) => (
             <section key={s.heading}>
-              <h2 className="text-xl sm:text-2xl font-bold text-pearl-100 mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3">
                 {s.heading}
               </h2>
-              <p className="text-pearl-300 leading-relaxed text-base">{s.body}</p>
+              <p className="text-slate-600 leading-relaxed text-base">{s.body}</p>
               {i < guide.sections.length - 1 && (
                 <div className="h-px bg-gold-900/15 mt-10" />
               )}
@@ -109,10 +109,10 @@ export default function GuidePage({ params }) {
         <div className="mt-14 luxury-card p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
           <div>
             <p className="section-label mb-1">Ready to Acquire?</p>
-            <h3 className="text-lg sm:text-xl font-bold text-pearl-100">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-800">
               Browse Investment-Grade Gems
             </h3>
-            <p className="text-sm text-pearl-500 mt-1">Fully certified with provenance documentation.</p>
+            <p className="text-sm text-slate-500 mt-1">Fully certified with provenance documentation.</p>
           </div>
           <Link href="/marketplace" className="btn-gold flex items-center gap-2 whitespace-nowrap flex-shrink-0">
             Explore Collection <ArrowRight size={14} />
@@ -122,7 +122,7 @@ export default function GuidePage({ params }) {
         {/* Back */}
         <div className="mt-10">
           <Link href="/guides"
-            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-pearl-600 hover:text-gold-400 transition-colors">
+            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-slate-400 hover:text-royal-500 transition-colors">
             <ArrowLeft size={12} /> All Guides
           </Link>
         </div>

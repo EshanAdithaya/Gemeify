@@ -64,24 +64,22 @@ export default function DashboardPage() {
       <PageHeader title="Dashboard" subtitle="Overview of your Gemify marketplace" />
 
       {error && (
-        <Card className="p-4 mb-6 border-amber-500/30 bg-amber-500/5">
-          <div className="flex items-center gap-3 text-amber-400">
-            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-            <p className="text-sm">{error}</p>
-          </div>
-        </Card>
+        <div className="mb-6 px-4 py-3 border border-amber-200 bg-amber-50 rounded-xl flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0" />
+          <p className="text-sm text-amber-800">{error}</p>
+        </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard Icon={Users} label="Total Users" value={stats.users} accent="text-brand-400 bg-brand-500/10" />
-        <StatCard Icon={Gem} label="Total Gems" value={stats.gems} accent="text-emerald-400 bg-emerald-500/10" />
-        <StatCard Icon={Gavel} label="Auctions" value={stats.auctions} accent="text-blue-400 bg-blue-500/10" />
-        <StatCard Icon={Tags} label="Categories" value={stats.categories} accent="text-pink-400 bg-pink-500/10" />
+        <StatCard Icon={Users} label="Total Users" value={stats.users} accent="text-blue-600 bg-blue-50" />
+        <StatCard Icon={Gem} label="Total Gems" value={stats.gems} accent="text-emerald-600 bg-emerald-50" />
+        <StatCard Icon={Gavel} label="Auctions" value={stats.auctions} accent="text-violet-600 bg-violet-50" />
+        <StatCard Icon={Tags} label="Categories" value={stats.categories} accent="text-rose-600 bg-rose-50" />
       </div>
 
       <Card className="p-0 overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-800">
-          <h2 className="font-semibold text-white">Recent Users</h2>
+        <div className="px-5 py-4 border-b border-slate-200">
+          <h2 className="font-semibold text-slate-900">Recent Users</h2>
         </div>
         {recentUsers.length === 0 ? (
           <div className="p-8 text-center text-slate-400 text-sm">No users to display.</div>
@@ -89,7 +87,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-slate-400 border-b border-slate-800">
+                <tr className="text-left text-slate-500 border-b border-slate-200 bg-slate-50">
                   <th className="px-5 py-3 font-medium">Name</th>
                   <th className="px-5 py-3 font-medium">Email</th>
                   <th className="px-5 py-3 font-medium">Role</th>
@@ -98,11 +96,11 @@ export default function DashboardPage() {
               </thead>
               <tbody>
                 {recentUsers.map((u) => (
-                  <tr key={u.id} className="border-b border-slate-800/50 last:border-0">
-                    <td className="px-5 py-3 text-white">
+                  <tr key={u.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                    <td className="px-5 py-3 text-slate-900 font-medium">
                       {u.firstName} {u.lastName}
                     </td>
-                    <td className="px-5 py-3 text-slate-400">{u.email}</td>
+                    <td className="px-5 py-3 text-slate-500">{u.email}</td>
                     <td className="px-5 py-3">
                       <Badge value={u.role} />
                     </td>

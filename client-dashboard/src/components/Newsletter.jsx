@@ -31,18 +31,18 @@ export default function Newsletter() {
   return (
     <div className="luxury-card p-8 md:p-10 text-center">
       <p className="section-label mb-3">Private Intelligence</p>
-      <h3 className="text-2xl md:text-3xl font-bold text-pearl-100 mb-3">
+      <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-3">
         Gem insights, in your inbox
       </h3>
-      <p className="text-pearl-400 text-sm max-w-md mx-auto mb-7">
+      <p className="text-slate-500 text-sm max-w-md mx-auto mb-7">
         Buying guides, new arrivals, and private auction alerts.
         No spam — unsubscribe anytime.
       </p>
 
       {done ? (
         <div className="flex flex-col items-center gap-3">
-          <CheckCircle size={28} className="text-gold-500" />
-          <p className="text-gold-400 font-semibold tracking-wide">You are on the private list.</p>
+          <CheckCircle size={28} className="text-royal-600" />
+          <p className="text-royal-500 font-semibold tracking-wide">You are on the private list.</p>
         </div>
       ) : (
         <form onSubmit={submit} className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto">
@@ -52,7 +52,7 @@ export default function Newsletter() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
             aria-label="Email address"
-            className="flex-1 bg-obsidian-900 border border-gold-800/40 text-pearl-100 placeholder-pearl-600 px-4 py-3 text-sm focus:outline-none focus:border-gold-600/60 rounded-l-sm"
+            className="flex-1 bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 px-4 py-3 text-sm focus:outline-none focus:border-royal-400 rounded-l-sm"
           />
           <button type="submit" disabled={busy} className="btn-gold rounded-l-none disabled:opacity-50">
             {busy ? '…' : (<>Subscribe <ArrowRight size={14} /></>)}

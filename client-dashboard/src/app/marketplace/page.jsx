@@ -58,7 +58,7 @@ function normalizeGem(g) {
 function CheckboxRow({ option, selected, onChange }) {
   const on = selected.includes(option);
   return (
-    <label className={`flex items-center gap-3 cursor-pointer text-sm transition-colors py-1 ${on ? 'text-gold-400' : 'text-pearl-500 hover:text-gold-400'}`}>
+    <label className={`flex items-center gap-3 cursor-pointer text-sm transition-colors py-1 ${on ? 'text-royal-500' : 'text-slate-500 hover:text-royal-500'}`}>
       <span className={`w-4 h-4 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${on ? 'border-gold-500 bg-gold-500' : 'border-pearl-600'}`}>
         {on && (
           <svg viewBox="0 0 10 8" fill="none" className="w-2.5 h-2">
@@ -74,8 +74,8 @@ function CheckboxRow({ option, selected, onChange }) {
 
 function FilterSection({ title, options, selected, onChange }) {
   return (
-    <div className="py-4 border-b border-gold-900/25">
-      <h3 className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-3">{title}</h3>
+    <div className="py-4 border-b border-slate-200">
+      <h3 className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-3">{title}</h3>
       <div className="space-y-0.5">
         {options.map((o) => <CheckboxRow key={o} option={o} selected={selected} onChange={onChange} />)}
       </div>
@@ -86,14 +86,14 @@ function FilterSection({ title, options, selected, onChange }) {
 function FilterSidebar({ priceRange, setPriceRange, selectedCategories, setSelectedCategories, selectedCertifications, setSelectedCertifications, selectedCuts, setSelectedCuts, selectedClarity, setSelectedClarity, selectedTreatments, setSelectedTreatments }) {
   return (
     <div className="space-y-0">
-      <div className="pb-4 border-b border-gold-900/25">
-        <h3 className="text-[10px] font-bold tracking-widest uppercase text-pearl-500 mb-4">Investment Value</h3>
+      <div className="pb-4 border-b border-slate-200">
+        <h3 className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-4">Investment Value</h3>
         <input type="range" min="0" max="50000" step="1000" value={priceRange[1]}
           onChange={(e) => setPriceRange([0, parseInt(e.target.value, 10)])}
           className="w-full accent-gold-500" />
         <div className="flex justify-between mt-2 text-xs font-bold">
-          <span className="text-pearl-500">${priceRange[0].toLocaleString()}</span>
-          <span className="text-gold-500">${priceRange[1].toLocaleString()}</span>
+          <span className="text-slate-500">${priceRange[0].toLocaleString()}</span>
+          <span className="text-royal-600">${priceRange[1].toLocaleString()}</span>
         </div>
       </div>
       <FilterSection title="Stone Type"    options={FILTERS.categories}    selected={selectedCategories}    onChange={setSelectedCategories} />
@@ -194,9 +194,9 @@ function MarketplaceContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-obsidian-950 pt-32 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-white pt-32 flex items-center justify-center px-4">
         <div className="luxury-card p-8 sm:p-10 text-center max-w-sm w-full">
-          <p className="text-sm text-pearl-400 mb-4">{error}</p>
+          <p className="text-sm text-slate-500 mb-4">{error}</p>
           <button onClick={() => window.location.reload()} className="btn-gold w-full">Retry</button>
         </div>
       </div>
@@ -204,25 +204,25 @@ function MarketplaceContent() {
   }
 
   return (
-    <div className="min-h-screen bg-obsidian-950 pt-16">
+    <div className="min-h-screen bg-white pt-16">
 
       {/* ── Page header ─────────────────────────────────────────────────── */}
-      <div className="border-b border-gold-900/25 px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+      <div className="border-b border-slate-200 px-4 sm:px-6 lg:px-8 pt-8 pb-6">
         <div className="max-w-7xl mx-auto">
           <p className="section-label mb-1.5">Private Marketplace</p>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pearl-50 leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
               Investment Gemstones
             </h1>
             {/* Search — full width on mobile */}
             <div className="relative w-full sm:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pearl-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
               <input
                 type="text"
                 placeholder="Search sapphires, rubies, diamonds…"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full rounded-sm pl-9 pr-4 py-3 sm:py-2.5 text-sm focus:outline-none border border-gold-900/30 bg-obsidian-900 text-pearl-100 placeholder-pearl-600 focus:border-gold-600/60 transition-colors"
+                className="w-full rounded-sm pl-9 pr-4 py-3 sm:py-2.5 text-sm focus:outline-none border border-slate-200 bg-slate-50 text-slate-800 placeholder-slate-400 focus:border-royal-400 transition-colors"
               />
             </div>
           </div>
@@ -244,9 +244,9 @@ function MarketplaceContent() {
           <RecentlyViewed onSelect={handleGemClick} />
 
           {/* Sort + filter bar — sticky on mobile */}
-          <div className="sticky top-16 z-20 bg-obsidian-950/95 backdrop-blur-sm -mx-4 sm:mx-0 px-4 sm:px-0 py-3 border-b border-gold-900/25 flex items-center justify-between gap-3 mb-5">
-            <p className="text-xs text-pearl-500 font-bold">
-              <span className="text-pearl-100">{filteredGems.length}</span> gems
+          <div className="sticky top-16 z-20 bg-white/95 backdrop-blur-sm -mx-4 sm:mx-0 px-4 sm:px-0 py-3 border-b border-slate-200 flex items-center justify-between gap-3 mb-5">
+            <p className="text-xs text-slate-500 font-bold">
+              <span className="text-slate-800">{filteredGems.length}</span> gems
             </p>
             <div className="flex items-center gap-2">
               {/* Sort dropdown */}
@@ -254,7 +254,7 @@ function MarketplaceContent() {
                 <select
                   value={selectedSort}
                   onChange={(e) => setSelectedSort(e.target.value)}
-                  className="appearance-none px-3 py-2 pr-7 text-xs font-bold rounded-sm border border-gold-900/30 bg-obsidian-900 text-pearl-100 focus:outline-none focus:border-gold-600/60 transition-colors"
+                  className="appearance-none px-3 py-2 pr-7 text-xs font-bold rounded-sm border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:border-royal-400 transition-colors"
                 >
                   <option>Featured</option>
                   <option>Price: Low to High</option>
@@ -262,12 +262,12 @@ function MarketplaceContent() {
                   <option>Most Popular</option>
                   <option>Newest</option>
                 </select>
-                <ChevronDown className="absolute right-2 top-2.5 h-3 w-3 pointer-events-none text-pearl-500" />
+                <ChevronDown className="absolute right-2 top-2.5 h-3 w-3 pointer-events-none text-slate-500" />
               </div>
               {/* Filter button — mobile only */}
               <button
                 onClick={() => setFilterOpen(true)}
-                className="lg:hidden flex items-center gap-1.5 px-3 py-2 border border-gold-900/30 rounded-sm text-xs font-bold text-pearl-300 hover:text-gold-400 hover:border-gold-700/50 transition-colors"
+                className="lg:hidden flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-sm text-xs font-bold text-slate-600 hover:text-royal-500 hover:border-gold-700/50 transition-colors"
               >
                 <SlidersHorizontal size={14} /> Filters
               </button>
@@ -279,7 +279,7 @@ function MarketplaceContent() {
             <GemGridSkeleton count={6} />
           ) : filteredGems.length === 0 ? (
             <div className="luxury-card py-16 text-center">
-              <p className="text-sm text-pearl-500">No gems match your current filters.</p>
+              <p className="text-sm text-slate-500">No gems match your current filters.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
@@ -302,8 +302,8 @@ function MarketplaceContent() {
                     {/* Wishlist */}
                     <button onClick={(e) => { e.stopPropagation(); toggleWishlist(gem); }}
                       aria-label={inWishlist(gem.id) ? 'Remove from wishlist' : 'Save to wishlist'}
-                      className="absolute top-3 right-3 p-2 bg-obsidian-950/60 backdrop-blur-sm rounded-sm hover:bg-obsidian-950/80 transition-colors">
-                      <Heart size={16} className={inWishlist(gem.id) ? 'text-red-400 fill-red-400' : 'text-pearl-300'} />
+                      className="absolute top-3 right-3 p-2 bg-white/60 backdrop-blur-sm rounded-sm hover:bg-white/80 transition-colors">
+                      <Heart size={16} className={inWishlist(gem.id) ? 'text-red-400 fill-red-400' : 'text-slate-600'} />
                     </button>
 
                     {/* Compare */}
@@ -311,13 +311,13 @@ function MarketplaceContent() {
                       disabled={!isComparing(gem.id) && !canAddMore}
                       aria-label="Compare"
                       className={`absolute bottom-3 left-3 p-2 backdrop-blur-sm rounded-sm transition-colors disabled:opacity-40 ${
-                        isComparing(gem.id) ? 'bg-gold-500 text-obsidian-950' : 'bg-obsidian-950/60 text-pearl-300 hover:bg-obsidian-950/80'
+                        isComparing(gem.id) ? 'bg-gold-500 text-slate-900' : 'bg-white/60 text-slate-600 hover:bg-white/80'
                       }`}>
                       <GitCompare size={14} />
                     </button>
 
                     {gem.discount > 0 && (
-                      <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-bold tracking-wider bg-gold-gradient text-obsidian-950 rounded-sm">
+                      <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-bold tracking-wider bg-gold-gradient text-slate-900 rounded-sm">
                         -{gem.discount}%
                       </span>
                     )}
@@ -326,27 +326,27 @@ function MarketplaceContent() {
                   {/* Card body */}
                   <div className="p-4 sm:p-5">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-gold-500">{gem.category}</span>
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-royal-600">{gem.category}</span>
                       <div className="flex items-center gap-1">
-                        <Star className="w-3 h-3 text-gold-500 fill-gold-500" />
-                        <span className="text-xs text-pearl-500">{gem.rating ? gem.rating.toFixed(1) : '4.8'}</span>
+                        <Star className="w-3 h-3 text-royal-600 fill-gold-500" />
+                        <span className="text-xs text-slate-500">{gem.rating ? gem.rating.toFixed(1) : '4.8'}</span>
                       </div>
                     </div>
 
-                    <h3 className="text-base font-bold text-pearl-100 mb-1 leading-snug">{gem.name}</h3>
+                    <h3 className="text-base font-bold text-slate-800 mb-1 leading-snug">{gem.name}</h3>
 
                     <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 mb-3 text-xs">
                       {[['Weight', `${gem.weight} ct`], ['Cut', gem.cut], ['Origin', gem.origin], ['Treatment', gem.treatment]].map(([lbl, val]) => (
                         <div key={lbl}>
-                          <span className="text-pearl-600">{lbl}: </span>
-                          <span className="text-pearl-300">{val || '—'}</span>
+                          <span className="text-slate-400">{lbl}: </span>
+                          <span className="text-slate-600">{val || '—'}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex items-end justify-between pt-3 border-t border-gold-900/25 mb-3">
+                    <div className="flex items-end justify-between pt-3 border-t border-slate-200 mb-3">
                       <div>
-                        <p className="text-[9px] font-bold tracking-widest uppercase text-pearl-600 mb-0.5">Price</p>
+                        <p className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Price</p>
                         <p className="text-lg font-bold text-gold-gradient">${gem.price.toLocaleString()}</p>
                       </div>
                       <div className="text-right">
@@ -367,7 +367,7 @@ function MarketplaceContent() {
                       </button>
                       <button onClick={(e) => { e.stopPropagation(); handleGemClick(gem); }}
                         aria-label="View details"
-                        className="p-2.5 rounded-sm border border-gold-900/30 text-pearl-400 hover:text-gold-400 hover:border-gold-600/40 transition-colors">
+                        className="p-2.5 rounded-sm border border-slate-200 text-slate-500 hover:text-royal-500 hover:border-gold-600/40 transition-colors">
                         <Eye size={16} />
                       </button>
                     </div>
@@ -381,23 +381,23 @@ function MarketplaceContent() {
 
       {/* ── Mobile filter — bottom sheet ────────────────────────────────── */}
       <div className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${filterOpen ? 'visible' : 'invisible'}`}>
-        <div className={`absolute inset-0 bg-obsidian-950/70 backdrop-blur-sm transition-opacity duration-300 ${filterOpen ? 'opacity-100' : 'opacity-0'}`}
+        <div className={`absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ${filterOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setFilterOpen(false)} />
-        <div className={`absolute inset-x-0 bottom-0 bg-obsidian-950 border-t border-gold-900/30 rounded-t-xl max-h-[80vh] overflow-y-auto transition-transform duration-300 ${filterOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+        <div className={`absolute inset-x-0 bottom-0 bg-white border-t border-slate-200 rounded-t-xl max-h-[80vh] overflow-y-auto transition-transform duration-300 ${filterOpen ? 'translate-y-0' : 'translate-y-full'}`}>
           {/* Handle bar */}
           <div className="flex justify-center pt-3 pb-1">
             <div className="w-10 h-1 rounded-full bg-pearl-700" />
           </div>
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gold-900/25">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
             <p className="section-label">Refine Results</p>
-            <button onClick={() => setFilterOpen(false)} className="p-1.5 text-pearl-500 hover:text-gold-400 transition-colors">
+            <button onClick={() => setFilterOpen(false)} className="p-1.5 text-slate-500 hover:text-royal-500 transition-colors">
               <X size={18} />
             </button>
           </div>
           <div className="px-5 pb-8">
             <FilterSidebar {...filterProps} />
           </div>
-          <div className="sticky bottom-0 bg-obsidian-950 border-t border-gold-900/25 p-4">
+          <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4">
             <button onClick={() => setFilterOpen(false)} className="btn-gold w-full py-3">
               Show {filteredGems.length} Gems
             </button>

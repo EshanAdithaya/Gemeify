@@ -2,7 +2,7 @@
 
 export default function Preloader() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-obsidian-950">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
       {/* Gem logo */}
       <div className="relative mb-8 animate-float">
         <svg viewBox="0 0 56 56" fill="none" className="w-14 h-14">
@@ -31,7 +31,7 @@ export default function Preloader() {
 
       {/* Gold spinner */}
       <div className="relative w-8 h-8">
-        <div className="absolute inset-0 rounded-full border-2 border-gold-900/30" />
+        <div className="absolute inset-0 rounded-full border-2 border-slate-200" />
         <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-gold-500 animate-spin" />
       </div>
     </div>
